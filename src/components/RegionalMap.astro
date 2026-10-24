@@ -1,0 +1,108 @@
+---
+// Public-domain Natural Earth 1:110m boundaries, projected locally to SVG.
+// Source: https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson
+import countries from '../data/south-america.json';
+const coverage = countries.filter((country) => country.covered);
+// Enfoques ilustrativos para la propuesta, no operaciones comerciales confirmadas.
+const countryDetails: Record<string, string> = {
+  ARG: 'Enfoque propuesto: acompañar a organizaciones argentinas en la definición de su estrategia tecnológica, la integración de herramientas y la digitalización de procesos administrativos.',
+  BRA: 'Enfoque propuesto: explorar soluciones para conectar equipos y sistemas, organizar la información y facilitar la colaboración en proyectos con alcance regional.',
+  CHL: 'Enfoque propuesto: revisar procesos operativos y diseñar hojas de ruta para incorporar herramientas digitales, con atención a la adopción por parte de los equipos.',
+  COL: 'Enfoque propuesto: desarrollar ideas y prototipos de servicios digitales, validar su utilidad con las personas y priorizar oportunidades de innovación.',
+  PER: 'Enfoque propuesto: identificar tareas manuales que puedan simplificarse, evaluar alternativas de automatización y planificar una evolución tecnológica gradual.',
+  URY: 'Enfoque propuesto: fortalecer la colaboración entre áreas, mejorar la gestión del conocimiento y conectar herramientas de trabajo para acompañar el crecimiento de las organizaciones.',
+};
+---
+
+<figure class="regional-map overflow-hidden bg-brand-primary p-6 text-brand-cream md:p-8">
+  <svg viewBox="0 0 400 510" class="mx-auto max-h-[34rem] w-full" role="group" aria-labelledby="map-title map-description">
+    <title id="map-title">Cobertura ilustrativa en Sudamérica</title>
+    <desc id="map-description">Argentina, Brasil, Chile, Colombia, Perú y Uruguay resaltados. Pasá el cursor o usá Tab para explorar cada país.</desc>
+    <g aria-hidden="true" class="map-grid">
+      {[80, 160, 240, 320, 400, 480].map((y) => <path d={`M0 ${y}H400`} />)}
+      {[80, 160, 240, 320].map((x) => <path d={`M${x} 0V510`} />)}
+    </g>
+    <g aria-hidden="true">
+      {countries.filter((country) => !country.covered).map((country) => (
+        <path d={country.path} class="map-neighbor" />
+      ))}
+    </g>
+    {coverage.map((country, index) => (
+      <g class="map-country" tabindex="0" role="button" aria-pressed="false" aria-label={`${country.name}: cobertura ilustrativa`} data-country={country.name} data-country-detail={countryDetails[country.id]}>
+        <title>{country.name}</title>
+        <path d={country.path} class="map-land" />
+        <circle class="map-pulse" cx={country.x} cy={country.y} r="5" style={`--pulse-delay: ${index * -0.5}s`} aria-hidden="true" />
+        <circle class="map-point" cx={country.x} cy={country.y} r="3" aria-hidden="true" />
+      </g>
+    ))}
+  </svg>
+</figure>
+
+<script>
+  const detail = document.querySelector<HTMLElement>('#regional-country-detail');
+  const description = document.querySelector<HTMLElement>('#regional-country-description');
+  const map = document.querySelector<HTMLElement>('.regional-map');
+
+  if (detail && description && map) {
+    let selectedCountry: SVGElement | null = null;
+    const show = (country: SVGElement | null) => {
+      detail.textContent = country?.dataset.country ?? '';
+      description.textContent = country?.dataset.countryDetail ?? '';
+    };
+    const update = () => {
+      const focused = map.querySelector<SVGElement>('[data-country]:focus');
+      const hovered = map.querySelector<SVGElement>('[data-country]:hover');
+      show(hovered ?? focused ?? selectedCountry);
+    };
+
+    map.querySelectorAll<SVGElement>('[data-country]').forEach((country) => {
+      const select = () => {
+        selectedCountry = country;
+        map.querySelectorAll('[data-country]').forEach((item) => {
+          item.setAttribute('aria-pressed', String(item === country));
+        });
+        show(country);
+      };
+      country.addEventListener('pointerenter', () => show(country));
+      country.addEventListener('pointerleave', update);
+      country.addEventListener('focus', () => show(country));
+      country.addEventListener('blur', update);
+      country.addEventListener('click', select);
+      country.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          select();
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .map-grid path { fill: none; stroke: var(--color-brand-cream); stroke-width: 0.5; opacity: 0.08; }
+  .map-neighbor { fill: var(--color-brand-cream); fill-opacity: 0.12; }
+  .map-neighbor, .map-land { stroke: var(--color-brand-primary); stroke-width: 0.8; stroke-linejoin: round; }
+  .map-land { fill: var(--color-brand-rose); transition: fill 250ms ease; }
+  .map-country { outline: none; cursor: pointer; }
+  .map-country[aria-pressed='true'] .map-land { fill: var(--color-brand-cream); }
+  .map-country:hover .map-land, .map-country:focus .map-land { fill: var(--color-brand-cream); }
+  .map-country:focus-visible .map-land { stroke: var(--color-brand-cream); stroke-width: 2; }
+  .map-point { fill: var(--color-brand-primary); stroke: var(--color-brand-cream); stroke-width: 1; pointer-events: none; }
+  .map-pulse {
+    fill: none;
+    stroke: var(--color-brand-cream);
+    stroke-width: 1;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: region-pulse 3s ease-out var(--pulse-delay) infinite;
+    pointer-events: none;
+  }
+  @keyframes region-pulse {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(3.5); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-pulse { animation: none; opacity: 0.6; }
+    .map-land { transition: none; }
+  }
+</style>
