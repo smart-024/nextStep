@@ -1,0 +1,224 @@
+---
+// Contenido de ejemplo: reemplazar por la oferta definitiva de NextStep.
+const services = [
+  {
+    number: '01',
+    category: 'Estrategia',
+    title: 'Consultoría tecnológica',
+    description: 'Cada decisión tecnológica puede abrir una nueva oportunidad. Te ayudamos a entender dónde estás y a definir el próximo paso para tu organización.',
+    deliverables: ['Diagnóstico de sistemas y herramientas', 'Hoja de ruta tecnológica', 'Evaluación y selección de soluciones'],
+    example: 'Una hoja de ruta para renovar las herramientas de trabajo de una empresa en crecimiento.',
+  },
+  {
+    number: '02',
+    category: 'Evolución',
+    title: 'Transformación digital',
+    description: 'Repensamos los procesos de tu negocio para que la tecnología simplifique el trabajo diario. Acompañamos a los equipos desde la idea hasta la adopción.',
+    deliverables: ['Análisis y rediseño de procesos', 'Propuestas de automatización', 'Plan de adopción y capacitación'],
+    example: 'Un plan para digitalizar tareas administrativas y conectar la información entre áreas.',
+  },
+  {
+    number: '03',
+    category: 'Innovación',
+    title: 'Soluciones innovadoras',
+    description: 'Convertimos desafíos en ideas que se pueden explorar y poner a prueba. Diseñamos propuestas digitales con foco en las personas y los objetivos del negocio.',
+    deliverables: ['Talleres de exploración de ideas', 'Prototipos de soluciones digitales', 'Plan de validación y mejora'],
+    example: 'Un prototipo de portal interno para explorar una nueva experiencia de trabajo.',
+  },
+];
+
+---
+
+      <section id="servicios" aria-labelledby="oferta-titulo" class="border-t-4 border-brand-rose bg-brand-primary px-6 py-20 text-brand-cream md:py-24">
+        <div class="mx-auto max-w-7xl">
+          <div class="mb-12 grid gap-6 md:grid-cols-2 md:items-end">
+            <h2 id="oferta-titulo" class="max-w-xl text-4xl font-bold tracking-tight md:text-5xl">Nuestros servicios</h2>
+            <p class="max-w-xl leading-relaxed text-brand-cream/80">Esta es una propuesta de servicios de ejemplo para explorar el diseño. Los alcances y entregables son ilustrativos y se ajustarán a la oferta definitiva.</p>
+          </div>
+          <div class="grid gap-6 lg:grid-cols-3">
+            {services.map((service) => (
+              <article class="service-card" data-expanded="false">
+                <div class="service-card-heading">
+                  <p class="text-xs font-bold uppercase tracking-widest">
+                    {service.category}
+                  </p>
+                  <h3 id={`servicio-${service.number}`} class="mt-7 text-3xl font-bold leading-tight tracking-tight">{service.title}</h3>
+                </div>
+                <div class="service-card-body">
+                  <div class="service-card-art" aria-hidden="true">
+                    <span class="service-orbit service-orbit-one"></span>
+                    <span class="service-orbit service-orbit-two"></span>
+                  </div>
+                  <div id={`detalle-${service.number}`} class="service-card-details" aria-hidden="true" inert>
+                    <p class="text-sm leading-relaxed">{service.description}</p>
+                    <h4 class="mt-6 text-xs font-bold uppercase tracking-widest">Qué puede incluir</h4>
+                    <ul class="mt-4 space-y-3 text-sm">
+                      {service.deliverables.map((item) => (
+                        <li class="flex gap-3"><span aria-hidden="true">↗</span><span>{item}</span></li>
+                      ))}
+                    </ul>
+                    <p class="mt-6 border-t border-brand-primary/25 pt-5 text-sm leading-relaxed"><strong>Ejemplo de proyecto:</strong> {service.example}</p>
+                  </div>
+                </div>
+                <button type="button" class="service-card-toggle" aria-expanded="false" aria-controls={`detalle-${service.number}`} aria-describedby={`servicio-${service.number}`}>
+                  <span class="service-card-toggle-label">Ver detalles</span>
+                  <span class="service-card-arrow" aria-hidden="true">↓</span>
+                </button>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.service-card').forEach((card) => {
+    const toggle = card.querySelector<HTMLButtonElement>('.service-card-toggle');
+    const panel = card.querySelector<HTMLElement>('.service-card-details');
+    const label = card.querySelector<HTMLElement>('.service-card-toggle-label');
+    if (!toggle || !panel || !label) return;
+
+    let pinned = false;
+    const expand = (open: boolean) => {
+      card.dataset.expanded = String(open);
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.setAttribute('aria-hidden', String(!open));
+      panel.inert = !open;
+      label.textContent = open ? 'Cerrar detalles' : 'Ver detalles';
+    };
+
+    card.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'mouse') expand(true);
+    });
+    card.addEventListener('pointerleave', () => {
+      if (!pinned && !card.contains(document.activeElement)) expand(false);
+    });
+    toggle.addEventListener('click', () => {
+      pinned = card.dataset.expanded !== 'true';
+      expand(pinned);
+    });
+    card.addEventListener('focusout', (event) => {
+      if (!card.contains(event.relatedTarget as Node | null)) {
+        pinned = false;
+        expand(false);
+      }
+    });
+    card.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        pinned = false;
+        expand(false);
+        toggle.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .service-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    overflow: hidden;
+    color: var(--color-brand-primary);
+    background: var(--color-brand-cream);
+  }
+
+  .service-card:nth-child(2) { background: var(--color-brand-rose); }
+  .service-card:nth-child(3) { background: var(--color-brand-taupe); }
+
+  .service-card-heading { padding: 2rem 2rem 0; }
+
+  .service-card-body {
+    display: grid;
+    flex: 1;
+    isolation: isolate;
+  }
+
+  .service-card-art,
+  .service-card-details { grid-area: 1 / 1; }
+
+  .service-card-art {
+    position: relative;
+    display: grid;
+    min-height: 22rem;
+    overflow: hidden;
+    place-items: center;
+    opacity: 1;
+    transition: opacity 350ms ease, transform 550ms ease;
+  }
+
+  .service-orbit {
+    position: absolute;
+    width: 17rem;
+    height: 17rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.3;
+  }
+
+  .service-orbit-one { transform: translate(3rem, 2rem); }
+  .service-orbit-two { transform: translate(-2rem, -1rem) scale(0.8); }
+  .service-card:nth-child(2) .service-orbit { border-radius: 1rem; rotate: -25deg; }
+  .service-card:nth-child(3) .service-orbit { border-radius: 50% 0 50% 0; rotate: 25deg; }
+
+  .service-card-details {
+    position: relative;
+    padding: 2rem;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(105%);
+    transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1), opacity 350ms ease, visibility 550ms;
+  }
+
+  .service-card[data-expanded='true'] .service-card-details {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .service-card[data-expanded='true'] .service-card-art {
+    opacity: 0;
+    transform: translateX(-20%);
+  }
+
+  .service-card-toggle {
+    display: flex;
+    min-height: 4.5rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 2rem;
+    padding: 1rem 0;
+    border-top: 1px solid currentColor;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .service-card-arrow { font-size: 1.5rem; transition: transform 350ms ease; }
+  .service-card[data-expanded='true'] .service-card-arrow { transform: rotate(180deg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-card-art,
+    .service-card-details,
+    .service-card-arrow { transition: none; }
+  }
+</style>
+
+      <section id="contacto" aria-labelledby="siguiente-paso" class="px-6 py-20 md:py-24">
+        <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+          <div>
+            <h2 id="siguiente-paso" class="max-w-2xl text-4xl font-bold md:text-5xl">¿Qué desafío tenés en mente?</h2>
+            <p class="mt-5 text-lg text-brand-primary/80">El próximo paso empieza con una conversación.</p>
+          </div>
+          <!-- Placeholder hasta definir el canal de contacto. -->
+          <button
+            type="button"
+            disabled
+            title="Próximamente: canal de contacto."
+            class="inline-flex shrink-0 cursor-not-allowed items-center gap-6 bg-brand-primary px-7 py-4 font-semibold text-brand-cream"
+          >
+            Hablemos
+          </button>
+        </div>
+      </section>

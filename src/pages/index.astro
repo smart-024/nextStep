@@ -3,27 +3,10 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
+import Footer from '../components/Footer.astro';
+import Services from '../components/Services.astro';
 
-const services = [
-  {
-    number: '01',
-    title: 'Consultoría tecnológica',
-    description:
-      'Ayudamos a las organizaciones a tomar mejores decisiones tecnológicas.',
-  },
-  {
-    number: '02',
-    title: 'Transformación digital',
-    description:
-      'Acompañamos la evolución digital de los procesos y negocios.',
-  },
-  {
-    number: '03',
-    title: 'Soluciones innovadoras',
-    description:
-      'Diseñamos estrategias tecnológicas para los desafíos del futuro.',
-  },
-];
+
 ---
 
 <!doctype html>
@@ -67,59 +50,12 @@ const services = [
       </section>
 
       <!-- Services -->
-      <section id="servicios" class="bg-white px-6 py-24">
-        <div class="mx-auto max-w-7xl">
-          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-brand-rose">
-            Qué hacemos
-          </p>
+      <Services />
 
-          <h2 class="mb-12 text-4xl font-bold md:text-5xl">
-            Nuestros servicios
-          </h2>
-
-          <div class="grid gap-6 md:grid-cols-3">
-            {services.map((service) => (
-              <article class="border border-brand-taupe/40 bg-brand-cream p-8 transition-transform duration-300 hover:-translate-y-2">
-                <span class="text-sm font-bold text-brand-rose">
-                  {service.number}
-                </span>
-
-                <h3 class="mt-8 text-2xl font-bold">
-                  {service.title}
-                </h3>
-
-                <p class="mt-4 leading-relaxed text-brand-primary/80">
-                  {service.description}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact -->
-      <section id="contacto" class="bg-brand-taupe px-6 py-24">
-        <div class="mx-auto max-w-7xl">
-          <h2 class="max-w-3xl text-4xl font-bold md:text-6xl">
-            El futuro comienza con el próximo paso.
-          </h2>
-
-          <p class="mt-6 text-lg">
-            Construyamos juntos nuevas oportunidades.
-          </p>
-        </div>
-      </section>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-brand-primary px-6 py-8 text-brand-cream">
-      <div class="mx-auto flex max-w-7xl flex-col justify-between gap-4 sm:flex-row">
-        <span class="font-bold">NextStep</span>
-        <span class="text-sm text-brand-cream/70">
-          © {new Date().getFullYear()} NextStep. Proyecto académico.
-        </span>
-      </div>
-    </footer>
+    <Footer />
 
   </body>
 </html>
