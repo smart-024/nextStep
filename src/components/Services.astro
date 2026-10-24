@@ -54,7 +54,7 @@ const services = [
                     <h4 class="mt-6 text-xs font-bold uppercase tracking-widest">Qué puede incluir</h4>
                     <ul class="mt-4 space-y-3 text-sm">
                       {service.deliverables.map((item) => (
-                        <li class="flex gap-3"><span aria-hidden="true">↗</span><span>{item}</span></li>
+                        <li>{item}</li>
                       ))}
                     </ul>
                     <p class="mt-6 border-t border-brand-primary/25 pt-5 text-sm leading-relaxed"><strong>Ejemplo de proyecto:</strong> {service.example}</p>
@@ -62,7 +62,6 @@ const services = [
                 </div>
                 <button type="button" class="service-card-toggle" aria-expanded="false" aria-controls={`detalle-${service.number}`} aria-describedby={`servicio-${service.number}`}>
                   <span class="service-card-toggle-label">Ver detalles</span>
-                  <span class="service-card-arrow" aria-hidden="true">↓</span>
                 </button>
               </article>
             ))}
@@ -195,13 +194,9 @@ const services = [
     cursor: pointer;
   }
 
-  .service-card-arrow { font-size: 1.5rem; transition: transform 350ms ease; }
-  .service-card[data-expanded='true'] .service-card-arrow { transform: rotate(180deg); }
-
   @media (prefers-reduced-motion: reduce) {
     .service-card-art,
-    .service-card-details,
-    .service-card-arrow { transition: none; }
+    .service-card-details { transition: none; }
   }
 </style>
 

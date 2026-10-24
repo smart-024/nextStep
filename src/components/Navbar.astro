@@ -53,9 +53,13 @@ const links = [
   <!-- Mobile navigation -->
   <div
     id="mobile-menu"
-    class="hidden border-t border-brand-cream/15 bg-brand-primary px-6 py-6 md:hidden"
+    class="mobile-menu grid bg-brand-primary md:hidden"
+    data-open="false"
+    aria-hidden="true"
+    inert
   >
-    <div class="flex flex-col gap-5">
+    <div class="min-h-0 overflow-hidden">
+    <div class="flex flex-col gap-5 border-t border-brand-cream/15 px-6 py-6">
       {links.map((link) => (
         <a
           href={link.href}
@@ -65,6 +69,7 @@ const links = [
         </a>
       ))}
     </div>
+    </div>
   </div>
 </header>
 
@@ -72,20 +77,21 @@ const links = [
   const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');
   const menu = document.querySelector<HTMLElement>('#mobile-menu');
 
+  function setMenu(open: boolean) {
+    if (!menu || !toggle) return;
+    menu.dataset.open = String(open);
+    menu.setAttribute('aria-hidden', String(!open));
+    menu.inert = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+
   function closeMenu() {
-    menu?.classList.add('hidden');
-    toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Abrir menú');
+    setMenu(false);
   }
 
   toggle?.addEventListener('click', () => {
-    if (!menu) return;
-
-    const isOpen = !menu.classList.contains('hidden');
-
-    menu.classList.toggle('hidden', isOpen);
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-    toggle.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+    setMenu(toggle.getAttribute('aria-expanded') !== 'true');
   });
 
   document.querySelectorAll('.mobile-link').forEach((link) => {
@@ -93,6 +99,30 @@ const links = [
   });
 
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeMenu();
+    if (event.key === 'Escape') {
+      if (menu?.contains(document.activeElement)) toggle?.focus();
+      closeMenu();
+    }
   });
+
+  window.matchMedia('(min-width: 48rem)').addEventListener('change', closeMenu);
 </script>
+
+<style>
+  .mobile-menu {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition: grid-template-rows 280ms ease, opacity 200ms ease, visibility 280ms;
+  }
+
+  .mobile-menu[data-open='true'] {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu { transition: none; }
+  }
+</style>
