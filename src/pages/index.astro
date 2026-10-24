@@ -1,6 +1,8 @@
 
 ---
 import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Hero from '../components/Hero.astro';
 
 const services = [
   {
@@ -38,53 +40,12 @@ const services = [
 
   <body class="bg-brand-cream text-brand-primary antialiased">
 
-    <!-- Navigation -->
-    <header class="bg-brand-cream border-b border-brand-taupe/30">
-      <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        <a href="#inicio" aria-label="NextStep - Inicio">
-          <img
-            src="/logo_next_step.svg"
-            alt="NextStep"
-            class="w-28"
-          />
-        </a>
-
-        <div class="flex gap-5 text-sm font-semibold sm:gap-8">
-          <a href="#nosotros" class="hover:text-brand-rose">Nosotros</a>
-          <a href="#servicios" class="hover:text-brand-rose">Servicios</a>
-          <a href="#contacto" class="hover:text-brand-rose">Contacto</a>
-        </div>
-      </nav>
-    </header>
+    <!-- Navigation component -->
+    <Navbar />
 
     <main>
-      <!-- Hero -->
-      <section
-        id="inicio"
-        class="flex min-h-[75vh] items-center bg-brand-primary px-6 py-24 text-brand-cream"
-      >
-        <div class="mx-auto w-full max-w-7xl">
-          <p class="mb-6 text-sm font-semibold uppercase tracking-[0.3em] text-brand-rose">
-            Consultoría en tecnología
-          </p>
-
-          <h1 class="max-w-5xl text-5xl font-bold leading-tight tracking-tight md:text-7xl">
-            El próximo paso hacia tu futuro digital.
-          </h1>
-
-          <p class="mt-8 max-w-2xl text-lg text-brand-cream/80 md:text-xl">
-            Transformamos desafíos en oportunidades a través
-            de la tecnología, la estrategia y la innovación.
-          </p>
-
-          <a
-            href="#servicios"
-            class="mt-10 inline-block rounded-sm bg-brand-rose px-8 py-4 font-semibold text-brand-primary transition-colors hover:bg-brand-cream"
-          >
-            Descubrí nuestros servicios →
-          </a>
-        </div>
-      </section>
+      <!-- Hero component -->
+      <Hero />
 
       <!-- About -->
       <section id="nosotros" class="px-6 py-24">

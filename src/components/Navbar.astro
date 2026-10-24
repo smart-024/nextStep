@@ -1,0 +1,105 @@
+
+---
+const links = [
+  { label: 'Inicio', href: '#inicio' },
+  { label: 'Nosotros', href: '#nosotros' },
+  { label: 'Servicios', href: '#servicios' },
+  { label: 'Contacto', href: '#contacto' },
+];
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-brand-cream/15 bg-brand-primary text-brand-cream"
+>
+  <nav
+    class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10"
+    aria-label="Navegación principal"
+  >
+    <!-- Logo -->
+    <a href="#inicio" aria-label="NextStep - Inicio" class="shrink-0">
+      <img
+        src="/logo_next_step.svg"
+        alt="NextStep"
+        class="h-14 w-auto max-w-40 object-contain"
+      />
+    </a>
+
+    <!-- Desktop navigation -->
+    <div class="hidden items-center gap-10 md:flex">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm font-medium transition-colors duration-200 hover:text-brand-rose"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+
+    <!-- Desktop CTA -->
+    <a
+      href="#contacto"
+      class="hidden border border-brand-rose px-5 py-3 text-sm font-semibold transition-colors hover:bg-brand-rose hover:text-brand-primary lg:inline-flex"
+    >
+      Hablemos <span aria-hidden="true" class="ml-3">↗</span>
+    </a>
+
+    <!-- Mobile menu button -->
+    <button
+      id="menu-toggle"
+      type="button"
+      aria-label="Abrir menú"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      class="flex h-11 w-11 items-center justify-center border border-brand-cream/30 md:hidden"
+    >
+      <span aria-hidden="true" class="text-2xl">☰</span>
+    </button>
+  </nav>
+
+  <!-- Mobile navigation -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-brand-cream/15 bg-brand-primary px-6 py-6 md:hidden"
+  >
+    <div class="flex flex-col gap-5">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="mobile-link text-lg font-medium transition-colors hover:text-brand-rose"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('#menu-toggle');
+  const menu = document.querySelector<HTMLElement>('#mobile-menu');
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Abrir menú');
+  }
+
+  toggle?.addEventListener('click', () => {
+    if (!menu) return;
+
+    const isOpen = !menu.classList.contains('hidden');
+
+    menu.classList.toggle('hidden', isOpen);
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
+  });
+
+  document.querySelectorAll('.mobile-link').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMenu();
+  });
+</script>

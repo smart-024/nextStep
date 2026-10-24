@@ -1,3 +1,4 @@
+
 @import "tailwindcss";
 
 @theme {
@@ -10,8 +11,49 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
   margin: 0;
+}
+
+/* Hero entrance animation */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-reveal {
+  animation: hero-enter 850ms ease-out both;
+}
+
+.hero-delay-1 {
+  animation-delay: 120ms;
+}
+
+.hero-delay-2 {
+  animation-delay: 260ms;
+}
+
+.hero-delay-3 {
+  animation-delay: 400ms;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-reveal {
+    animation: none;
+  }
 }
