@@ -1,10 +1,12 @@
 
 ---
+const isHome = Astro.url.pathname === '/';
+const homeAnchor = (id: string) => `${isHome ? '' : '/'}#${id}`;
 const links = [
-  { label: 'Inicio', href: '#inicio' },
-  { label: 'Nosotros', href: '#nosotros' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Inicio', href: homeAnchor('inicio') },
+  { label: 'Nosotros', href: homeAnchor('nosotros') },
+  { label: 'Servicios', href: homeAnchor('servicios') },
+  { label: 'Contacto', href: isHome ? '#contacto' : '/contacto' },
 ];
 ---
 
@@ -17,7 +19,7 @@ const links = [
   >
     <!-- Desktop navigation -->
     <div class="hidden items-center gap-10 md:flex">
-      {links.filter((link) => link.href !== '#contacto').map((link) => (
+      {links.filter((link) => link.label !== 'Contacto').map((link) => (
         <a
           href={link.href}
           class="text-sm font-medium transition-colors duration-200 hover:text-brand-rose"
@@ -28,7 +30,8 @@ const links = [
     </div>
 
     <a
-      href="#contacto"
+      href={isHome ? '#contacto' : '/contacto'}
+      aria-current={Astro.url.pathname.replace(/\/$/, '') === '/contacto' ? 'page' : undefined}
       class="hidden text-sm font-medium transition-colors duration-200 hover:text-brand-rose md:inline-flex"
     >
       Contacto

@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+const fields = [
+  { id: 'apellido', label: 'Apellido', type: 'text', autocomplete: 'family-name', required: true },
+  { id: 'email', label: 'Correo electrónico', type: 'email', autocomplete: 'email', required: true },
+  { id: 'telefono', label: 'Teléfono (opcional)', type: 'tel', autocomplete: 'tel', required: false },
+  { id: 'empresa', label: 'Empresa u organización (opcional)', type: 'text', autocomplete: 'organization', required: false },
+  { id: 'cargo', label: 'Cargo (opcional)', type: 'text', autocomplete: 'organization-title', required: false },
+];
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Contanos tu desafío y explorá cómo NextStep puede acompañar a tu organización. Formulario de contacto de demostración." />
+    <title>Contacto | NextStep</title>
+  </head>
+  <body class="bg-brand-cream text-brand-primary antialiased">
+    <Navbar />
+    <main class="px-6 py-12 md:py-20">
+      <section id="formulario" aria-labelledby="contacto-titulo" class="mx-auto max-w-5xl">
+        <div class="border-b border-brand-primary/25 pb-8">
+          <h1 id="contacto-titulo" class="text-4xl font-bold tracking-tight md:text-5xl">Contacto</h1>
+        </div>
+
+        <form id="contact-form" class="mt-10">
+          <fieldset>
+            <legend class="sr-only">Datos de contacto</legend>
+            <div class="grid gap-x-8 gap-y-7 sm:grid-cols-2">
+              {fields.map((field) => (
+                <div class="form-field">
+                  <label for={field.id}>{field.label}{field.required && <span aria-hidden="true"> *</span>}</label>
+                  <input id={field.id} name={field.id} type={field.type} autocomplete={field.autocomplete} required={field.required} maxlength="160" />
+                </div>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset class="mt-12 border-t border-brand-primary/25 pt-8">
+            <legend class="pr-4 text-2xl font-bold">Sobre tu consulta</legend>
+            <div class="form-field">
+              <label for="servicio">¿En qué podemos ayudarte? <span aria-hidden="true">*</span></label>
+              <select id="servicio" name="servicio" required>
+                <option value="" disabled selected>Seleccioná un tema</option>
+                <option value="consultoria">Consultoría tecnológica</option>
+                <option value="transformacion">Transformación digital</option>
+                <option value="innovacion">Soluciones innovadoras</option>
+                <option value="otra">Otra consulta</option>
+              </select>
+            </div>
+            <div class="form-field mt-7">
+              <label for="mensaje">Contanos sobre tu proyecto <span aria-hidden="true">*</span></label>
+              <p id="message-help" class="text-sm leading-relaxed text-brand-primary/80">Podés incluir tus objetivos, los desafíos actuales y qué te gustaría mejorar.</p>
+              <textarea id="mensaje" name="mensaje" rows="6" required maxlength="3000" aria-describedby="message-help"></textarea>
+            </div>
+          </fieldset>
+
+          <div class="mt-8 flex flex-wrap items-center justify-between gap-5">
+            <button id="submit-contact" type="submit" disabled class="bg-brand-primary px-8 py-4 font-semibold text-brand-cream transition-colors hover:bg-brand-primary/90 disabled:cursor-not-allowed disabled:opacity-60">Enviar</button>
+            <a href="/" class="text-sm font-semibold underline underline-offset-4 hover:no-underline">Volver a página principal</a>
+          </div>
+          <p id="form-status" role="status" aria-live="polite" class="mt-5 max-w-2xl text-sm font-semibold leading-relaxed"></p>
+          <noscript><p class="mt-4 text-sm">Activá JavaScript para probar la validación del formulario. Esta demostración no envía consultas.</p></noscript>
+        </form>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const submit = document.querySelector<HTMLButtonElement>('#submit-contact');
+  const status = document.querySelector<HTMLElement>('#form-status');
+
+  if (form && submit && status) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      status.textContent = 'Los campos están completos. Esta es una demostración: tu consulta no fue enviada y los datos no se guardaron.';
+    });
+    form.addEventListener('input', () => { status.textContent = ''; });
+    form.addEventListener('change', () => { status.textContent = ''; });
+    submit.disabled = false;
+  }
+</script>
+
+<style>
+  .form-field { display: flex; min-width: 0; flex-direction: column; gap: 0.75rem; }
+  label { font-size: 0.875rem; font-weight: 700; }
+  input, select, textarea {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid var(--color-brand-primary);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.875rem 1rem;
+    color: var(--color-brand-primary);
+    font: inherit;
+  }
+  select { background-color: var(--color-brand-cream); }
+  textarea { resize: vertical; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 3px;
+  }
+</style>
