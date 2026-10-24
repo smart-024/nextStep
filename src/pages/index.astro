@@ -1,20 +1,164 @@
+
 ---
 import '../styles/global.css';
+
+const services = [
+  {
+    number: '01',
+    title: 'Consultoría tecnológica',
+    description:
+      'Ayudamos a las organizaciones a tomar mejores decisiones tecnológicas.',
+  },
+  {
+    number: '02',
+    title: 'Transformación digital',
+    description:
+      'Acompañamos la evolución digital de los procesos y negocios.',
+  },
+  {
+    number: '03',
+    title: 'Soluciones innovadoras',
+    description:
+      'Diseñamos estrategias tecnológicas para los desafíos del futuro.',
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-		<h1 class="text-5xl font-bold text-purple-500">
-			Tailwind is working!
-		</h1>
-	</body>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="NextStep: consultoría en tecnología y transformación digital."
+    />
+    <title>NextStep | Consultoría en Tecnología</title>
+  </head>
+
+  <body class="bg-brand-cream text-brand-primary antialiased">
+
+    <!-- Navigation -->
+    <header class="bg-brand-cream border-b border-brand-taupe/30">
+      <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <a href="#inicio" aria-label="NextStep - Inicio">
+          <img
+            src="/logo_next_step.svg"
+            alt="NextStep"
+            class="w-28"
+          />
+        </a>
+
+        <div class="flex gap-5 text-sm font-semibold sm:gap-8">
+          <a href="#nosotros" class="hover:text-brand-rose">Nosotros</a>
+          <a href="#servicios" class="hover:text-brand-rose">Servicios</a>
+          <a href="#contacto" class="hover:text-brand-rose">Contacto</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section
+        id="inicio"
+        class="flex min-h-[75vh] items-center bg-brand-primary px-6 py-24 text-brand-cream"
+      >
+        <div class="mx-auto w-full max-w-7xl">
+          <p class="mb-6 text-sm font-semibold uppercase tracking-[0.3em] text-brand-rose">
+            Consultoría en tecnología
+          </p>
+
+          <h1 class="max-w-5xl text-5xl font-bold leading-tight tracking-tight md:text-7xl">
+            El próximo paso hacia tu futuro digital.
+          </h1>
+
+          <p class="mt-8 max-w-2xl text-lg text-brand-cream/80 md:text-xl">
+            Transformamos desafíos en oportunidades a través
+            de la tecnología, la estrategia y la innovación.
+          </p>
+
+          <a
+            href="#servicios"
+            class="mt-10 inline-block rounded-sm bg-brand-rose px-8 py-4 font-semibold text-brand-primary transition-colors hover:bg-brand-cream"
+          >
+            Descubrí nuestros servicios →
+          </a>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="nosotros" class="px-6 py-24">
+        <div class="mx-auto max-w-7xl">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-brand-rose">
+            Quiénes somos
+          </p>
+
+          <h2 class="max-w-4xl text-4xl font-bold leading-tight md:text-5xl">
+            La tecnología es el medio. El progreso es nuestro objetivo.
+          </h2>
+
+          <p class="mt-8 max-w-3xl text-lg leading-relaxed text-brand-primary/80">
+            En NextStep acompañamos a las organizaciones en su
+            evolución tecnológica, combinando visión estratégica,
+            creatividad y soluciones digitales.
+          </p>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section id="servicios" class="bg-white px-6 py-24">
+        <div class="mx-auto max-w-7xl">
+          <p class="mb-4 text-sm font-bold uppercase tracking-widest text-brand-rose">
+            Qué hacemos
+          </p>
+
+          <h2 class="mb-12 text-4xl font-bold md:text-5xl">
+            Nuestros servicios
+          </h2>
+
+          <div class="grid gap-6 md:grid-cols-3">
+            {services.map((service) => (
+              <article class="border border-brand-taupe/40 bg-brand-cream p-8 transition-transform duration-300 hover:-translate-y-2">
+                <span class="text-sm font-bold text-brand-rose">
+                  {service.number}
+                </span>
+
+                <h3 class="mt-8 text-2xl font-bold">
+                  {service.title}
+                </h3>
+
+                <p class="mt-4 leading-relaxed text-brand-primary/80">
+                  {service.description}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contacto" class="bg-brand-taupe px-6 py-24">
+        <div class="mx-auto max-w-7xl">
+          <h2 class="max-w-3xl text-4xl font-bold md:text-6xl">
+            El futuro comienza con el próximo paso.
+          </h2>
+
+          <p class="mt-6 text-lg">
+            Construyamos juntos nuevas oportunidades.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brand-primary px-6 py-8 text-brand-cream">
+      <div class="mx-auto flex max-w-7xl flex-col justify-between gap-4 sm:flex-row">
+        <span class="font-bold">NextStep</span>
+        <span class="text-sm text-brand-cream/70">
+          © {new Date().getFullYear()} NextStep. Proyecto académico.
+        </span>
+      </div>
+    </footer>
+
+  </body>
 </html>

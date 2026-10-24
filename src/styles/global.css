@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #6B2737;
+  --color-brand-cream: #EEE0CB;
+  --color-brand-taupe: #BAA898;
+  --color-brand-gray: #848586;
+  --color-brand-rose: #C2847A;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
