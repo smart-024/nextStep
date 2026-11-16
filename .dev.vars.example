@@ -1,0 +1,7 @@
+# Copy to .dev.vars for local Cloudflare Pages development only.
+# Choose your own credentials; do not commit .dev.vars.
+IBER_USERNAME="aplsi2026_usernam3"
+# At least 12 characters.
+IBER_PASSWORD="aplsi2026_Grup0_03"
+# A separate random secret with at least 32 characters.
+IBER_SESSION_SECRET="df216baec09388332752eb49391da812dcd50089800fd397938be8fca3336b1f"

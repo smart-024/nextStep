@@ -156,3 +156,16 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 ## 10. Suggested first prompt to Codex
 
 > Read `START_HERE.md`, then inspect the actual Astro project structure, `package.json`, `src/pages/index.astro`, `src/components/`, and `src/styles/global.css`. Summarize the current implementation and propose the next small improvement. Do not modify files yet.
+
+## 11. Private IBER section
+
+- `/iber/login` is a public Astro login page. `/iber` is served by a Cloudflare Pages Function after authentication, with a placeholder for future private content.
+- Authentication uses one shared username/password. Signed sessions expire after one hour; cookies use `HttpOnly`, `Secure`, and `SameSite=Strict`. Logout removes the browser cookie. Rotating the signing secret invalidates all existing sessions.
+- Credentials belong in **Cloudflare Pages secrets**, never in `src/`, `public/`, or Git. Configure `IBER_USERNAME`, `IBER_PASSWORD` (at least 12 characters), and `IBER_SESSION_SECRET` (an independent random value of at least 32 characters) for each deployment environment that needs IBER.
+- For a signing secret, generate a value locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. Keep the result private.
+- For local testing, copy `.dev.vars.example` to `.dev.vars`, fill in your own values, run `npm run build`, then `npx wrangler pages dev dist --local-protocol https`. Open the HTTPS address Wrangler prints. The local certificate may require a browser trust exception. The ordinary Astro development server previews the login design but does **not** run authentication Functions.
+- Test authentication logic with `node --test tests/iber-auth.test.mjs`.
+- `public/_routes.json` routes IBER requests through Functions. Keep private content and downloads in authenticated Functions; do not put them in public static files or client bundles. The private page intentionally has no `src/pages/iber/index.astro` or static HTML equivalent.
+- Before public use, configure login attempt rate limiting in Cloudflare, and select **fail closed** for Pages Functions quota exhaustion. These dashboard changes are not made by repository edits.
+- Source implementation: `functions/_middleware.js`, `functions/iber/`, and `server/iber-auth.js`. Runtime handlers use Web APIs and require no Astro SSR adapter or database.
+- Cloudflare references: [middleware](https://developers.cloudflare.com/pages/functions/middleware/), [secrets](https://developers.cloudflare.com/pages/functions/bindings/#secrets), [local development](https://developers.cloudflare.com/pages/functions/local-development/), and [routing and failure behavior](https://developers.cloudflare.com/pages/functions/routing/).

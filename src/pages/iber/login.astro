@@ -1,0 +1,92 @@
+---
+import '../../styles/global.css';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Ingresar a IBER | NextStep</title>
+  </head>
+  <body class="flex min-h-svh flex-col bg-brand-cream text-brand-primary antialiased">
+    <Navbar />
+    <main class="flex flex-1 items-center px-6 py-12 md:py-20">
+      <div class="mx-auto grid w-full max-w-6xl overflow-hidden border border-brand-primary/20 lg:grid-cols-2">
+        <div class="relative isolate overflow-hidden bg-brand-primary p-8 text-brand-cream md:p-12">
+          <div aria-hidden="true" class="pointer-events-none absolute -bottom-28 -right-28 -z-10 h-96 w-96 rounded-full border border-brand-rose/30"></div>
+          <p class="text-xs font-bold uppercase tracking-[0.25em] text-brand-rose">Espacio privado</p>
+          <h1 class="mt-6 text-5xl font-extrabold tracking-tight md:text-7xl">IBER</h1>
+          <p class="mt-6 max-w-sm text-lg leading-relaxed text-brand-cream/80">Ingresá con tus credenciales para acceder al espacio de trabajo.</p>
+        </div>
+        <section aria-labelledby="login-titulo" class="p-8 md:p-12">
+          <h2 id="login-titulo" class="text-3xl font-bold tracking-tight">Iniciar sesión</h2>
+          <form id="iber-login" method="POST" action="/iber/auth" class="mt-8 space-y-6">
+            <div>
+              <label for="username" class="mb-3 block text-sm font-bold">Usuario</label>
+              <input id="username" name="username" type="text" required maxlength="256" autocomplete="username" autocapitalize="none" spellcheck="false" class="w-full border border-brand-primary bg-transparent px-4 py-3" />
+            </div>
+            <div>
+              <label for="password" class="mb-3 block text-sm font-bold">Contraseña</label>
+              <input id="password" name="password" type="password" required maxlength="1024" autocomplete="current-password" class="w-full border border-brand-primary bg-transparent px-4 py-3" />
+            </div>
+            <label class="flex w-fit cursor-pointer items-center gap-3 text-sm">
+              <input id="show-password" type="checkbox" class="h-4 w-4 accent-brand-primary" />Mostrar contraseña
+            </label>
+            <p id="login-error" role="alert" class="text-sm font-semibold leading-relaxed"></p>
+            <button id="login-submit" type="submit" disabled class="w-full bg-brand-primary px-7 py-4 font-semibold text-brand-cream transition-colors hover:bg-brand-primary/90 disabled:cursor-wait disabled:opacity-60">Ingresar</button>
+            <noscript><p class="text-sm">Activá JavaScript para iniciar sesión.</p></noscript>
+          </form>
+          <a href="/" class="mt-8 inline-block text-sm font-semibold underline underline-offset-4 hover:no-underline">Volver a página principal</a>
+        </section>
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#iber-login');
+  const button = document.querySelector<HTMLButtonElement>('#login-submit');
+  const error = document.querySelector<HTMLElement>('#login-error');
+  const password = document.querySelector<HTMLInputElement>('#password');
+  const showPassword = document.querySelector<HTMLInputElement>('#show-password');
+
+  showPassword?.addEventListener('change', () => {
+    if (password) password.type = showPassword.checked ? 'text' : 'password';
+  });
+  if (form && button && error && password) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      error.textContent = '';
+      button.disabled = true;
+      button.textContent = 'Ingresando…';
+      try {
+        const body = new URLSearchParams();
+        new FormData(form).forEach((value, key) => { if (typeof value === 'string') body.set(key, value); });
+        const response = await fetch('/iber/auth', { method: 'POST', body, credentials: 'same-origin' });
+        const data = await response.json();
+        if (response.ok && data.ok === true) {
+          window.location.assign('/iber/');
+          return;
+        }
+        error.textContent = data.error ?? 'No pudimos iniciar sesión. Intentá nuevamente.';
+        password.value = '';
+        password.focus();
+      } catch {
+        error.textContent = 'No pudimos conectar con el servicio de acceso. Intentá nuevamente.';
+      }
+      button.disabled = false;
+      button.textContent = 'Ingresar';
+    });
+    button.disabled = false;
+  }
+</script>
+
+<style>
+  input:focus-visible { outline: 2px solid var(--color-brand-primary); outline-offset: 3px; }
+</style>
