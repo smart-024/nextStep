@@ -12,6 +12,7 @@ export async function onRequest({ request, env }) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/typography.css" />
     <link rel="stylesheet" href="/iber.css" />
     <title>IBER | NextStep</title>
   </head>

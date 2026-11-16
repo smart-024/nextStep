@@ -7,6 +7,7 @@ const links = [
   { label: 'Nosotros', href: homeAnchor('nosotros') },
   { label: 'Servicios', href: homeAnchor('servicios') },
   { label: 'Contacto', href: isHome ? '#contacto' : '/contacto' },
+  ...(isHome ? [{ label: 'Acceso IBER', href: '/iber/login' }] : []),
 ];
 ---
 
@@ -19,7 +20,7 @@ const links = [
   >
     <!-- Desktop navigation -->
     <div class="hidden items-center gap-10 md:flex">
-      {links.filter((link) => link.label !== 'Contacto').map((link) => (
+      {links.filter((link) => link.label !== 'Contacto' && link.label !== 'Acceso IBER').map((link) => (
         <a
           href={link.href}
           class="text-sm font-medium transition-colors duration-200 hover:text-brand-rose"
@@ -29,6 +30,7 @@ const links = [
       ))}
     </div>
 
+    <div class="hidden items-center gap-8 md:flex">
     <a
       href={isHome ? '#contacto' : '/contacto'}
       aria-current={Astro.url.pathname.replace(/\/$/, '') === '/contacto' ? 'page' : undefined}
@@ -36,6 +38,12 @@ const links = [
     >
       Contacto
     </a>
+    {isHome && (
+      <a href="/iber/login" class="inline-flex border border-brand-rose px-5 py-3 text-sm font-semibold transition-colors hover:bg-brand-rose hover:text-brand-primary">
+        Acceso IBER
+      </a>
+    )}
+    </div>
 
     <!-- Mobile menu button -->
     <button

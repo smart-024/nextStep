@@ -45,6 +45,14 @@ The source logo is `public/logo_next_step.svg`. Preserve the logo and palette un
 
 Tailwind v4 design tokens are defined in `src/styles/global.css` using `@theme`, making classes such as `bg-brand-primary` and `text-brand-rose` available.
 
+### Typography
+
+- **Switzer**: main headings (`h1`, `h2`), smaller headings, and form legends, all in regular weight.
+- **Saans**: body copy and form inputs.
+- **ABC Diatype**: navigation, labels, buttons, and uppercase category text.
+- Shared font definitions and typography rules live in `public/typography.css`, linked by all Astro pages and the server-rendered IBER page. Font files live in `public/fonts/`; only the selected static faces are loaded with `font-display: swap`.
+- The supplied Saans and Diatype filenames are marked `Trial`; confirm the applicable web-use rights before publishing those assets. Replace the font sources with licensed webfont files when available.
+
 ## 4. Current website structure
 
 Expected relevant files:

@@ -1,0 +1,120 @@
+/* Shared by the Astro pages and the server-rendered IBER area. */
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-font-family/Switzer-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-font-family/Switzer-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-font-family/Switzer-Semibold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Switzer";
+  src: url("/fonts/switzer-font-family/Switzer-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Saans";
+  src: url("/fonts/saans-font-family/Saans-TRIAL-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Saans";
+  src: url("/fonts/saans-font-family/Saans-TRIAL-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Saans";
+  src: url("/fonts/saans-font-family/Saans-TRIAL-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ABC Diatype";
+  src: url("/fonts/Diatype%20Font%20Family/ABCDiatype-Regular-Trial.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ABC Diatype";
+  src: url("/fonts/Diatype%20Font%20Family/ABCDiatype-Medium-Trial.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ABC Diatype";
+  src: url("/fonts/Diatype%20Font%20Family/ABCDiatype-Bold-Trial.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+:root {
+  --font-body: "Saans", Arial, sans-serif;
+  --font-heading: "Switzer", Arial, sans-serif;
+  --font-section: "Switzer", Arial, sans-serif;
+  --font-interface: "ABC Diatype", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  font-kerning: normal;
+}
+
+h1, h2 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+h3, h4, legend {
+  font-family: var(--font-section);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+nav, label, button, .uppercase, .eyebrow {
+  font-family: var(--font-interface);
+}
+
+h4.uppercase {
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+input, select, textarea {
+  font-family: var(--font-body);
+}
