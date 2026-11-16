@@ -1,7 +1,11 @@
 
 ---
-const isHome = Astro.url.pathname === '/';
-const homeAnchor = (id: string) => `${isHome ? '' : '/'}#${id}`;
+interface Props {
+  homePath?: string;
+}
+const { homePath = '/' } = Astro.props;
+const isHome = Astro.url.pathname.replace(/\/$/, '') === homePath.replace(/\/$/, '');
+const homeAnchor = (id: string) => `${isHome ? '' : homePath}#${id}`;
 const links = [
   { label: 'Inicio', href: homeAnchor('inicio') },
   { label: 'Nosotros', href: homeAnchor('nosotros') },

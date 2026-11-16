@@ -1,0 +1,223 @@
+/* Experimental skin: every selector is scoped to /gradient's body class. */
+body.gradient-preview {
+  --grain-texture: url('/gradient/noise.svg');
+  --preview-radius: 1.5rem;
+}
+
+body.gradient-preview :is(button, a.inline-flex, .preview-comparison) {
+  border-radius: var(--preview-radius);
+}
+
+body.gradient-preview :is(#inicio, #nosotros, #servicios, #contacto) {
+  position: relative;
+  isolation: isolate;
+}
+
+body.gradient-preview :is(#inicio, #nosotros, #servicios, #contacto)::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: var(--grain-texture);
+  background-repeat: repeat;
+  content: '';
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+body.gradient-preview header {
+  background-color: color-mix(in srgb, var(--color-brand-primary) 94%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+body.gradient-preview #inicio {
+  background: var(--color-brand-primary);
+}
+
+body.gradient-preview #inicio::before {
+  position: absolute;
+  z-index: -1;
+  inset: -15%;
+  background:
+    linear-gradient(90deg, var(--color-brand-primary) 8%, color-mix(in srgb, var(--color-brand-primary) 85%, transparent) 36%, transparent 75%),
+    radial-gradient(ellipse at 88% 32%, var(--color-brand-cream) 8%, var(--color-brand-taupe) 20%, transparent 40%),
+    radial-gradient(ellipse at 78% 80%, var(--color-brand-rose) 20%, transparent 60%),
+    radial-gradient(ellipse at 45% 100%, var(--color-brand-rose) 10%, transparent 45%);
+  content: '';
+  pointer-events: none;
+  animation: gradient-drift 18s ease-in-out infinite alternate;
+}
+
+body.gradient-preview #inicio::after { opacity: 0.5; }
+
+/* The gradient replaces the original ring decoration in this preview. */
+body.gradient-preview #inicio :is(.hero-glow, .hero-ring) { display: none; }
+
+body.gradient-preview #inicio h1 span {
+  color: var(--color-brand-cream);
+}
+
+body.gradient-preview #inicio a[href='#nosotros'] {
+  background-color: var(--color-brand-cream);
+  border: 0;
+}
+
+body.gradient-preview :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) {
+  transform: none;
+  translate: none;
+  transition-property: background-color;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.gradient-preview #inicio .hero-delay-3 {
+  animation: none;
+}
+
+body.gradient-preview #inicio a[href='#nosotros'] [aria-hidden='true'] {
+  display: none;
+}
+
+body.gradient-preview #inicio a[href='#nosotros']:hover {
+  background-color: color-mix(in srgb, var(--color-brand-cream) 90%, transparent);
+}
+
+body.gradient-preview #contacto a[href='/contacto']:hover {
+  background-color: color-mix(in srgb, var(--color-brand-primary) 90%, transparent);
+}
+
+body.gradient-preview #nosotros {
+  background:
+    linear-gradient(90deg, transparent, var(--color-brand-cream) 85%),
+    radial-gradient(ellipse at 0% 15%, var(--color-brand-rose) 10%, transparent 65%),
+    radial-gradient(ellipse at 5% 100%, var(--color-brand-taupe) 10%, transparent 65%),
+    var(--color-brand-cream);
+}
+
+body.gradient-preview #nosotros::after {
+  mix-blend-mode: multiply;
+  opacity: 0.22;
+}
+
+body.gradient-preview #nosotros .about-intro {
+  display: block;
+}
+
+body.gradient-preview #nosotros-titulo {
+  margin-inline: auto;
+  text-align: center;
+}
+
+body.gradient-preview #servicios {
+  border-top-width: 1px;
+  background:
+    linear-gradient(180deg, var(--color-brand-primary), transparent 60%),
+    radial-gradient(ellipse at 100% 55%, var(--color-brand-rose) 10%, transparent 65%),
+    radial-gradient(ellipse at 0% 100%, var(--color-brand-taupe) 5%, transparent 60%),
+    var(--color-brand-primary);
+}
+
+body.gradient-preview .service-card {
+  position: relative;
+  isolation: isolate;
+  background-image: linear-gradient(155deg, var(--color-brand-cream) 25%, var(--color-brand-taupe));
+  background-color: transparent;
+  background-clip: padding-box;
+  border: 0;
+  border-radius: var(--preview-radius);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-brand-primary) 12%, transparent);
+  transition: box-shadow 250ms ease;
+}
+
+body.gradient-preview .service-card:is(:hover, :focus-within) {
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
+}
+
+body.gradient-preview .service-card-toggle {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+}
+
+body.gradient-preview .service-card-toggle:focus-visible {
+  outline: 3px solid var(--color-brand-primary);
+  outline-offset: -6px;
+}
+
+/* Keep the toggle name for screen readers without a visible footer label. */
+body.gradient-preview .service-card-toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body.gradient-preview .service-card-details p.border-t {
+  border-top: 0;
+}
+
+body.gradient-preview .service-card:nth-child(2) {
+  background-image: linear-gradient(155deg, var(--color-brand-cream), var(--color-brand-rose) 80%);
+}
+
+body.gradient-preview .service-card:nth-child(3) {
+  background-image: linear-gradient(155deg, var(--color-brand-taupe), var(--color-brand-cream) 85%);
+}
+
+body.gradient-preview .service-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: '';
+  background-image: var(--grain-texture);
+  mix-blend-mode: multiply;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+body.gradient-preview .service-card-art {
+  background: radial-gradient(ellipse at 60% 65%, color-mix(in srgb, var(--color-brand-primary) 17%, transparent), transparent 65%);
+}
+
+body.gradient-preview #contacto {
+  background:
+    radial-gradient(ellipse at 0% 0%, var(--color-brand-cream) 25%, transparent 75%),
+    radial-gradient(ellipse at 100% 100%, var(--color-brand-rose) 15%, transparent 75%),
+    var(--color-brand-cream);
+}
+
+body.gradient-preview #contacto::after {
+  mix-blend-mode: multiply;
+  opacity: 0.2;
+}
+
+body.gradient-preview footer { padding-bottom: 6rem; }
+
+@keyframes gradient-drift {
+  from { transform: translate3d(2%, -2%, 0) scale(1); }
+  to { transform: translate3d(-5%, 5%, 0) scale(1.12); }
+}
+
+@media (max-width: 47.99rem) {
+  body.gradient-preview #inicio::before {
+    background:
+      linear-gradient(90deg, var(--color-brand-primary) 5%, color-mix(in srgb, var(--color-brand-primary) 80%, transparent) 65%, transparent),
+      radial-gradient(ellipse at 100% 0%, var(--color-brand-cream), var(--color-brand-rose) 30%, transparent 70%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.gradient-preview #inicio::before { animation: none; }
+  body.gradient-preview .service-card { transition: none; }
+  body.gradient-preview :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) { transition: none; }
+}
