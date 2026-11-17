@@ -6,8 +6,9 @@ header { background: var(--primary); color: var(--cream); }
 nav { display: flex; min-height: 5rem; max-width: 80rem; margin: auto; padding: 1rem 1.5rem; align-items: center; justify-content: space-between; gap: 1rem; }
 nav a { color: inherit; font-weight: 700; text-decoration: none; }
 nav form { margin: 0; }
-button { padding: 0.75rem 1rem; border: 1px solid currentColor; background: transparent; color: inherit; font: inherit; font-family: var(--font-interface); cursor: pointer; }
-main { max-width: 70rem; margin: auto; padding: clamp(3rem, 8vw, 6rem) 1.5rem; }
+button { padding: 0.75rem 1.25rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; font: inherit; font-family: var(--font-interface); cursor: pointer; }
+button:hover { background: color-mix(in srgb, var(--cream) 12%, transparent); }
+main { padding: clamp(3rem, 8vw, 6rem) max(1.5rem, calc((100vw - 67rem) / 2)); }
 .eyebrow { text-transform: uppercase; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.25em; }
 h1 { margin: 1rem 0; font-size: clamp(3rem, 8vw, 6rem); letter-spacing: -0.04em; }
 .intro { font-size: 1.25rem; line-height: 1.6; }

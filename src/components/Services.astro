@@ -51,8 +51,7 @@ const services = [
                   </div>
                   <div id={`detalle-${service.number}`} class="service-card-details" aria-hidden="true" inert>
                     <p class="text-sm leading-relaxed">{service.description}</p>
-                    <h4 class="mt-6 text-xs font-bold uppercase tracking-widest">Qué puede incluir</h4>
-                    <ul class="mt-4 space-y-3 text-sm">
+                    <ul role="list" class="mt-6 list-disc space-y-3 pl-5 text-sm">
                       {service.deliverables.map((item) => (
                         <li>{item}</li>
                       ))}

@@ -12,14 +12,14 @@ import Footer from '../../components/Footer.astro';
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/typography.css" />
+    <link rel="stylesheet" href="/page-theme.css" />
     <title>Ingresar a IBER | NextStep</title>
   </head>
-  <body class="flex min-h-svh flex-col bg-brand-cream text-brand-primary antialiased">
+  <body class="styled-page bg-brand-cream text-brand-primary antialiased">
     <Navbar />
     <main class="flex flex-1 items-center px-6 py-12 md:py-20">
-      <div class="mx-auto grid w-full max-w-6xl overflow-hidden border border-brand-primary/20 lg:grid-cols-2">
-        <div class="relative isolate overflow-hidden bg-brand-primary p-8 text-brand-cream md:p-12">
-          <div aria-hidden="true" class="pointer-events-none absolute -bottom-28 -right-28 -z-10 h-96 w-96 rounded-full border border-brand-rose/30"></div>
+      <div class="page-panel mx-auto grid w-full max-w-6xl overflow-hidden lg:grid-cols-2">
+        <div class="login-intro p-8 md:p-12">
           <h1 class="mt-6 text-5xl font-extrabold tracking-tight md:text-7xl">IBER</h1>
           <p class="mt-6 max-w-sm text-lg leading-relaxed text-brand-cream/80">Ingresá con tus credenciales para acceder al espacio de trabajo.</p>
         </div>
@@ -38,7 +38,7 @@ import Footer from '../../components/Footer.astro';
               <input id="show-password" type="checkbox" class="h-4 w-4 accent-brand-primary" />Mostrar contraseña
             </label>
             <p id="login-error" role="alert" class="text-sm font-semibold leading-relaxed"></p>
-            <button id="login-submit" type="submit" disabled class="w-full bg-brand-primary px-7 py-4 font-semibold text-brand-cream transition-colors hover:bg-brand-primary/90 disabled:cursor-wait disabled:opacity-60">Ingresar</button>
+            <button id="login-submit" type="submit" disabled class="page-submit w-full px-7 py-4 font-semibold disabled:cursor-wait disabled:opacity-60">Ingresar</button>
             <noscript><p class="text-sm">Activá JavaScript para iniciar sesión.</p></noscript>
           </form>
           <a href="/" class="mt-8 inline-block text-sm font-semibold underline underline-offset-4 hover:no-underline">Volver a página principal</a>

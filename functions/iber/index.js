@@ -14,15 +14,16 @@ export async function onRequest({ request, env }) {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/typography.css" />
     <link rel="stylesheet" href="/iber.css" />
+    <link rel="stylesheet" href="/page-theme.css" />
     <title>IBER | NextStep</title>
   </head>
-  <body>
+  <body class="styled-page">
     <header><nav aria-label="Navegación de IBER"><a href="/">NextStep</a><form method="POST" action="/iber/logout"><button type="submit">Cerrar sesión</button></form></nav></header>
     <main>
       <p class="eyebrow">Espacio privado</p>
       <h1>IBER</h1>
       <p class="intro">Bienvenido al espacio privado de NextStep.</p>
-      <section aria-labelledby="contenido-titulo" class="panel">
+      <section aria-labelledby="contenido-titulo" class="panel page-panel">
         <h2 id="contenido-titulo">Tu próximo espacio de trabajo.</h2>
         <p>Acá vamos a incorporar los contenidos de IBER.</p>
       </section>

@@ -1,7 +1,7 @@
 # START HERE — NextStep website
 
 > Project context for contributors and AI coding assistants (including Codex in VS Code).
-> Last updated: 2026-10-24. This file describes the project as established in the planning conversation; inspect the repository to confirm the current implementation before editing.
+> Last updated: 2026-11-17. Inspect the repository to confirm the current implementation before editing.
 
 ## 1. Project overview
 
@@ -40,6 +40,7 @@ Official palette:
 | `brand-taupe` | `#BAA898` | Secondary surfaces |
 | `brand-gray` | `#848586` | Neutral accents |
 | `brand-rose` | `#C2847A` | Accent, buttons, highlights |
+| `brand-accent` | `#E16036` | Burnt-orange heading highlights and homepage gradients |
 
 The source logo is `public/logo_next_step.svg`. Preserve the logo and palette unless explicitly asked to change them. Ensure sufficient contrast when using the logo against dark or light backgrounds.
 
@@ -79,14 +80,18 @@ The actual repository is the source of truth. Do not assume a file exists solely
 
 ### Homepage sections
 
-1. **Navigation** — `Navbar.astro`: sticky burgundy header, logo, desktop links, responsive mobile menu.
-2. **Hero** — `Hero.astro`: dramatic oversized heading (“El futuro no se espera. Se construye.”), supporting copy, CTA buttons, decorative circular outlines, entrance animations.
-3. **Nosotros** — about the fictional firm.
-4. **Servicios** — three services, currently defined as an array in `index.astro` and rendered as cards.
-5. **Contacto** — closing invitation, currently informational (not a working contact form).
-6. **Footer** — NextStep and academic-project notice.
+1. **Navigation** — `Navbar.astro`: sticky burgundy header, desktop links, mobile dropdown, and IBER access.
+2. **Hero** — `Hero.astro`: “Adelantarse al futuro.”, supporting copy, and a rounded CTA with a background-color fade.
+3. **Nosotros** — `About.astro`: centered heading and three values. The former introductory paragraphs and photo panel have been removed.
+4. **Servicios** — `Services.astro`: three rounded, borderless cards with hover/tap details. Their controls remain available to screen readers without visible footer labels.
+5. **Contacto** — closing invitation linking to the contact form at `/contacto`.
+6. **Footer** — NextStep and copyright.
+
+The grainy gradient design is now the homepage at `/`. Its styles are in `src/styles/home.css`, scoped to `body.homepage`, with SVG noise at `public/textures/grain.svg`. The former `/gradient` preview route and comparison link have been removed. Keep the current regular-weight typography and reduced-motion support. Private `/iber` remains served through authenticated Cloudflare Functions.
 
 Current section anchor IDs: `inicio`, `nosotros`, `servicios`, `contacto`. Preserve them when modifying navigation or section markup.
+
+The contact form, IBER login, and authenticated IBER page share `public/page-theme.css` for grainy gradients, rounded panels and controls, and translucent input borders. This stylesheet supports both Astro pages and the Cloudflare-rendered private page; authentication behavior remains in the existing Functions.
 
 ## 5. Design direction
 
