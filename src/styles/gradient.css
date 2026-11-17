@@ -133,6 +133,14 @@ body.gradient-preview .service-card:is(:hover, :focus-within) {
   box-shadow: 0 16px 40px color-mix(in srgb, var(--color-brand-primary) 20%, transparent);
 }
 
+body.gradient-preview .service-card-heading > p {
+  display: none;
+}
+
+body.gradient-preview .service-card-heading > h3 {
+  margin-top: 0;
+}
+
 body.gradient-preview .service-card-toggle {
   position: absolute;
   z-index: 2;
