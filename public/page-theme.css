@@ -1,4 +1,4 @@
-/* Shared by Astro forms and the authenticated IBER page. */
+/* Shared by secondary Astro pages and the authenticated IBER page. */
 .styled-page {
   --page-primary: var(--color-brand-primary, #6B2737);
   --page-cream: var(--color-brand-cream, #EEE0CB);
@@ -75,7 +75,7 @@
   outline: 2px solid var(--page-primary);
   outline-offset: 3px;
 }
-.styled-page button {
+.styled-page :is(button, .page-submit) {
   border-radius: var(--surface-radius);
   transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -87,5 +87,5 @@
 .styled-page .page-submit:hover { background: color-mix(in srgb, var(--page-primary) 90%, transparent); }
 
 @media (prefers-reduced-motion: reduce) {
-  .styled-page button { transition: none; }
+  .styled-page :is(button, .page-submit) { transition: none; }
 }

@@ -13,17 +13,18 @@ import Footer from '../components/Footer.astro';
     <meta name="description" content="No encontramos esta página. Volvé al inicio de NextStep o ponete en contacto con nosotros." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="/typography.css" />
+    <link rel="stylesheet" href="/page-theme.css" />
     <title>Página no encontrada | NextStep</title>
   </head>
-  <body class="flex min-h-svh flex-col bg-brand-cream text-brand-primary antialiased">
+  <body class="styled-page bg-brand-cream text-brand-primary antialiased">
     <Navbar />
     <main class="flex flex-1 items-center px-6 py-16 md:py-24">
-      <div class="mx-auto grid w-full max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
+      <div class="mx-auto w-full max-w-5xl">
         <div>
-          <h1 class="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl md:text-6xl">Página no encontrada</h1>
+          <h1 class="max-w-2xl text-4xl font-normal leading-tight tracking-tight sm:text-5xl md:text-6xl">Página no encontrada</h1>
           <p class="mt-6 max-w-xl text-lg leading-relaxed text-brand-primary/80">La página que buscás no existe o cambió de dirección.</p>
           <div class="mt-10 flex flex-wrap items-center gap-6">
-            <a href="/" class="inline-flex bg-brand-primary px-7 py-4 font-semibold text-brand-cream transition-colors hover:bg-brand-primary/90">Volver a página principal</a>
+            <a href="/" class="page-submit inline-flex px-7 py-4 font-semibold">Volver a página principal</a>
           </div>
         </div>
       </div>

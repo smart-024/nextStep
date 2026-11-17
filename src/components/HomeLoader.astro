@@ -1,0 +1,70 @@
+<!-- Inline styles and script keep the first paint consistent, before hydration. -->
+<style is:inline>
+  .home-loader {
+    position: fixed;
+    z-index: 100;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: 1.5rem;
+    background: #6B2737;
+    color: #EEE0CB;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease, visibility 250ms;
+  }
+  html[data-home-loading] { overflow: hidden; }
+  html[data-home-loading] .home-loader {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  html[data-home-loading] body.homepage > :is(header, main, footer) { visibility: hidden; }
+  html[data-home-loading] .hero-reveal { animation-play-state: paused; }
+  .home-loader-name { font: 400 2rem Georgia, serif; letter-spacing: -0.04em; }
+  .home-loader-track {
+    height: 2px;
+    overflow: hidden;
+    background: rgb(238 224 203 / 20%);
+  }
+  .home-loader-track::after {
+    display: block;
+    width: 45%;
+    height: 100%;
+    background: currentColor;
+    content: '';
+    animation: loader-slide 1s ease-in-out infinite alternate;
+  }
+  @keyframes loader-slide { from { transform: translateX(-100%); } to { transform: translateX(225%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .home-loader { transition: none; }
+    .home-loader-track::after { animation: none; width: 100%; }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    root.setAttribute('data-home-loading', '');
+    document.body.setAttribute('aria-busy', 'true');
+    const reveal = () => {
+      root.removeAttribute('data-home-loading');
+      document.body.removeAttribute('aria-busy');
+      window.clearTimeout(fallback);
+    };
+    const fallback = window.setTimeout(reveal, 2500);
+    document.addEventListener('DOMContentLoaded', () => {
+      if (document.fonts) document.fonts.ready.then(reveal, reveal);
+      else reveal();
+    }, { once: true });
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) reveal();
+    });
+  })();
+</script>
+
+<div class="home-loader" role="status" aria-label="Cargando NextStep">
+  <span class="home-loader-name" aria-hidden="true">NextStep</span>
+  <span class="home-loader-track" aria-hidden="true"></span>
+</div>

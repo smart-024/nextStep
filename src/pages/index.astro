@@ -7,6 +7,7 @@ import Hero from '../components/Hero.astro';
 import Footer from '../components/Footer.astro';
 import Services from '../components/Services.astro';
 import About from '../components/About.astro';
+import HomeLoader from '../components/HomeLoader.astro';
 
 
 ---
@@ -17,6 +18,8 @@ import About from '../components/About.astro';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/Fraunces/static/Fraunces_72pt-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/saans-font-family/Saans-TRIAL-Regular.otf" as="font" type="font/otf" crossorigin />
     <link rel="stylesheet" href="/typography.css" />
     <meta
       name="description"
@@ -26,6 +29,7 @@ import About from '../components/About.astro';
   </head>
 
   <body class="homepage bg-brand-cream text-brand-primary antialiased">
+    <HomeLoader />
 
     <!-- Navigation component -->
     <Navbar />
