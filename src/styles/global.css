@@ -4,7 +4,7 @@
 @theme {
   --font-sans: var(--font-body);
   --font-display: var(--font-heading);
-  --font-section: "Switzer", Arial, sans-serif;
+  --font-section: "Editorial Old", Georgia, serif;
   --font-interface: "ABC Diatype", Arial, sans-serif;
   --color-brand-primary: #6B2737;
   --color-brand-cream: #EEE0CB;

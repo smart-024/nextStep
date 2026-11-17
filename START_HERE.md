@@ -47,7 +47,7 @@ Tailwind v4 design tokens are defined in `src/styles/global.css` using `@theme`,
 
 ### Typography
 
-- **Switzer**: main headings (`h1`, `h2`), smaller headings, and form legends, all in regular weight.
+- **Editorial Old**: main headings (`h1`, `h2`), smaller headings, and form legends, all in regular weight.
 - **Saans**: body copy and form inputs.
 - **ABC Diatype**: navigation, labels, buttons, and uppercase category text.
 - Shared font definitions and typography rules live in `public/typography.css`, linked by all Astro pages and the server-rendered IBER page. Font files live in `public/fonts/`; only the selected static faces are loaded with `font-display: swap`.

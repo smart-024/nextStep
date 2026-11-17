@@ -2,6 +2,7 @@
 body.gradient-preview {
   --grain-texture: url('/gradient/noise.svg');
   --preview-radius: 1.5rem;
+  --preview-accent: rgb(27, 153, 139);
 }
 
 body.gradient-preview :is(button, a.inline-flex, .preview-comparison) {
@@ -40,6 +41,7 @@ body.gradient-preview #inicio::before {
   inset: -15%;
   background:
     linear-gradient(90deg, var(--color-brand-primary) 8%, color-mix(in srgb, var(--color-brand-primary) 85%, transparent) 36%, transparent 75%),
+    radial-gradient(ellipse at 93% 70%, color-mix(in srgb, var(--preview-accent) 75%, transparent) 4%, transparent 42%),
     radial-gradient(ellipse at 88% 32%, var(--color-brand-cream) 8%, var(--color-brand-taupe) 20%, transparent 40%),
     radial-gradient(ellipse at 78% 80%, var(--color-brand-rose) 20%, transparent 60%),
     radial-gradient(ellipse at 45% 100%, var(--color-brand-rose) 10%, transparent 45%);
@@ -53,13 +55,19 @@ body.gradient-preview #inicio::after { opacity: 0.5; }
 /* The gradient replaces the original ring decoration in this preview. */
 body.gradient-preview #inicio :is(.hero-glow, .hero-ring) { display: none; }
 
-body.gradient-preview #inicio h1 span {
-  color: var(--color-brand-cream);
+body.gradient-preview .preview-text-accent {
+  color: var(--preview-accent);
 }
 
 body.gradient-preview #inicio a[href='#nosotros'] {
   background-color: var(--color-brand-cream);
+  color: var(--color-brand-primary);
   border: 0;
+}
+
+body.gradient-preview #contacto a[href='/contacto'] {
+  background-color: var(--color-brand-primary);
+  color: var(--color-brand-cream);
 }
 
 body.gradient-preview :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) {
@@ -89,6 +97,7 @@ body.gradient-preview #contacto a[href='/contacto']:hover {
 body.gradient-preview #nosotros {
   background:
     linear-gradient(90deg, transparent, var(--color-brand-cream) 85%),
+    radial-gradient(ellipse at 0% 90%, color-mix(in srgb, var(--preview-accent) 28%, transparent), transparent 55%),
     radial-gradient(ellipse at 0% 15%, var(--color-brand-rose) 10%, transparent 65%),
     radial-gradient(ellipse at 5% 100%, var(--color-brand-taupe) 10%, transparent 65%),
     var(--color-brand-cream);
@@ -200,6 +209,7 @@ body.gradient-preview .service-card-art {
 body.gradient-preview #contacto {
   background:
     radial-gradient(ellipse at 0% 0%, var(--color-brand-cream) 25%, transparent 75%),
+    radial-gradient(ellipse at 85% 85%, color-mix(in srgb, var(--preview-accent) 25%, transparent), transparent 65%),
     radial-gradient(ellipse at 100% 100%, var(--color-brand-rose) 15%, transparent 75%),
     var(--color-brand-cream);
 }
@@ -220,6 +230,7 @@ body.gradient-preview footer { padding-bottom: 6rem; }
   body.gradient-preview #inicio::before {
     background:
       linear-gradient(90deg, var(--color-brand-primary) 5%, color-mix(in srgb, var(--color-brand-primary) 80%, transparent) 65%, transparent),
+      radial-gradient(ellipse at 100% 45%, color-mix(in srgb, var(--preview-accent) 70%, transparent), transparent 60%),
       radial-gradient(ellipse at 100% 0%, var(--color-brand-cream), var(--color-brand-rose) 30%, transparent 70%);
   }
 }
