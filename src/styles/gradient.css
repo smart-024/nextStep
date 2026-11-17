@@ -2,7 +2,7 @@
 body.gradient-preview {
   --grain-texture: url('/gradient/noise.svg');
   --preview-radius: 1.5rem;
-  --preview-accent: rgb(27, 153, 139);
+  --preview-accent: #E16036;
 }
 
 body.gradient-preview :is(button, a.inline-flex, .preview-comparison) {

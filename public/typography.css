@@ -1,7 +1,7 @@
 /* Shared by the Astro pages and the server-rendered IBER area. */
 @font-face {
-  font-family: "Editorial Old";
-  src: url("/fonts/editorial-old-font/ppeditorialold-regular.otf") format("opentype");
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces/static/Fraunces_72pt-Regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -57,8 +57,8 @@
 
 :root {
   --font-body: "Saans", Arial, sans-serif;
-  --font-heading: "Editorial Old", Georgia, serif;
-  --font-section: "Editorial Old", Georgia, serif;
+  --font-heading: "Fraunces", Georgia, serif;
+  --font-section: "Fraunces", Georgia, serif;
   --font-interface: "ABC Diatype", Arial, sans-serif;
 }
 
