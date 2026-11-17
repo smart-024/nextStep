@@ -221,6 +221,15 @@ body.homepage #contacto::after {
 }
 
 @media (max-width: 47.99rem) {
+  body.homepage #inicio h1 {
+    font-size: clamp(3rem, 12vw, 5.5rem);
+  }
+
+  body.homepage main section > div h2 {
+    font-size: clamp(2.75rem, 10vw, 3.5rem);
+    line-height: 1.08;
+  }
+
   body.homepage #inicio::before {
     background:
       linear-gradient(90deg, var(--color-brand-primary) 5%, color-mix(in srgb, var(--color-brand-primary) 80%, transparent) 65%, transparent),
