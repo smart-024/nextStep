@@ -172,7 +172,10 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 
 ## 11. Private IBER section
 
-- `/iber/login` is a public Astro login page. `/iber` is served by a Cloudflare Pages Function after authentication, with a placeholder for future private content.
+- IBER has three views: Caso de Negocio (the default), Arquitectura Actual, and Arquitectura destino. The initial Resumen, Proyectos, and Documentos placeholders have been removed. The push-back menu supports Escape and section hashes; without JavaScript, all three sections remain readable. Interface behavior is in `public/iber-dashboard.js` and responsive styles are in `public/iber.css`.
+- Caso de Negocio renders the supplied document's business outcomes, six objectives and fourteen user stories as Como / Quiero / Para cards. Content stays in `server/iber-business-case.js`, rendered by `server/render-iber-business-case.js` only after authentication.
+- Both architecture views reuse `server/render-architecture-diagram.js` with unique IDs and four pillars with 1px borders. Their server-only data is in `server/render-iber-architecture.js` and `server/render-iber-destination.js`. Destination stage markers E1/E2/E3 appear as small top-right badges on the corresponding boxes. No extra explanatory cards appear below the diagrams.
+- `/iber/login` is a public Astro login page. `/iber` is served by a Cloudflare Pages Function after authentication.
 - Authentication uses one shared username/password. Signed sessions expire after one hour; cookies use `HttpOnly`, `Secure`, and `SameSite=Strict`. Logout removes the browser cookie. Rotating the signing secret invalidates all existing sessions.
 - Credentials belong in **Cloudflare Pages secrets**, never in `src/`, `public/`, or Git. Configure `IBER_USERNAME`, `IBER_PASSWORD` (at least 12 characters), and `IBER_SESSION_SECRET` (an independent random value of at least 32 characters) for each deployment environment that needs IBER.
 - For a signing secret, generate a value locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`. Keep the result private.

@@ -1,4 +1,7 @@
 import { hasSession, privateResponse } from '../../server/iber-auth.js';
+import { renderBusinessCase } from '../../server/render-iber-business-case.js';
+import { renderCurrentArchitecture } from '../../server/render-iber-architecture.js';
+import { renderDestinationArchitecture } from '../../server/render-iber-destination.js';
 
 export async function onRequest({ request, env }) {
   // Also check here so the page is protected independently of middleware routing.
@@ -15,19 +18,34 @@ export async function onRequest({ request, env }) {
     <link rel="stylesheet" href="/typography.css" />
     <link rel="stylesheet" href="/iber.css" />
     <link rel="stylesheet" href="/page-theme.css" />
+    <script src="/iber-dashboard.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">
-    <header><nav aria-label="Navegación de IBER"><a href="/">NextStep</a><form method="POST" action="/iber/logout"><button type="submit">Cerrar sesión</button></form></nav></header>
-    <main>
-      <p class="eyebrow">Espacio privado</p>
-      <h1>IBER</h1>
-      <p class="intro">Bienvenido al espacio privado de NextStep.</p>
-      <section aria-labelledby="contenido-titulo" class="panel page-panel">
-        <h2 id="contenido-titulo">Tu próximo espacio de trabajo.</h2>
-        <p>Acá vamos a incorporar los contenidos de IBER.</p>
-      </section>
-      <a class="back" href="/">Volver a página principal</a>
+    <header><nav aria-label="Navegación de IBER">
+      <div class="dashboard-brand">
+        <button id="menu-toggle" type="button" aria-controls="dashboard-menu" aria-expanded="true" disabled><span class="menu-icon" aria-hidden="true"></span><span id="menu-label">Menú</span></button>
+        <a href="/">NextStep <span class="brand-divider">/ IBER</span></a>
+      </div>
+      <form method="POST" action="/iber/logout"><button type="submit">Cerrar sesión</button></form>
+    </nav></header>
+    <main class="iber-dashboard" id="dashboard">
+      <aside id="dashboard-menu" class="dashboard-menu" aria-label="Secciones del dashboard">
+        <div class="dashboard-menu-inner">
+          <p class="menu-intro">Todo tu proyecto,<br />en un solo lugar.</p>
+          <nav aria-label="Secciones">
+            <a href="#caso-de-negocio" data-section="caso-de-negocio">Caso de Negocio <span aria-hidden="true">↗</span></a>
+            <a href="#arquitectura-actual" data-section="arquitectura-actual">Arquitectura Actual <span aria-hidden="true">↗</span></a>
+            <a href="#arquitectura-destino" data-section="arquitectura-destino">Arquitectura destino <span aria-hidden="true">↗</span></a>
+          </nav>
+          <a class="back" href="/">Volver a página principal</a>
+        </div>
+      </aside>
+      <div class="dashboard-content">
+        ${renderBusinessCase()}
+        ${renderCurrentArchitecture()}
+        ${renderDestinationArchitecture()}
+      </div>
     </main>
   </body>
 </html>`, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
