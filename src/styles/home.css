@@ -262,6 +262,11 @@ html[data-home-loading] .hero-type-line::after { animation-play-state: paused; }
 }
 
 @media (max-width: 47.99rem) {
+  body.homepage #inicio .hero-content {
+    justify-content: flex-start;
+    padding-block: 3rem;
+  }
+
   body.homepage #inicio h1 {
     font-size: clamp(2.75rem, 16vw, 7rem);
   }
