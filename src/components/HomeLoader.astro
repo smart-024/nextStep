@@ -48,19 +48,24 @@
   (() => {
     const root = document.documentElement;
     const navigation = performance.getEntriesByType('navigation')[0];
-    const resetOnReload = navigation?.type === 'reload' && (!location.hash || location.hash === '#inicio');
-    const previousRestoration = history.scrollRestoration;
-    if (resetOnReload) history.scrollRestoration = 'manual';
+    const startAtTop = navigation?.type !== 'back_forward' && (!location.hash || location.hash === '#inicio');
+    // Keep this manual: iOS can restore scrolling after pageshow has fired.
+    if (startAtTop) history.scrollRestoration = 'manual';
     root.setAttribute('data-home-loading', '');
     document.body.setAttribute('aria-busy', 'true');
     let revealed = false;
     const reveal = () => {
       if (revealed) return;
       revealed = true;
-      if (resetOnReload) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      root.removeAttribute('data-home-loading');
-      document.body.removeAttribute('aria-busy');
       window.clearTimeout(fallback);
+      requestAnimationFrame(() => {
+        if (startAtTop) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        requestAnimationFrame(() => {
+          if (startAtTop) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          root.removeAttribute('data-home-loading');
+          document.body.removeAttribute('aria-busy');
+        });
+      });
     };
     const fallback = window.setTimeout(reveal, 2500);
     document.addEventListener('DOMContentLoaded', () => {
@@ -68,10 +73,9 @@
       else reveal();
     }, { once: true });
     window.addEventListener('pageshow', (event) => {
-      if (resetOnReload && !event.persisted) {
+      if (startAtTop && !event.persisted) {
         window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       }
-      history.scrollRestoration = previousRestoration;
       if (event.persisted) reveal();
     });
   })();
