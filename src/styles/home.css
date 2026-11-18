@@ -74,9 +74,9 @@ body.homepage :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body.homepage #inicio .hero-delay-3 {
-  animation: none;
-}
+body.homepage #inicio .hero-delay-2 { animation-delay: 1650ms; }
+body.homepage #inicio .hero-delay-3 { animation-delay: 1800ms; }
+body.homepage #inicio .hero-delay-4 { animation-delay: 1950ms; }
 
 body.homepage #inicio a[href='#nosotros'] [aria-hidden='true'] {
   display: none;
@@ -220,9 +220,50 @@ body.homepage #contacto::after {
   to { transform: translate3d(-5%, 5%, 0) scale(1.12); }
 }
 
+/* Keep whole words intact so the font retains its natural spacing. */
+.hero-type-line {
+  --type-delay: 150ms;
+  --type-duration: 750ms;
+  position: relative;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+}
+.hero-type-line + .hero-type-line { --type-delay: 900ms; --type-duration: 650ms; }
+.hero-type-text {
+  display: block;
+  animation: hero-type-reveal var(--type-duration) steps(11, end) both;
+  animation-delay: var(--type-delay);
+}
+.hero-type-line + .hero-type-line .hero-type-text { animation-timing-function: steps(10, end); }
+.hero-type-line::after {
+  position: absolute;
+  left: 0;
+  top: 0.12em;
+  height: 0.78em;
+  border-left: 1px solid currentColor;
+  content: '';
+  opacity: 0;
+  animation: hero-type-cursor var(--type-duration) steps(11, end) forwards;
+  animation-delay: var(--type-delay);
+}
+.hero-type-line + .hero-type-line::after { animation-timing-function: steps(10, end); }
+html[data-home-loading] .hero-type-text,
+html[data-home-loading] .hero-type-line::after { animation-play-state: paused; }
+@keyframes hero-type-reveal {
+  from { clip-path: inset(-0.1em 100% -0.1em 0); }
+  to { clip-path: inset(-0.1em 0 -0.1em 0); }
+}
+@keyframes hero-type-cursor {
+  0% { left: 0; opacity: 1; }
+  99.9% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+
 @media (max-width: 47.99rem) {
   body.homepage #inicio h1 {
-    font-size: clamp(3rem, 12vw, 5.5rem);
+    font-size: clamp(2.75rem, 16vw, 7rem);
   }
 
   body.homepage main section > div h2 {
@@ -239,6 +280,9 @@ body.homepage #contacto::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  body.homepage #inicio .hero-reveal { animation: none; }
+  .hero-type-text { animation: none; clip-path: none; }
+  .hero-type-line::after { display: none; animation: none; }
   body.homepage #inicio::before { animation: none; }
   body.homepage .service-card { transition: none; }
   body.homepage :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) { transition: none; }

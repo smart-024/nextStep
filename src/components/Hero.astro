@@ -15,11 +15,16 @@ const { id = 'inicio' } = Astro.props;
     class="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-6 py-24 lg:px-10"
   >
     <h1
-      class="hero-reveal hero-delay-1 max-w-6xl text-[clamp(2.5rem,8.5vw,8rem)] leading-[1.02]"
+      class="max-w-6xl text-[clamp(2.5rem,8.5vw,8rem)] leading-[1.02]"
     >
       <slot name="title">
-        Adelantarse<br />
-        al <span class="text-accent">futuro</span>.<br />
+        <span class="sr-only">Adelantarse al futuro.</span>
+        <span class="hero-type-line" aria-hidden="true">
+          <span class="hero-type-text">Adelantarse</span>
+        </span>
+        <span class="hero-type-line" aria-hidden="true">
+          <span class="hero-type-text">al <span class="text-accent">futuro</span>.</span>
+        </span>
       </slot>
     </h1>
 
@@ -27,8 +32,8 @@ const { id = 'inicio' } = Astro.props;
       class="hero-reveal hero-delay-2 mt-10 max-w-xl text-lg leading-relaxed text-brand-cream/80 md:text-xl"
     >
       <slot name="description">
-        Transformamos desafíos en oportunidades a través de la
-        tecnología, la estrategia y la innovación.
+        Acompañamos a las organizaciones en sus procesos de transformación,
+        conectando estrategia, personas y tecnología para convertir desafíos en oportunidades de mejora.
       </slot>
     </p>
 
@@ -46,7 +51,7 @@ const { id = 'inicio' } = Astro.props;
   </div>
 
   <!-- Bottom strip -->
-  <div class="relative border-t border-brand-cream/15">
+  <div class="hero-reveal hero-delay-4 relative border-t border-brand-cream/15">
     <div
       class="mx-auto flex max-w-7xl flex-wrap justify-between gap-4 px-6 py-6 text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream/60 lg:px-10"
     >

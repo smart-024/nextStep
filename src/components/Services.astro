@@ -5,24 +5,24 @@ const services = [
     number: '01',
     category: 'Estrategia',
     title: 'Consultoría tecnológica',
-    description: 'Cada decisión tecnológica puede abrir una nueva oportunidad. Te ayudamos a entender dónde estás y a definir el próximo paso para tu organización.',
-    deliverables: ['Diagnóstico de sistemas y herramientas', 'Hoja de ruta tecnológica', 'Evaluación y selección de soluciones'],
+    description: 'Analizamos las necesidades y los desafíos de cada organización para identificar oportunidades de mejora y definir una dirección tecnológica alineada con sus objetivos.',
+    deliverables: ['Diagnóstico de sistemas y herramientas', 'Evaluación y selección de soluciones', 'Definición de hojas de ruta tecnológicas'],
     example: 'Una hoja de ruta para renovar las herramientas de trabajo de una empresa en crecimiento.',
   },
   {
     number: '02',
     category: 'Evolución',
     title: 'Transformación digital',
-    description: 'Repensamos los procesos de tu negocio para que la tecnología simplifique el trabajo diario. Acompañamos a los equipos desde la idea hasta la adopción.',
-    deliverables: ['Análisis y rediseño de procesos', 'Propuestas de automatización', 'Plan de adopción y capacitación'],
+    description: 'Repensamos procesos y formas de trabajo para mejorar la eficiencia operativa, integrar información y acompañar la evolución de las organizaciones',
+    deliverables: ['Análisis y rediseño de procesos', ' Identificación de oportunidades de automatización', 'Gestión del cambio y capacitación'],
     example: 'Un plan para digitalizar tareas administrativas y conectar la información entre áreas.',
   },
   {
     number: '03',
     category: 'Innovación',
     title: 'Soluciones innovadoras',
-    description: 'Convertimos desafíos en ideas que se pueden explorar y poner a prueba. Diseñamos propuestas digitales con foco en las personas y los objetivos del negocio.',
-    deliverables: ['Talleres de exploración de ideas', 'Prototipos de soluciones digitales', 'Plan de validación y mejora'],
+    description: 'Exploramos nuevas posibilidades y diseñamos propuestas digitales que respondan a necesidades concretas y generen valor para el negocio.',
+    deliverables: ['Exploración y validación de ideas', 'Diseño de prototipos digitales', 'Evaluación de oportunidades de innovación'],
     example: 'Un prototipo de portal interno para explorar una nueva experiencia de trabajo.',
   },
 ];
@@ -33,7 +33,6 @@ const services = [
         <div class="mx-auto max-w-7xl">
           <div class="mb-12 grid gap-6 md:grid-cols-2 md:items-end">
             <h2 id="oferta-titulo" class="max-w-xl text-4xl font-bold tracking-tight md:text-5xl">Nuestros servicios</h2>
-            <p class="max-w-xl leading-relaxed text-brand-cream/80">Esta es una propuesta de servicios de ejemplo para explorar el diseño. Los alcances y entregables son ilustrativos y se ajustarán a la oferta definitiva.</p>
           </div>
           <div class="grid gap-6 lg:grid-cols-3">
             {services.map((service) => (
