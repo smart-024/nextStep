@@ -22,6 +22,7 @@
   }
   html[data-home-loading] body.homepage > :is(header, main, footer) { visibility: hidden; }
   html[data-home-loading] .hero-reveal { animation-play-state: paused; }
+  html[data-home-loading] { scroll-behavior: auto; }
   .home-loader-name { font: 400 2rem Georgia, serif; letter-spacing: -0.04em; }
   .home-loader-track {
     height: 2px;
@@ -46,9 +47,17 @@
 <script is:inline>
   (() => {
     const root = document.documentElement;
+    const navigation = performance.getEntriesByType('navigation')[0];
+    const resetOnReload = navigation?.type === 'reload' && (!location.hash || location.hash === '#inicio');
+    const previousRestoration = history.scrollRestoration;
+    if (resetOnReload) history.scrollRestoration = 'manual';
     root.setAttribute('data-home-loading', '');
     document.body.setAttribute('aria-busy', 'true');
+    let revealed = false;
     const reveal = () => {
+      if (revealed) return;
+      revealed = true;
+      if (resetOnReload) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       root.removeAttribute('data-home-loading');
       document.body.removeAttribute('aria-busy');
       window.clearTimeout(fallback);
@@ -59,6 +68,10 @@
       else reveal();
     }, { once: true });
     window.addEventListener('pageshow', (event) => {
+      if (resetOnReload && !event.persisted) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }
+      history.scrollRestoration = previousRestoration;
       if (event.persisted) reveal();
     });
   })();

@@ -1,8 +1,6 @@
 /* Public styling only. Private IBER content is rendered by a Pages Function. */
 :root { color-scheme: light; --primary: #6B2737; --cream: #EEE0CB; --taupe: #BAA898; }
 html { background: var(--primary); }
-body { padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px); }
-body > header { padding-top: env(safe-area-inset-top, 0px); }
 body > main.iber-dashboard { padding-bottom: env(safe-area-inset-bottom, 0px); }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--cream); color: var(--primary); font-family: var(--font-body); }

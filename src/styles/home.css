@@ -76,7 +76,6 @@ body.homepage :is(#inicio a[href='#nosotros'], #contacto a[href='/contacto']) {
 
 body.homepage #inicio .hero-delay-2 { animation-delay: 1650ms; }
 body.homepage #inicio .hero-delay-3 { animation-delay: 1800ms; }
-body.homepage #inicio .hero-delay-4 { animation-delay: 1950ms; }
 
 body.homepage #inicio a[href='#nosotros'] [aria-hidden='true'] {
   display: none;

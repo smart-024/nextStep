@@ -22,10 +22,8 @@ html {
 
 body {
   margin: 0;
-  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
 }
 
-body > header { padding-top: env(safe-area-inset-top, 0px); }
 body > footer { padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px)); }
 
 a:focus-visible,
