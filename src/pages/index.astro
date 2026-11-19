@@ -17,6 +17,14 @@ import HomeLoader from '../components/HomeLoader.astro';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      // Set this before layout and before the browser restores the saved position.
+      const homeNavigation = performance.getEntriesByType('navigation')[0];
+      if (homeNavigation?.type !== 'back_forward' && (!location.hash || location.hash === '#inicio')) {
+        history.scrollRestoration = 'manual';
+        document.documentElement.setAttribute('data-home-start-top', '');
+      }
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/Fraunces/static/Fraunces_72pt-Regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/saans-font-family/Saans-TRIAL-Regular.otf" as="font" type="font/otf" crossorigin />
