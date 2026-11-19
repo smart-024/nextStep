@@ -31,6 +31,8 @@ body.homepage header {
 }
 
 body.homepage #inicio {
+  display: grid;
+  min-height: calc(var(--home-visible-height, 100dvh) - var(--home-nav-height, 5rem));
   background: var(--color-brand-primary);
 }
 

@@ -51,9 +51,32 @@
     root.setAttribute('data-home-loading', '');
     document.body.setAttribute('aria-busy', 'true');
     let revealed = false;
+    let finished = false;
     let fontsReady = false;
     let pageLoaded = document.readyState === 'complete';
+    const viewport = window.visualViewport;
+    const measureViewport = () => {
+      // Use the visible area, not svh, which third-party iOS browsers can misreport.
+      if (viewport && Math.abs(viewport.scale - 1) > 0.01) return '';
+      const height = Math.round(viewport?.height || window.innerHeight);
+      const header = document.querySelector('body > header');
+      const nav = header?.querySelector('nav');
+      const border = header ? parseFloat(getComputedStyle(header).borderBottomWidth) || 0 : 0;
+      const navHeight = Math.round((nav?.getBoundingClientRect().height || 80) + border);
+      root.style.setProperty('--home-visible-height', `${height}px`);
+      root.style.setProperty('--home-nav-height', `${navHeight}px`);
+      return `${height}:${navHeight}`;
+    };
+    const refreshViewport = () => {
+      // Toolbar resizing must not move sections while the user is reading below.
+      if (!finished || window.scrollY <= 1) measureViewport();
+    };
+    viewport?.addEventListener('resize', refreshViewport);
+    window.addEventListener('resize', refreshViewport);
+    window.addEventListener('scroll', refreshViewport, { passive: true });
     const finish = () => {
+      finished = true;
+      if (startAtTop) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       root.removeAttribute('data-home-loading');
       document.body.removeAttribute('aria-busy');
     };
@@ -61,15 +84,14 @@
       if (revealed) return;
       revealed = true;
       window.clearTimeout(fallback);
-      if (!startAtTop) { finish(); return; }
-      // iOS may apply its restored offset after load/pageshow. Settle while covered.
+      // Let iOS finish updating browser chrome and its visible viewport before centering.
       const started = performance.now();
       let stableSince = started;
+      let lastMeasurement = '';
       const settle = (now) => {
-        if (window.scrollY !== 0) stableSince = now;
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
-        if (now - stableSince >= 200 || now - started >= 800) finish();
+        const measurement = measureViewport();
+        if (measurement !== lastMeasurement) { stableSince = now; lastMeasurement = measurement; }
+        if (now - stableSince >= 200 || now - started >= 1000) finish();
         else requestAnimationFrame(settle);
       };
       requestAnimationFrame(settle);
@@ -77,13 +99,20 @@
     const revealWhenReady = () => { if (fontsReady && pageLoaded) reveal(); };
     const fallback = window.setTimeout(reveal, 2500);
     document.addEventListener('DOMContentLoaded', () => {
+      measureViewport();
       const ready = () => { fontsReady = true; revealWhenReady(); };
       if (document.fonts) document.fonts.ready.then(ready, ready);
       else ready();
     }, { once: true });
     window.addEventListener('load', () => { pageLoaded = true; revealWhenReady(); }, { once: true });
     window.addEventListener('pageshow', (event) => {
-      if (event.persisted) { revealed = true; window.clearTimeout(fallback); finish(); }
+      if (event.persisted) {
+        revealed = true; finished = true;
+        window.clearTimeout(fallback);
+        refreshViewport();
+        root.removeAttribute('data-home-loading');
+        document.body.removeAttribute('aria-busy');
+      }
     });
   })();
 </script>

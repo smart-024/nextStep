@@ -91,6 +91,8 @@ The grainy gradient design is now the homepage at `/`. Its styles are in `src/st
 
 Current section anchor IDs: `inicio`, `nosotros`, `servicios`, `contacto`. Preserve them when modifying navigation or section markup.
 
+The hero uses a grid layout with its minimum height calculated from `--home-visible-height` minus `--home-nav-height`. `HomeLoader.astro` measures `visualViewport.height` (falling back to `innerHeight`) and the closed navigation height including its border. It waits for fonts, page load and stable viewport measurements before revealing the hero. Avoid reverting to `100svh` or repeated scroll resets: iOS third-party browser viewport units can differ across reloads. While reading lower sections or pinch-zooming, viewport events must not resize the hero. The title typewriter and delayed supporting content remain paused under the loader.
+
 The contact form, IBER login, and authenticated IBER page share `public/page-theme.css` for grainy gradients, rounded panels and controls, and translucent input borders. This stylesheet supports both Astro pages and the Cloudflare-rendered private page; authentication behavior remains in the existing Functions.
 
 ## 5. Design direction
