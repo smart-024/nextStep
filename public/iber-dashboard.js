@@ -26,6 +26,7 @@
     if (focus) {
       setMenu(false);
       document.getElementById(id)?.querySelector('h2')?.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
   };
 
@@ -37,8 +38,9 @@
     setMenu(open);
     if (open) menu.querySelector('[aria-current]')?.focus();
   });
-  links.forEach((link) => {
+  dashboard.querySelectorAll('a[data-section]').forEach((link) => {
     link.addEventListener('click', (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       const id = link.dataset.section;
       window.history.pushState(null, '', '#' + id);

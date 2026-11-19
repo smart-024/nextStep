@@ -1,7 +1,5 @@
 import { hasSession, privateResponse } from '../../server/iber-auth.js';
-import { renderBusinessCase } from '../../server/render-iber-business-case.js';
-import { renderCurrentArchitecture } from '../../server/render-iber-architecture.js';
-import { renderDestinationArchitecture } from '../../server/render-iber-destination.js';
+import { iberSections, renderSectionNavigation } from '../../server/iber-sections.js';
 
 export async function onRequest({ request, env }) {
   // Also check here so the page is protected independently of middleware routing.
@@ -19,6 +17,7 @@ export async function onRequest({ request, env }) {
     <link rel="stylesheet" href="/iber.css" />
     <link rel="stylesheet" href="/page-theme.css" />
     <script src="/iber-dashboard.js" defer></script>
+    <script src="/iber-processes.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">
@@ -34,17 +33,13 @@ export async function onRequest({ request, env }) {
         <div class="dashboard-menu-inner">
           <p class="menu-intro">Todo tu proyecto,<br />en un solo lugar.</p>
           <nav aria-label="Secciones">
-            <a href="#caso-de-negocio" data-section="caso-de-negocio">Caso de Negocio <span aria-hidden="true">↗</span></a>
-            <a href="#arquitectura-actual" data-section="arquitectura-actual">Arquitectura Actual <span aria-hidden="true">↗</span></a>
-            <a href="#arquitectura-destino" data-section="arquitectura-destino">Arquitectura destino <span aria-hidden="true">↗</span></a>
+            ${iberSections.map((section) => `<a href="#${section.id}" data-section="${section.id}">${section.title} <span aria-hidden="true">↗</span></a>`).join('')}
           </nav>
           <a class="back" href="/">Volver a página principal</a>
         </div>
       </aside>
       <div class="dashboard-content">
-        ${renderBusinessCase()}
-        ${renderCurrentArchitecture()}
-        ${renderDestinationArchitecture()}
+        ${iberSections.map((section, index) => section.render(renderSectionNavigation(index))).join('')}
       </div>
     </main>
   </body>

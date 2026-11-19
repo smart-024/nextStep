@@ -18,7 +18,7 @@ function renderStory(description) {
   </dl>`;
 }
 
-export function renderBusinessCase() {
+export function renderBusinessCase(navigation = '') {
   const outcomes = new Map(businessCase.outcomes.map((outcome) => [outcome.code, outcome.title]));
   const storiesByCode = new Map(businessCase.stories.map((story) => [story.code, story]));
   return `
@@ -93,5 +93,6 @@ export function renderBusinessCase() {
             </div>
           </section>`).join('')}
       </section>
+      ${navigation}
     </section>`;
 }

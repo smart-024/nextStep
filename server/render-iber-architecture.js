@@ -1,24 +1,16 @@
 import { renderArchitectureDiagram } from './render-architecture-diagram.js';
+import { currentProcessGroups } from './iber-current-processes.js';
+import { currentApplicationGroups } from './iber-current-applications.js';
 
 // Server-only transcription of the integrative diagram in the supplied architecture document.
 const layers = [
   {
     title: 'Procesos',
-    groups: [
-      { title: 'Estratégicos', items: ['Dirección y planificación'] },
-      { title: 'Operativos', items: ['Importación', 'Compras', 'Marketing', 'Ventas', 'Logística y distribución'] },
-      { title: 'Apoyo', items: ['Gestión administrativa y contable', 'Gestión de sistemas', 'Gestión de RRHH'] },
-    ],
+    groups: currentProcessGroups,
   },
   {
     title: 'Aplicaciones',
-    groups: [
-      { title: 'ERP', items: ['Odoo 18 · ERP y e-commerce'] },
-      { title: 'Microsoft 365', items: ['Correo', 'Teams', { title: 'Planillas Excel', outside: true }] },
-      { title: 'Canales y pagos', items: ['Mercado Libre', 'Instagram', 'PlaceToPay'] },
-      { title: 'Envíos', items: ['PedidosYa', 'Moova', 'DAC', 'dePunta'] },
-      { title: 'Coordinación', items: [{ title: 'WhatsApp', outside: true }] },
-    ],
+    groups: currentApplicationGroups,
   },
   {
     title: 'Datos',
@@ -47,12 +39,52 @@ const notes = [
   { title: 'Infraestructura tercerizada', text: 'IBER no tiene personal de IT propio. La infraestructura, la red y el soporte están tercerizados y no cuentan con un acuerdo de servicio formal.' },
 ];
 
-export function renderCurrentArchitecture() {
+const diagnosis = `
+  <section class="business-block architecture-diagnosis" aria-labelledby="diagnostico-actual-titulo">
+    <h3 id="diagnostico-actual-titulo">Diagnóstico de situación actual</h3>
+    <div class="organization-copy">
+      <p>El relevamiento permitió identificar una brecha entre la complejidad operativa de IBER y las herramientas disponibles para gestionar y controlar sus actividades.</p>
+      <p>Si bien gran parte de la información comercial y operativa se encuentra registrada en el ERP Odoo, su aprovechamiento para la toma de decisiones depende todavía de procesos manuales, planillas externas y datos dispersos entre distintas áreas.</p>
+    </div>
+    <dl class="diagnosis-findings iber-copy">
+      <div>
+        <dt>Gestión de la información</dt>
+        <dd>Los indicadores comerciales y financieros se elaboran manualmente, sin una frecuencia definida ni criterios unificados de seguimiento.</dd>
+      </div>
+      <div>
+        <dt>Rentabilidad de las sucursales</dt>
+        <dd>Existen dificultades para identificar los factores que afectan los resultados de cada establecimiento, especialmente en relación con los costos, la demanda y la composición del stock.</dd>
+      </div>
+      <div>
+        <dt>Gestión logística</dt>
+        <dd>La trazabilidad de los envíos y las importaciones es limitada. La coordinación con transportistas depende de comunicaciones informales y no existe una visión consolidada de los costos y tiempos de distribución.</dd>
+      </div>
+      <div>
+        <dt>Integración y control</dt>
+        <dd>La información se encuentra distribuida entre el ERP, planillas y conversaciones, lo que dificulta contar con una visión integral y confiable de la operación.</dd>
+      </div>
+    </dl>
+    <section class="diagnosis-opportunity" aria-labelledby="oportunidad-transformacion-titulo">
+      <h4 id="oportunidad-transformacion-titulo">Oportunidad de transformación</h4>
+      <div class="organization-copy">
+        <p>La principal oportunidad consiste en fortalecer la gestión de IBER mediante una mayor integración y aprovechamiento de la información disponible.</p>
+        <p>Esto permitiría mejorar la visibilidad de los resultados por sucursal, optimizar el abastecimiento y la distribución, controlar los costos logísticos y facilitar la toma de decisiones basadas en información confiable.</p>
+        <p>La tecnología se plantea como un habilitador para mejorar los procesos y acompañar los objetivos estratégicos de la organización.</p>
+      </div>
+    </section>
+  </section>`;
+
+export function renderCurrentArchitecture(navigation = '') {
   return renderArchitectureDiagram({
     id: 'arquitectura-actual',
     title: 'Arquitectura Actual',
-    description: 'Una vista integrada de los procesos, las aplicaciones, los datos y la tecnolog\u00eda de IBER.',
+    description: [
+      'La arquitectura empresarial de IBER refleja cómo se relacionan sus procesos, aplicaciones, fuentes de información e infraestructura tecnológica.',
+      'El relevamiento permite identificar los sistemas que dan soporte a la operación, los intercambios de información y aquellos procesos que todavía dependen de herramientas externas o de registros manuales.',
+    ],
     caption: 'Diagrama integrador de la arquitectura empresarial actual',
     layers,
+    navigation,
+    afterDiagram: diagnosis,
   });
 }

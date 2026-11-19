@@ -56,13 +56,14 @@ const layers = [
   },
 ];
 
-export function renderDestinationArchitecture() {
+export function renderDestinationArchitecture(navigation = '') {
   return renderArchitectureDiagram({
     id: 'arquitectura-destino',
     title: 'Arquitectura destino',
-    description: 'La arquitectura propuesta para IBER en tres etapas, de 2026 a 2028. Odoo se mantiene como núcleo transaccional y se incorpora una plataforma de análisis separada.',
+    description: ['Una visión de evolución para IBER: integrar la información, mejorar la gestión y acompañar el crecimiento del negocio sin reemplazar su ERP actual.','La transformación se plantea en tres etapas progresivas, desde el análisis de los datos disponibles hasta la integración y optimización de los procesos.'],
     caption: 'Diagrama integrador de la arquitectura empresarial destino',
     layers,
+    navigation,
     destination: true,
   });
 }

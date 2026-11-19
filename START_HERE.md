@@ -145,6 +145,8 @@ Pushing to `main` triggers a new deployment if the Git integration is functionin
 
 ## 8. Conventions for Codex and contributors
 
+**No emojis:** Never use emojis in website copy, interface controls, placeholders, or future design changes. Use plain text or SVG icons when an icon is needed. This applies to the public website and every IBER view.
+
 1. **Inspect before editing.** Read relevant source files and `package.json` first. Treat this document as project context, not a replacement for current code.
 2. **Explain changes to the user.** The user is learning Astro, TypeScript, and Tailwind. Prefer clear, incremental changes and concise explanations of why they are needed.
 3. **Keep changes scoped.** Modify only the files necessary for the requested feature. Preserve working sections and the existing design language.
@@ -174,7 +176,13 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 
 ## 11. Private IBER section
 
-- Private IBER reading styles are centralized in `public/iber.css` under `.dashboard-content`: introductory prose uses a shared width of `min(75%, 80ch)` on desktop and full width below 64rem; paragraphs and descriptive values use 1.75 line spacing, justified alignment with Spanish automatic hyphenation, and a left-aligned last line. Mobile text stays left-aligned below 48rem. Paragraph spacing is 1.25rem and section spacing is 3rem. Headings, navigation, statistics, badges and diagram labels retain their own alignment, and diagram/card grids can use the full available width.
+- Current application details come only from the Uso actual column of Aplicaciones en Uso, stored server-side in `server/iber-current-applications.js`. The single Odoo item groups ERP, purchase forecasting, accounting and e-commerce in one popup with four subsections. Microsoft 365 items have no popups. Application items reuse the process popup controls, 225ms opening/closing animation and inset scrollbar; provider/administrator details are excluded.
+
+- Current architecture process items use the complete Listado de procesos from the supplied current-architecture document, stored server-side in `server/iber-current-processes.js` (4 strategic, 5 operational, 3 support). Native popovers show the full description on click, keyboard activation, or tap, and close with the X, Escape, outside click, or another click on the selected item. They open above or below the item without covering it, with a subtle entrance from its direction (disabled for reduced motion). `public/iber-processes.js` only positions and controls those popovers; the document text is in authenticated HTML. Popovers use the browser top layer so the diagram's rounded clipping cannot hide long text.
+
+- `server/iber-sections.js` defines the order and renderers of IBER views. Both the sidebar and the bottom Atrás/Siguiente links use this registry; the first/last view omits unavailable directions. New sections should be registered here. Navigation switches the visible view, updates its hash and sidebar selection, focuses its heading, and returns to the top. Hash links remain usable without JavaScript.
+
+- Private IBER reading styles are centralized in `public/iber.css` under `.dashboard-content`: introductory prose uses a shared width of `min(75%, 80ch)` on desktop and full width below 64rem; paragraphs and descriptive values use 1.75 line spacing, left alignment with natural word spacing, and Spanish automatic hyphenation. Cards and boxes use left alignment without automatic hyphenation. Full justification was removed because it created uneven gaps between words. Paragraph spacing is 1.25rem and section spacing is 3rem. Headings, navigation, statistics, badges and diagram labels retain their own alignment, and diagram/card grids can use the full available width.
 
 - IBER has three views: Caso de Negocio (the default), Arquitectura Actual, and Arquitectura destino. The initial Resumen, Proyectos, and Documentos placeholders have been removed. The push-back menu supports Escape and section hashes; without JavaScript, all three sections remain readable. Interface behavior is in `public/iber-dashboard.js` and responsive styles are in `public/iber.css`.
 - Caso de Negocio renders the supplied document's business outcomes, six objectives and fourteen user stories as Como / Quiero / Para cards. Content stays in `server/iber-business-case.js`, rendered by `server/render-iber-business-case.js` only after authentication.

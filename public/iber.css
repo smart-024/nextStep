@@ -1,5 +1,5 @@
 /* Public styling only. Private IBER content is rendered by a Pages Function. */
-:root { color-scheme: light; --primary: #6B2737; --cream: #EEE0CB; --taupe: #BAA898; }
+:root { color-scheme: light; --primary: #6B2737; --cream: #EEE0CB; --taupe: #BAA898; --architecture-layer-background: color-mix(in srgb, var(--cream) 85%, transparent); --architecture-item-background: color-mix(in srgb, var(--primary) 6%, transparent); }
 html { background: var(--primary); }
 body > main.iber-dashboard { padding-bottom: env(safe-area-inset-bottom, 0px); }
 * { box-sizing: border-box; }
@@ -64,6 +64,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid currentColor; outline
 .dashboard-section[hidden] { display: none; }
 .dashboard-section > h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin: 0; }
 .dashboard-section > h2:focus { outline: none; }
+.section-navigation { display: flex; min-height: 0; max-width: none; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin: 3rem 0 0; padding: 1.5rem 0 0; border-top: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
+.section-navigation a { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: center; padding: 0.875rem 1.5rem; border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); border-radius: var(--surface-radius); color: var(--primary); font-family: var(--font-interface); font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: background-color 150ms ease; }
+.section-navigation .section-next { margin-left: auto; background: var(--primary); color: var(--cream); border-color: transparent; }
+.section-navigation .section-previous:hover { background: color-mix(in srgb, var(--primary) 8%, transparent); }
+.section-navigation .section-next:hover { background: color-mix(in srgb, var(--primary) 90%, transparent); }
 .section-description { line-height: 1.6; margin: 0.75rem 0 2rem; }
 .metric-grid, .document-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
 .metric { padding: 1.75rem; }
@@ -161,7 +166,7 @@ progress::-moz-progress-bar { background: var(--primary); }
 .architecture-legend { display: flex; align-items: center; gap: 0.75rem; font-size: 0.8125rem; line-height: 1.6; margin-block: 1rem 1.5rem; }
 .architecture-legend > span { width: 1.25rem; height: 1.25rem; flex-shrink: 0; border: 1px dashed var(--primary); border-radius: 0.25rem; }
 .architecture-layers { display: grid; gap: 1rem; }
-.architecture-layer { display: grid; grid-template-columns: 9rem minmax(0, 1fr); overflow: hidden; border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); border-radius: var(--surface-radius); background: color-mix(in srgb, var(--cream) 85%, transparent); }
+.architecture-layer { display: grid; grid-template-columns: 9rem minmax(0, 1fr); overflow: hidden; border: 1px solid color-mix(in srgb, var(--primary) 25%, transparent); border-radius: var(--surface-radius); background: var(--architecture-layer-background); }
 .architecture-layer > h3 { display: flex; align-items: center; padding: 1.25rem; margin: 0; background: color-mix(in srgb, var(--primary) 12%, transparent); font-size: 1.25rem; }
 .architecture-layer-2 > h3 { background: color-mix(in srgb, var(--page-rose) 35%, transparent); }
 .architecture-layer-3 > h3 { background: color-mix(in srgb, var(--taupe) 45%, transparent); }
@@ -170,8 +175,29 @@ progress::-moz-progress-bar { background: var(--primary); }
 .architecture-group { position: relative; min-width: 0; padding: 1rem; border: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); border-radius: 0.875rem; }
 .architecture-group h4 { margin: 0 0 1rem; font-family: var(--font-interface); font-size: 0.875rem; font-weight: 400; line-height: 1.4; }
 .architecture-group ul { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; padding: 0; margin: 0; }
-.architecture-group li { position: relative; padding: 0.5rem 0.75rem; border: 1px solid transparent; border-radius: 0.625rem; background: color-mix(in srgb, var(--primary) 6%, transparent); font-size: 0.8125rem; line-height: 1.5; }
+.architecture-group li { position: relative; padding: 0.5rem 0.75rem; border: 1px solid transparent; border-radius: 0.625rem; background: var(--architecture-item-background); font-size: 0.8125rem; line-height: 1.5; }
 .architecture-group.architecture-outside, .architecture-group li.architecture-outside { border: 1px dashed color-mix(in srgb, var(--primary) 60%, transparent); }
+.architecture-group li.architecture-process { padding: 0; border: 0; }
+.architecture-group li.architecture-process.architecture-outside { border: 1px dashed color-mix(in srgb, var(--primary) 60%, transparent); }
+.styled-page .architecture-group .architecture-process-trigger { display: inline-flex; min-height: 2.75rem; align-items: center; justify-content: space-between; gap: 0.75rem; width: 100%; padding: 0.5rem 0.75rem; border: 0; border-radius: inherit; background: transparent; color: inherit; font: inherit; text-align: left; }
+.styled-page .architecture-process-trigger:is(:hover, [aria-expanded='true']) { background: color-mix(in srgb, var(--primary) 8%, transparent); }
+.architecture-process-popover { position: fixed; inset: 0; width: min(34rem, calc(100vw - 2rem)); height: fit-content; max-height: 70dvh; margin: auto; padding: 1.5rem; overflow: hidden; border: 0; border-radius: 1rem; background: var(--cream); color: var(--primary); box-shadow: 0 16px 48px color-mix(in srgb, var(--primary) 22%, transparent); opacity: 0; transform: translateY(var(--process-offset, -6px)) scale(0.97); transition: opacity 225ms ease, transform 225ms cubic-bezier(0.2, 0.7, 0.3, 1), display 225ms allow-discrete, overlay 225ms allow-discrete; }
+.architecture-process-popover:popover-open { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 1.25rem; opacity: 1; transform: translateY(0) scale(1); }
+@starting-style {
+  .architecture-process-popover:popover-open { opacity: 0; transform: translateY(var(--process-offset, -6px)) scale(0.97); }
+}
+.process-popover-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: 0.75rem; scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--primary) 45%, transparent) transparent; }
+.process-popover-content::-webkit-scrollbar { width: 6px; }
+.process-popover-content::-webkit-scrollbar-track { background: transparent; }
+.process-popover-content::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--primary) 45%, transparent); border-radius: 999px; }
+.process-popover-content::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+.process-popover-content:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; border-radius: 0.25rem; }
+.process-popover-detail + .process-popover-detail { margin-top: 1.25rem; }
+.process-popover-detail h6 { margin: 0 0 0.5rem; font: 400 1.125rem/1.3 var(--font-section); }
+.process-popover-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.process-popover-heading h5 { margin: 0; font: 400 1.5rem/1.2 var(--font-section); letter-spacing: -0.025em; }
+.styled-page .process-popover-heading button { display: inline-flex; flex-shrink: 0; align-items: center; justify-content: center; width: 2.25rem; height: 2.25rem; padding: 0.4rem; border: 0; background: transparent; color: inherit; }
+.dashboard-content .architecture-process-popover p { margin: 0; font-size: 0.9375rem; text-align: start; -webkit-hyphens: manual; hyphens: manual; }
 .architecture-stage-legend, .architecture-state-legend { display: flex; flex-wrap: wrap; gap: 1.25rem; list-style: none; padding: 0; margin: 1.5rem 0; font-size: 0.8125rem; line-height: 1.5; }
 .architecture-stage-legend > li, .architecture-state-legend > li { display: flex; align-items: center; gap: 0.75rem; }
 .architecture-stage-legend small { display: block; margin-top: 0.25rem; opacity: 0.75; }
@@ -191,6 +217,8 @@ progress::-moz-progress-bar { background: var(--primary); }
 .architecture-removed > h4, li.architecture-removed, .architecture-group.architecture-removed li { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--primary) 50%, transparent); }
 .architecture-state-tag { display: block; margin-top: 0.375rem; font-family: var(--font-interface); font-size: 0.625rem; opacity: 0.8; }
 .architecture-state-legend li > span { width: 1.25rem; height: 1.25rem; border: 1px solid var(--taupe); border-radius: 0.25rem; }
+.architecture-state-legend li > .legend-integrated { background: color-mix(in srgb, var(--primary) 6%, var(--cream)); border-color: color-mix(in srgb, var(--primary) 45%, transparent); }
+.architecture-state-legend li > .legend-retained { background: linear-gradient(var(--architecture-item-background), var(--architecture-item-background)), var(--architecture-layer-background); border-color: var(--taupe); }
 .architecture-state-legend li > .legend-enabler { border-style: dashed; border-color: var(--primary); }
 .architecture-state-legend li > .legend-removed { border-style: dashed; position: relative; }
 .legend-removed::after { content: ''; position: absolute; inset: 50% -0.2rem auto; border-top: 1px solid var(--primary); }
@@ -198,15 +226,16 @@ progress::-moz-progress-bar { background: var(--primary); }
 .architecture-notes h3 { font-size: 1.5rem; }
 
 /* Reading rules for every private IBER view. Labels and diagram nodes stay left-aligned. */
-.dashboard-content :is(.section-description, .business-intro, .business-interpretation, .organization-copy) {
+.dashboard-content :is(.section-description, .business-intro, .business-interpretation, .organization-copy, .iber-copy) {
   width: var(--iber-copy-width);
   max-width: 100%;
 }
 .dashboard-content :is(p, dd) {
   line-height: var(--iber-line-height);
-  text-align: justify;
+  text-align: start;
   text-align-last: start;
-  text-justify: inter-word;
+  text-justify: auto;
+  word-spacing: normal;
   -webkit-hyphens: auto;
   hyphens: auto;
   overflow-wrap: break-word;
@@ -223,6 +252,21 @@ progress::-moz-progress-bar { background: var(--primary); }
 .dashboard-content .business-intro { margin-block: 0 var(--iber-paragraph-gap); }
 .dashboard-content .business-interpretation { margin-block: var(--iber-paragraph-gap) 0; }
 .dashboard-content .business-details > p { margin-block: var(--iber-paragraph-gap) 0; }
+.architecture-diagnosis > h3 { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: 1rem; }
+.diagnosis-findings { display: grid; gap: 1.5rem; margin-block: 2rem; }
+.diagnosis-findings dt, .diagnosis-opportunity > h4 { font-family: var(--font-section); font-size: 1.375rem; font-weight: 400; line-height: 1.3; letter-spacing: -0.025em; }
+.diagnosis-findings dd { margin: 0.5rem 0 0; }
+.diagnosis-opportunity {
+  width: var(--iber-copy-width);
+  max-width: 100%;
+  margin-top: 2.5rem;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  border-left: 3px solid color-mix(in srgb, var(--primary) 65%, transparent);
+  border-radius: 0 1rem 1rem 0;
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+}
+.diagnosis-opportunity > h4 { margin: 0 0 1.25rem; font-size: clamp(1.5rem, 2.5vw, 1.875rem); }
+.dashboard-content .diagnosis-opportunity .organization-copy { width: 100%; }
 
 @media (max-width: 64rem) {
   .dashboard-content { --iber-copy-width: 100%; }
@@ -242,6 +286,8 @@ progress::-moz-progress-bar { background: var(--primary); }
   .dashboard-content { width: 100vw; padding: 2rem 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .architecture-process-popover { transition: none; }
+  .section-navigation a { transition: none; }
   .iber-dashboard, .dashboard-menu { transition: none; }
   .business-case .story-list .user-story { transition: none; transform: none; }
 }
