@@ -1,28 +1,36 @@
 // Transcribed from the supplied business-case document. Server-only content.
+export const storyCategories = [
+  { id: 'importaciones', title: 'Importaciones y abastecimiento', codes: ['US-01', 'US-02', 'US-03'] },
+  { id: 'transportistas', title: 'Gestión de transportistas', codes: ['US-04', 'US-05', 'US-06'] },
+  { id: 'distribucion', title: 'Distribución y stock', codes: ['US-07', 'US-08'] },
+  { id: 'comercial', title: 'Gestión comercial', codes: ['US-09', 'US-10'] },
+  { id: 'rentabilidad', title: 'Rentabilidad y demanda', codes: ['US-11', 'US-12', 'US-13', 'US-14'] },
+];
+
 export const businessCase = {
   "source": "01 - Caso de Negocio - Next Step (BI).docx",
-  "intro": "A partir del relevamiento con el sponsor se identificaron los objetivos estratégicos de IBER para los próximos años. La dirección se propuso aumentar la facturación un 15% en 2026 respecto de 2025 y un 10% adicional en 2027, y mejorar el resultado de las sucursales que hoy dan pérdida, como Salto y Las Piedras. Los objetivos se organizan en tres resultados de negocio:",
+  "intro": "A partir del relevamiento realizado con el sponsor, se identificaron los principales resultados que IBER busca alcanzar en los próximos años. <br /> La dirección definió tres prioridades de negocio: mejorar el nivel de servicio, incrementar la facturación y fortalecer la rentabilidad de sus sucursales. <br /> Estos resultados establecen el marco para las iniciativas de mejora y permiten vincular las decisiones operativas y tecnológicas con objetivos concretos de negocio.",
   "outcomes": [
     {
       "code": "A",
       "title": "Mejorar el nivel de servicio",
-      "measure": "Entregas completas y en el plazo acordado"
+      "measure": "Entregas completas y dentro de los plazos acordados"
     },
     {
       "code": "B",
       "title": "Incrementar la facturación",
-      "measure": "Variación interanual de la facturación"
+      "measure": "Crecimiento interanual de la facturación"
     },
     {
       "code": "C",
       "title": "Mejorar la rentabilidad de las sucursales",
-      "measure": "Resultado de cada sucursal después de gastos centrales"
+      "measure": "Resultado de cada sucursal después de considerar los gastos centrales"
     }
   ],
   "objectives": [
     {
       "code": "O1",
-      "title": "Mejorar la eficiencia y la confiabilidad del abastecimiento regional desde Argentina y Chile.",
+      "title": "Fortalecer la eficiencia y confiabilidad del abastecimiento regional",
       "indicator": "% de embarques de importación recibidos dentro del plazo planificado",
       "target": "> 95% de los embarques",
       "deadline": "2027 Q4",
@@ -30,7 +38,7 @@ export const businessCase = {
     },
     {
       "code": "O2",
-      "title": "Optimizar la distribución dentro de Uruguay.",
+      "title": "Optimizar la distribución dentro de Uruguay",
       "indicator": "% de entregas en plazo de cada transportista (furgón propio, PedidosYa, DAC, dePunta y Moova)",
       "target": "≥ 95% en cada transportista",
       "deadline": "2027 Q4",
@@ -38,7 +46,7 @@ export const businessCase = {
     },
     {
       "code": "O3",
-      "title": "Mejorar el nivel de servicio y la trazabilidad de las entregas.",
+      "title": "Mejorar la trazabilidad y el cumplimiento de las entregas",
       "indicator": "% de entregas completas y dentro del plazo acordado",
       "target": "> 95% de las entregas",
       "deadline": "2027 Q4",
@@ -46,7 +54,7 @@ export const businessCase = {
     },
     {
       "code": "O4",
-      "title": "Incrementar la facturación.",
+      "title": "Incrementar la facturación",
       "indicator": "Variación interanual de la facturación",
       "target": "+15% en 2026 respecto de 2025 y +10% adicional en 2027",
       "deadline": "Cierre de 2027",
@@ -54,7 +62,7 @@ export const businessCase = {
     },
     {
       "code": "O5",
-      "title": "Mejorar la rentabilidad de las sucursales.",
+      "title": "Mejorar la rentabilidad de las sucursales",
       "indicator": "Margen de cada sucursal después de gastos centrales (resultado / ventas)",
       "target": "≥ 8% en todas las sucursales",
       "deadline": "2028 Q1",
@@ -62,7 +70,7 @@ export const businessCase = {
     },
     {
       "code": "O6",
-      "title": "Optimizar el mix de productos y la rotación del stock según la demanda de cada sucursal.",
+      "title": "Adecuar el mix de productos y la rotación del stock a la demanda de cada sucursal",
       "indicator": "% del valor del stock sin ventas en más de 90 días, por sucursal",
       "target": "≤ 5% en cada sucursal",
       "deadline": "2028 Q1",
@@ -70,11 +78,12 @@ export const businessCase = {
     }
   ],
   "timeline": [
+    "Los plazos de cumplimiento se definieron considerando las etapas previstas para la transformación, la disponibilidad de información y el tiempo necesario para medir los resultados de cada objetivo.",
     "O1, O2 y O3 (2027 Q4): se pueden medir cuando los embarques y los envíos se registran en el ERP con fechas y transportista, al cierre de la etapa 2 de la transformación (2027 Q3). Se deja un trimestre para acumular datos.",
     "O4 (cierre de 2027): son las metas que fijó la dirección. El seguimiento contra la meta del presupuesto puede empezar en la etapa 1 (2027 Q1).",
     "O5 y O6 (2028 Q1): desde la etapa 1 la gerencia revisa cada mes el resultado, la rotación y el stock inmovilizado de cada sucursal. Se estima un año de decisiones sobre el surtido y los costos para alcanzar la meta."
   ],
-  "interpretation": "Interpretación de la consultora. El nivel de servicio, la facturación y la rentabilidad son el “qué” que IBER busca. El abastecimiento regional, la distribución y el mix de productos son las palancas operativas: el “cómo”. La información integrada y confiable, la automatización y el ERP son habilitadores que permiten accionar sobre esas palancas, no objetivos en sí mismos.",
+  "interpretation": "El nivel de servicio, la facturación y la rentabilidad representan los resultados que IBER busca alcanzar. El abastecimiento regional, la distribución y la adecuación del mix de productos constituyen las principales palancas operativas para conseguirlos. La integración y confiabilidad de la información, la automatización y el ERP actúan como habilitadores de esta transformación: permiten gestionar esas palancas y tomar decisiones basadas en información, pero no constituyen objetivos de negocio por sí mismos.",
   "stories": [
     {
       "code": "US-01",
