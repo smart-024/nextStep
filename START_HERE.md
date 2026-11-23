@@ -176,6 +176,8 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 
 ## 11. Private IBER section
 
+- The IBER header, dashboard content and bottom section navigation share `--iber-gutter` horizontal spacing in `public/iber.css`. Header navigation and dashboard sections use the available width rather than an 80rem cap, keeping controls at the content edges on large external monitors. Reading paragraphs retain their separate width limit.
+
 - Current application details come only from the Uso actual column of Aplicaciones en Uso, stored server-side in `server/iber-current-applications.js`. The single Odoo item groups ERP, purchase forecasting, accounting and e-commerce in one popup with four subsections. Microsoft 365 items have no popups. Application items reuse the process popup controls, 225ms opening/closing animation and inset scrollbar; provider/administrator details are excluded.
 
 - Current architecture process items use the complete Listado de procesos from the supplied current-architecture document, stored server-side in `server/iber-current-processes.js` (4 strategic, 5 operational, 3 support). Native popovers show the full description on click, keyboard activation, or tap, and close with the X, Escape, outside click, or another click on the selected item. They open above or below the item without covering it, with a subtle entrance from its direction (disabled for reduced motion). `public/iber-processes.js` only positions and controls those popovers; the document text is in authenticated HTML. Popovers use the browser top layer so the diagram's rounded clipping cannot hide long text.

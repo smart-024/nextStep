@@ -1,11 +1,12 @@
 /* Public styling only. Private IBER content is rendered by a Pages Function. */
-:root { color-scheme: light; --primary: #6B2737; --cream: #EEE0CB; --taupe: #BAA898; --architecture-layer-background: color-mix(in srgb, var(--cream) 85%, transparent); --architecture-item-background: color-mix(in srgb, var(--primary) 6%, transparent); }
+:root { color-scheme: light; --primary: #6B2737; --cream: #EEE0CB; --taupe: #BAA898; --iber-gutter: clamp(1.5rem, 4vw, 4rem); --architecture-layer-background: color-mix(in srgb, var(--cream) 85%, transparent); --architecture-item-background: color-mix(in srgb, var(--primary) 6%, transparent); }
 html { background: var(--primary); }
 body > main.iber-dashboard { padding-bottom: env(safe-area-inset-bottom, 0px); }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--cream); color: var(--primary); font-family: var(--font-body); }
 header { background: var(--primary); color: var(--cream); }
 nav { display: flex; min-height: 5rem; max-width: 80rem; margin: auto; padding: 1rem 1.5rem; align-items: center; justify-content: space-between; gap: 1rem; }
+header > nav { width: 100%; max-width: none; margin-inline: 0; padding-inline: var(--iber-gutter); }
 nav a { color: inherit; font-weight: 700; text-decoration: none; }
 nav form { margin: 0; }
 button { padding: 0.75rem 1.25rem; border: 1px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; font: inherit; font-family: var(--font-interface); cursor: pointer; }
@@ -55,12 +56,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid currentColor; outline
   --iber-paragraph-gap: 1.25rem;
   --iber-section-gap: 3rem;
   min-width: 0;
-  padding: clamp(1.5rem, 4vw, 4rem);
+  padding: var(--iber-gutter);
 }
 .dashboard-heading { max-width: 60rem; margin-bottom: 3rem; }
 .dashboard-heading h1 { font-size: clamp(2.75rem, 5vw, 4.5rem); line-height: 1.05; }
 .demo-notice { font-size: 0.8125rem; opacity: 0.8; margin-top: 1.5rem; }
-.dashboard-section { max-width: 80rem; margin: 0 0 3rem; }
+.dashboard-section { width: 100%; max-width: none; margin: 0 0 3rem; }
 .dashboard-section[hidden] { display: none; }
 .dashboard-section > h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin: 0; }
 .dashboard-section > h2:focus { outline: none; }
@@ -354,11 +355,11 @@ progress::-moz-progress-bar { background: var(--primary); }
   .dashboard-content :is(p, dd) { text-align: start; }
   .architecture-layer, .architecture-notes { grid-template-columns: 1fr; }
   .architecture-layer > h3 { padding: 1rem 1.25rem; }
-  header > nav { flex-wrap: wrap; padding: 1rem; }
+  header > nav { flex-wrap: wrap; padding: 1rem var(--iber-gutter); }
   .dashboard-brand { gap: 1rem; }
   header > nav > form { margin-left: auto; }
   .brand-divider { display: none; }
-  .dashboard-content { width: 100vw; padding: 2rem 1.5rem; }
+  .dashboard-content { width: 100vw; padding: 2rem var(--iber-gutter); }
 }
 @media (prefers-reduced-motion: reduce) {
   .architecture-process-popover { transition: none; }
