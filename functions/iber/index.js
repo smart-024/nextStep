@@ -18,6 +18,7 @@ export async function onRequest({ request, env }) {
     <link rel="stylesheet" href="/page-theme.css" />
     <script src="/iber-dashboard.js" defer></script>
     <script src="/iber-processes.js" defer></script>
+    <script src="/iber-scenarios.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">
