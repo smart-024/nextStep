@@ -2,6 +2,7 @@ import { renderBusinessCase } from './render-iber-business-case.js';
 import { renderCurrentArchitecture } from './render-iber-architecture.js';
 import { renderDestinationArchitecture } from './render-iber-destination.js';
 import { renderSolutionScenarios } from './render-iber-solutions.js';
+import { renderMarketScope } from './render-iber-market.js';
 
 // The sidebar and bottom navigation share this order.
 export const iberSections = [
@@ -9,6 +10,7 @@ export const iberSections = [
   { id: 'arquitectura-actual', title: 'Arquitectura Actual', render: renderCurrentArchitecture },
   { id: 'arquitectura-destino', title: 'Arquitectura destino', render: renderDestinationArchitecture },
   { id: 'escenarios-de-solucion', title: 'Escenarios de Solución', render: renderSolutionScenarios },
+  { id: 'alcance-mercado-soluciones', title: 'Alcance y análisis del mercado de soluciones', render: renderMarketScope },
 ];
 
 export function renderSectionNavigation(index) {

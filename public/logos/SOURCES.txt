@@ -1,0 +1,16 @@
+Vendor logos used without recoloring, served locally to avoid third-party requests.
+
+power-bi.svg
+Source: https://raw.githubusercontent.com/microsoft/PowerBI-Icons/main/SVG/Power-BI.svg
+Repository: https://github.com/microsoft/PowerBI-Icons
+
+metabase.svg
+Source: https://www.metabase.com/
+Extracted the header SVG wordmark; removed framework data attributes and added the SVG namespace for standalone rendering.
+
+tableau.svg
+Source: https://cdn.worldvectorlogo.com/logos/tableau-software.svg
+
+odoo.svg
+Source: https://odoocdn.com/openerp_website/static/src/img/assets/svg/odoo_logo.svg
+Brand assets: https://www.odoo.com/page/brand-assets

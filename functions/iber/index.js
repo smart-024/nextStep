@@ -19,6 +19,7 @@ export async function onRequest({ request, env }) {
     <script src="/iber-dashboard.js" defer></script>
     <script src="/iber-processes.js" defer></script>
     <script src="/iber-scenarios.js" defer></script>
+    <script src="/iber-criteria.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">
