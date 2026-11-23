@@ -176,6 +176,27 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 
 ## 11. Private IBER section
 
+### Spacing conventions
+
+All private IBER views share a compact spacing rhythm defined on `.dashboard-content` in `public/iber.css`. Reuse these variables when adding or editing a section:
+
+| CSS variable | Value | Use |
+| --- | --- | --- |
+| `--iber-heading-gap` | `0.75rem` | Between a heading and its text or content |
+| `--iber-paragraph-gap` | `1rem` | Between paragraphs and related text groups |
+| `--iber-content-gap` | `1.25rem` | Between explanatory text and a chart, diagram, cards, or controls |
+| `--iber-section-gap` | `2rem` | Between major subsections and before bottom navigation |
+| `--iber-gutter` | `clamp(1.5rem, 4vw, 4rem)` | Shared horizontal spacing for the header and dashboard content |
+
+- Use `.business-block` for major subsections. It prevents child margins from collapsing outside the block; avoid adding extra top or bottom margins that duplicate its section gap.
+- Keep heading-to-text spacing consistent across Caso de Negocio, Arquitectura Actual, Arquitectura destino, and Escenarios de Solución. Use the same rhythm for story groups, diagram legends, diagnosis findings, and comparison charts.
+- Keep text widths and line spacing separate from vertical gaps: prose uses `min(75%, 80ch)` on desktop, full width below 64rem, and a line height of `1.75`.
+- Bottom Atrás/Siguiente navigation spans the available content width, with a `2rem` gap above it and `1rem` between its separator and buttons. Preserve the shared horizontal alignment on large monitors.
+- Scenario tabs keep one stationary background sized to the tallest panel. Only the panel contents fade; all four panels start at the same position, without extra margins on E2–E4. Extra space needed to preserve this stable box height is intentional.
+- Preserve comfortable control padding, keyboard focus indicators, and mobile readability. Compact spacing should remove redundant gaps rather than compress every element indiscriminately.
+
+### Implementation notes
+
 - The IBER header, dashboard content and bottom section navigation share `--iber-gutter` horizontal spacing in `public/iber.css`. Header navigation and dashboard sections use the available width rather than an 80rem cap, keeping controls at the content edges on large external monitors. Reading paragraphs retain their separate width limit.
 
 - Current application details come only from the Uso actual column of Aplicaciones en Uso, stored server-side in `server/iber-current-applications.js`. The single Odoo item groups ERP, purchase forecasting, accounting and e-commerce in one popup with four subsections. Microsoft 365 items have no popups. Application items reuse the process popup controls, 225ms opening/closing animation and inset scrollbar; provider/administrator details are excluded.
@@ -184,7 +205,7 @@ These are ideas, not instructions to implement all at once. Ask the user what to
 
 - `server/iber-sections.js` defines the order and renderers of IBER views. Both the sidebar and the bottom Atrás/Siguiente links use this registry; the first/last view omits unavailable directions. New sections should be registered here. Navigation switches the visible view, updates its hash and sidebar selection, focuses its heading, and returns to the top. Hash links remain usable without JavaScript.
 
-- Private IBER reading styles are centralized in `public/iber.css` under `.dashboard-content`: introductory prose uses a shared width of `min(75%, 80ch)` on desktop and full width below 64rem; paragraphs and descriptive values use 1.75 line spacing, left alignment with natural word spacing, and Spanish automatic hyphenation. Cards and boxes use left alignment without automatic hyphenation. Full justification was removed because it created uneven gaps between words. Paragraph spacing is 1.25rem and section spacing is 3rem. Headings, navigation, statistics, badges and diagram labels retain their own alignment, and diagram/card grids can use the full available width.
+- Private IBER reading styles are centralized in `public/iber.css` under `.dashboard-content`: introductory prose uses a shared width of `min(75%, 80ch)` on desktop and full width below 64rem; paragraphs and descriptive values use 1.75 line spacing, left alignment with natural word spacing, and Spanish automatic hyphenation. Cards and boxes use left alignment without automatic hyphenation. Full justification was removed because it created uneven gaps between words. Shared spacing tokens set paragraphs to 1rem, sections to 2rem, heading-to-content gaps to 0.75rem, and content-to-visual gaps to 1.25rem. All four private views use this rhythm, including story groups, diagrams, diagnosis and bottom navigation. Headings, navigation, statistics, badges and diagram labels retain their own alignment, and diagram/card grids can use the full available width.
 
 - IBER has four views: Caso de Negocio (the default), Arquitectura Actual, Arquitectura destino, and Escenarios de Solución. The last view is rendered by `server/render-iber-solutions.js`, with the gap-analysis summary and an accessible SVG pie chart of the 50 current ABB; its content stays in authenticated HTML. The initial Resumen, Proyectos, and Documentos placeholders have been removed. The push-back menu supports Escape and section hashes; without JavaScript, all sections remain readable. Interface behavior is in `public/iber-dashboard.js` and responsive styles are in `public/iber.css`.
 - Caso de Negocio renders the supplied document's business outcomes, six objectives and fourteen user stories as Como / Quiero / Para cards. Content stays in `server/iber-business-case.js`, rendered by `server/render-iber-business-case.js` only after authentication.

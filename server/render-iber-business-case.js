@@ -23,7 +23,7 @@ export function renderBusinessCase(navigation = '') {
   const storiesByCode = new Map(businessCase.stories.map((story) => [story.code, story]));
   return `
     <section id="caso-de-negocio" class="dashboard-section business-case" aria-labelledby="caso-de-negocio-titulo">
-      <h2 id="caso-de-negocio-titulo" tabindex="-1">Testeo IBER</h2>
+      <h2 id="caso-de-negocio-titulo" tabindex="-1">Caso de negocio - IBER</h2>
         <p class="section-description">
           Relevamiento organizacional y oportunidades de transformación digital.<br />
           Conocé la organización, sus objetivos estratégicos y los principales desafíos identificados durante el relevamiento realizado por NextStep.
