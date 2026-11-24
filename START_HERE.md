@@ -42,7 +42,7 @@ Official palette:
 | `brand-rose` | `#C2847A` | Accent, buttons, highlights |
 | `brand-accent` | `#E16036` | Burnt-orange heading highlights and homepage gradients |
 
-The source logo is `public/logo_next_step.svg` (a large PNG wrapped in SVG; do not use it on pages). Lightweight versions live in `public/brand/`: `nextstep-logo.webp` (full color logo) and `nextstep-horizontal.webp` (isotype plus NextStep, used in the public navbar and the private header). On burgundy backgrounds the color logo always sits on a cream pill or card, never recolored. The tab icon (`favicon.svg`, `favicon.ico`, `apple-touch-icon.png`) is the color isotype on a cream rounded square.
+The source logo is `public/logo_next_step.svg` (a large PNG wrapped in SVG; do not use it on pages). A lightweight color version, `public/brand/nextstep-logo.webp`, is used only in the Nosotros team block (the team preferred not to show the logo in the navbar, hero or private header). The tab icon is the color isotype on a cream rounded square, served as PNG (`favicon-32x32.png`, `favicon-48x48.png`), a real multi-size `favicon.ico` and `apple-touch-icon.png`. Do not use an SVG wrapping a PNG as favicon: Chrome shows it as a black square.
 
 Tailwind v4 design tokens are defined in `src/styles/global.css` using `@theme`, making classes such as `bg-brand-primary` and `text-brand-rose` available.
 
@@ -80,8 +80,8 @@ The actual repository is the source of truth. Do not assume a file exists solely
 
 ### Homepage sections
 
-1. **Navigation** — `Navbar.astro`: sticky burgundy header with the NextStep color logo on a cream pill on the left (links to Inicio), desktop links, mobile dropdown, and IBER access.
-2. **Hero** — `Hero.astro`: NextStep color logo on a cream card above “Adelantarse al futuro.”, supporting copy, and a rounded CTA with a background-color fade.
+1. **Navigation** — `Navbar.astro`: sticky burgundy header, desktop links, mobile dropdown, and IBER access.
+2. **Hero** — `Hero.astro`: “Adelantarse al futuro.”, supporting copy, and a rounded CTA with a background-color fade.
 3. **Nosotros** — `About.astro`: centered heading, the "Quiénes somos" team block (`Team.astro`, data in `src/data/team.ts`; photos go in `public/equipo/`, see `LEEME.txt`; without a photo the circle shows initials) and three values. The former introductory paragraphs and photo panel have been removed.
 4. **Servicios** — `Services.astro`: three rounded, borderless cards with hover/tap details. Their controls remain available to screen readers without visible footer labels.
 5. **Contacto** — closing invitation linking to the contact form at `/contacto`.

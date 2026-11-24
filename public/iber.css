@@ -501,8 +501,3 @@ progress::-moz-progress-bar { background: var(--primary); }
   .destination-stages { grid-template-columns: 1fr; }
 }
 .dashboard-content .architecture-image-note { margin: 0.75rem 0 0; font-family: var(--font-interface); font-size: 0.75rem; line-height: 1.5; opacity: 0.7; }
-
-/* NextStep logo in the private header: color lockup on a cream pill, as on the public site. */
-.dashboard-logo { display: inline-flex; align-items: center; gap: 1rem; color: inherit; text-decoration: none; }
-.dashboard-logo-chip { display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: 999px; background: var(--cream); }
-.dashboard-logo-chip img { display: block; width: auto; height: 1.5rem; }

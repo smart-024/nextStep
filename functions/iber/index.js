@@ -14,7 +14,9 @@ export async function onRequest({ request, env }) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=2" />
+    <link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/typography.css?v=${version}" />
     <link rel="stylesheet" href="/iber.css?v=${version}" />
@@ -30,7 +32,7 @@ export async function onRequest({ request, env }) {
     <header><nav aria-label="Navegación de IBER">
       <div class="dashboard-brand">
         <button id="menu-toggle" type="button" aria-controls="dashboard-menu" aria-expanded="true" disabled><span class="menu-icon" aria-hidden="true"></span><span id="menu-label">Menú</span></button>
-        <a href="/" class="dashboard-logo" aria-label="NextStep, página principal"><span class="dashboard-logo-chip"><img src="/brand/nextstep-horizontal.webp" width="422" height="96" alt="" /></span><span class="brand-divider" aria-hidden="true">/ IBER</span></a>
+        <a href="/">NextStep <span class="brand-divider">/ IBER</span></a>
       </div>
       <form method="POST" action="/iber/logout"><button type="submit">Cerrar sesión</button></form>
     </nav></header>
