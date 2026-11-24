@@ -18,6 +18,12 @@ const links = [
     class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10"
     aria-label="Navegación principal"
   >
+    <!-- Brand -->
+    <a href={isHome ? '#inicio' : '/'} class="flex shrink-0 items-center gap-3" aria-label="NextStep, ir al inicio">
+      <img src="/brand/nextstep-isotipo-oscuro.webp" width="207" height="112" alt="" class="h-9 w-auto" decoding="async" />
+      <span class="font-display text-xl leading-none" aria-hidden="true">NextStep</span>
+    </a>
+
     <!-- Desktop navigation -->
     <div class="hidden items-center gap-10 md:flex">
       {links.filter((link) => link.label !== 'Contacto' && link.label !== 'Acceso IBER').map((link) => (
