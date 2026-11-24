@@ -10,5 +10,6 @@ Guardar cada foto en esta carpeta con estos nombres exactos (.jpg o .webp):
   santiago-martinez.jpg
 
 Recomendado: foto cuadrada, de unos 400 x 400 píxeles y menos de 100 KB, con la cara centrada.
+Las fotos actuales tienen el fondo reemplazado por el degradé crema a rosa de la página (#EEE0CB a #C2847A, en diagonal) para que todas se vean iguales.
 Si la foto no existe, la página muestra las iniciales en un círculo.
 Después de agregar una foto, correr "npm run build" (o hacer push) para que aparezca.
