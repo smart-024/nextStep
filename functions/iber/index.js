@@ -2,6 +2,8 @@ import { hasSession, privateResponse } from '../../server/iber-auth.js';
 import { iberSections, renderSectionNavigation } from '../../server/iber-sections.js';
 
 export async function onRequest({ request, env }) {
+  // Each deploy gets a new version, so browsers never reuse old CSS or JS from their cache.
+  const version = encodeURIComponent((env.CF_PAGES_COMMIT_SHA || 'local').slice(0, 12));
   // Also check here so the page is protected independently of middleware routing.
   if (!await hasSession(request, env)) {
     return privateResponse(null, { status: 302, headers: { Location: '/iber/login' } });
@@ -21,7 +23,6 @@ export async function onRequest({ request, env }) {
     <script src="/iber-architecture-map.js" defer></script>
     <script src="/iber-scenarios.js" defer></script>
     <script src="/iber-criteria.js" defer></script>
-    <script src="/iber-story-grid.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">

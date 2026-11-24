@@ -1,0 +1,14 @@
+Fotos del equipo de NextStep (sección "Nosotros" de la página de inicio)
+
+Guardar cada foto en esta carpeta con estos nombres exactos (.jpg o .webp):
+
+  esteban-de-nardo.jpg
+  macarena-ignacio.jpg
+  juan-jose-torres.jpg
+  facundo-maggio.jpg
+  tiago-nakasone.jpg
+  santiago-martinez.jpg
+
+Recomendado: foto cuadrada, de unos 400 x 400 píxeles y menos de 100 KB, con la cara centrada.
+Si la foto no existe, la página muestra las iniciales en un círculo.
+Después de agregar una foto, correr "npm run build" (o hacer push) para que aparezca.

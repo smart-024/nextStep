@@ -60,6 +60,14 @@ export function renderDestinationArchitecture(navigation = '') {
     title: 'Arquitectura destino',
     description: ['Una visión de evolución para IBER: integrar la información, mejorar la gestión y acompañar el crecimiento del negocio sin reemplazar su ERP actual.','La transformación se plantea en tres etapas progresivas, desde el análisis de los datos disponibles hasta la integración y optimización de los procesos.'],
     caption: 'Diagrama integrador de la arquitectura empresarial destino',
+    legend: `<ul class="architecture-stage-legend" aria-label="Etapas de la transformación">
+          ${stages.map((stage, index) => `<li><span class="architecture-stage-tag architecture-stage-${index + 1}">${stage.code}</span><div>${stage.title}<small>${stage.period}</small></div></li>`).join('')}
+        </ul>
+        <ul class="architecture-state-legend" aria-label="Tipos de cambio">
+          <li><span class="legend-retained" aria-hidden="true"></span>Se mantiene</li>
+          <li><span class="legend-enabler" aria-hidden="true"></span>Habilitador</li>
+          <li><span class="legend-removed" aria-hidden="true"></span>Se elimina</li>
+        </ul>`,
     image: destinationArchitectureImage,
     hotspots: destinationArchitectureHotspots,
     navigation,
