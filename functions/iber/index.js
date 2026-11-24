@@ -14,18 +14,15 @@ export async function onRequest({ request, env }) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=2" />
-    <link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/typography.css?v=${version}" />
-    <link rel="stylesheet" href="/iber.css?v=${version}" />
-    <link rel="stylesheet" href="/page-theme.css?v=${version}" />
-    <script src="/iber-dashboard.js?v=${version}" defer></script>
-    <script src="/iber-processes.js?v=${version}" defer></script>
-    <script src="/iber-architecture-map.js?v=${version}" defer></script>
-    <script src="/iber-scenarios.js?v=${version}" defer></script>
-    <script src="/iber-criteria.js?v=${version}" defer></script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/typography.css" />
+    <link rel="stylesheet" href="/iber.css" />
+    <link rel="stylesheet" href="/page-theme.css" />
+    <script src="/iber-dashboard.js" defer></script>
+    <script src="/iber-processes.js" defer></script>
+    <script src="/iber-architecture-map.js" defer></script>
+    <script src="/iber-scenarios.js" defer></script>
+    <script src="/iber-criteria.js" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">

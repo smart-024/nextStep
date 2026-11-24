@@ -85,11 +85,13 @@ export function renderBusinessCase(navigation = '') {
             <h4 id="historias-${category.id}-titulo">${escapeHtml(category.title)}</h4>
             <div class="story-list">
           ${category.codes.map((code) => storiesByCode.get(code)).map((story) => `
-            <article class="panel page-panel user-story">
-              <div class="story-meta"><span class="story-code">${escapeHtml(story.code)}</span><span class="status-tag">Objetivo ${escapeHtml(story.objective)}</span></div>
-              <h5>${escapeHtml(story.title)}</h5>
-              ${renderStory(story.description)}
-            </article>`).join('')}
+            <details class="panel page-panel user-story">
+              <summary>
+                <div class="story-meta"><span class="story-code">${escapeHtml(story.code)}</span><span class="status-tag">${escapeHtml(story.objective)}</span></div>
+                <h5>${escapeHtml(story.title)}</h5>
+              </summary>
+              <div class="story-content">${renderStory(story.description)}</div>
+            </details>`).join('')}
             </div>
           </section>`).join('')}
       </section>
