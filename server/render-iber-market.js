@@ -43,7 +43,7 @@ export function renderMarketScope(navigation = '') {
     ${renderEvaluationCriteria()}
     ${renderMarketShortlist()}
     <section class="business-block" aria-labelledby="preseleccion-siguientes-pasos-titulo">
-      <h3 id="preseleccion-siguientes-pasos-titulo">Preselección: ¿qué sigue?</h3>
+      <h3 id="preseleccion-siguientes-pasos-titulo">Preselección</h3>
       <div class="organization-copy"><p>Power BI y Metabase se preseleccionaron para avanzar a la evaluación formal. El pedido de propuestas solicitará a implementadores de ambas soluciones cotizar la instalación propia y el servicio en la nube, por etapas y por perfil de usuario. La elección final se realizará con precios reales y con la definición de IBER sobre la ubicación de los datos.</p></div>
     </section>
     ${navigation}

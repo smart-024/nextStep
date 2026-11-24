@@ -48,9 +48,9 @@ function renderPie() {
     const point = (a, radius) => `${(140 + Math.cos(a) * radius).toFixed(3)} ${(140 + Math.sin(a) * radius).toFixed(3)}`;
     const midpoint = (start + angle) / 2;
     const percent = Math.round(item.count / total * 100);
-    return `<g class="${item.className}">
-      <path d="M 140 140 L ${point(start, 128)} A 128 128 0 ${item.count / total > 0.5 ? 1 : 0} 1 ${point(angle, 128)} Z" />
-      <text x="${(140 + Math.cos(midpoint) * 85).toFixed(3)}" y="${(140 + Math.sin(midpoint) * 85).toFixed(3)}">${percent}%</text>
+    return `<g class="criteria-wedge ${item.className}" style="--slice-x: ${(Math.cos(midpoint) * 7).toFixed(3)}px; --slice-y: ${(Math.sin(midpoint) * 7).toFixed(3)}px">
+      <path class="criteria-slice" data-criterion="${item.className}" role="button" tabindex="0" aria-label="${item.label}: ${item.count} ABB (${percent}%)" aria-pressed="false" d="M 140 140 L ${point(start, 128)} A 128 128 0 ${item.count / total > 0.5 ? 1 : 0} 1 ${point(angle, 128)} Z" />
+      <text x="${(140 + Math.cos(midpoint) * 85).toFixed(3)}" y="${(140 + Math.sin(midpoint) * 85).toFixed(3)}" aria-hidden="true">${percent}%</text>
     </g>`;
   }).join('');
 }
@@ -62,8 +62,8 @@ export function renderSolutionScenarios(navigation = '') {
     <section class="business-block" aria-labelledby="resumen-brechas-titulo">
       <h3 id="resumen-brechas-titulo">Resumen del análisis de brechas</h3>
       <div class="organization-copy"><p>El análisis comparó 50 bloques de construcción (ABB) actuales con 55 elementos en la arquitectura destino. De los 50 actuales, 18 se mantienen, 26 requieren mejoras y 6 se eliminan. Además, la arquitectura destino incorpora 14 elementos nuevos.</p></div>
-      <figure class="gap-distribution" aria-labelledby="distribucion-brechas-caption">
-        <svg class="gap-pie" viewBox="0 0 280 280" role="img" aria-labelledby="distribucion-brechas-titulo distribucion-brechas-descripcion">
+      <figure class="gap-distribution" data-selectable-pie aria-labelledby="distribucion-brechas-caption">
+        <svg class="gap-pie" viewBox="0 0 280 280" role="group" aria-labelledby="distribucion-brechas-titulo" aria-describedby="distribucion-brechas-descripcion">
           <title id="distribucion-brechas-titulo">Distribución de los 50 ABB actuales</title>
           <desc id="distribucion-brechas-descripcion">18 incluidos (36%), 26 a mejorar (52%) y 6 a eliminar (12%).</desc>
           ${renderPie()}
@@ -71,7 +71,7 @@ export function renderSolutionScenarios(navigation = '') {
         <figcaption id="distribucion-brechas-caption">
           <p class="gap-chart-title">Distribución de los ABB actuales</p>
           <ul class="gap-legend">
-            ${distribution.map((item) => `<li><span class="gap-swatch ${item.className}" aria-hidden="true"></span><span>${item.label}</span><span class="gap-value">${item.count} <span>(${Math.round(item.count / 50 * 100)}%)</span></span></li>`).join('')}
+            ${distribution.map((item) => `<li><button class="criteria-choice ${item.className}" type="button" data-criterion="${item.className}" aria-pressed="false" disabled><span class="criteria-swatch" aria-hidden="true"></span><span>${item.label}</span><span class="gap-value">${item.count} <span>(${Math.round(item.count / 50 * 100)}%)</span></span></button></li>`).join('')}
           </ul>
         </figcaption>
       </figure>
@@ -92,7 +92,7 @@ export function renderSolutionScenarios(navigation = '') {
     <section class="business-block" aria-labelledby="soluciones-escenarios-titulo">
       <h3 id="soluciones-escenarios-titulo">Escenarios de solución</h3>
       <div class="organization-copy"><p>Para definir cómo incorporar la plataforma de análisis, se evaluaron dos variables: dónde se instala la solución y cómo se implementa. La combinación dio lugar a cuatro escenarios.</p></div>
-      <div class="scenario-tabs" data-scenario-tabs>
+      <div class="scenario-tabs" data-scenario-tabs data-fade-duration="300">
         <div class="scenario-tab-list" aria-labelledby="soluciones-escenarios-titulo">
           ${solutionScenarios.map((scenario) => `<button id="scenario-tab-${scenario.id}" type="button" class="scenario-tab${scenario.bestRated ? ' scenario-best-rated' : ''}" aria-controls="scenario-panel-${scenario.id}" disabled><span class="scenario-code">${scenario.id}</span><span>${scenario.modality}</span>${scenario.bestRated ? '<span class="scenario-recommendation">Escenario mejor puntuado</span>' : ''}</button>`).join('')}
         </div>

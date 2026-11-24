@@ -1,10 +1,10 @@
 // Interaction only. Descriptions and detail graphs come from authenticated HTML.
-document.querySelectorAll('[data-evaluation-criteria]').forEach((section) => {
+document.querySelectorAll('[data-evaluation-criteria], [data-selectable-pie]').forEach((section) => {
   const controls = [...section.querySelectorAll('[data-criterion]')];
   const slices = [...section.querySelectorAll('.criteria-slice')];
   const choices = [...section.querySelectorAll('.criteria-choice')];
   const panels = [...section.querySelectorAll('.criteria-detail')];
-  if (!slices.length || panels.length !== slices.length) return;
+  if (!slices.length || (panels.length && panels.length !== slices.length)) return;
   section.dataset.criteriaReady = '';
   choices.forEach((choice) => { choice.disabled = false; });
   let selected;
@@ -14,10 +14,11 @@ document.querySelectorAll('[data-evaluation-criteria]').forEach((section) => {
     const request = ++version;
     const previous = panels.find((panel) => panel.id === `criterion-detail-${selected}`);
     const next = panels.find((panel) => panel.id === `criterion-detail-${id}`);
-    if (!next) return;
+    if (panels.length && !next) return;
     const opacity = previous ? getComputedStyle(previous).opacity : '1';
     fade?.cancel();
     controls.forEach((control) => control.setAttribute('aria-pressed', String(control.dataset.criterion === id)));
+    if (!panels.length) { selected = id; return; }
     if (selected === id) return;
     const animate = previous && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (animate) {

@@ -4,6 +4,7 @@ document.querySelectorAll('[data-scenario-tabs]').forEach((container) => {
   const tabs = [...container.querySelectorAll('.scenario-tab')];
   const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls')));
   if (!list || !tabs.length || panels.some((panel) => !panel)) return;
+  const fadeDuration = Number(container.dataset.fadeDuration) || 200;
   container.querySelector('.scenario-panel-shell')?.setAttribute('data-tabs-ready', '');
 
   list.setAttribute('role', 'tablist');
@@ -31,7 +32,7 @@ document.querySelectorAll('[data-scenario-tabs]').forEach((container) => {
     const animate = previous && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (animate) {
       fade = previous.animate([{ opacity }, { opacity: 0 }], {
-        duration: 100, easing: 'ease-out', fill: 'forwards',
+        duration: fadeDuration / 2, easing: 'ease-out', fill: 'forwards',
       });
       await fade.finished.catch(() => {});
       // A newer click or keyboard selection takes priority over this transition.
@@ -42,7 +43,7 @@ document.querySelectorAll('[data-scenario-tabs]').forEach((container) => {
     fade?.cancel();
     if (animate) {
       fade = panels[index].animate([{ opacity: 0 }, { opacity: 1 }], {
-        duration: 200, easing: 'ease-in-out',
+        duration: fadeDuration, easing: 'ease-in-out',
       });
     }
   };
