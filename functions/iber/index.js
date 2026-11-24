@@ -26,7 +26,10 @@ export async function onRequest({ request, env }) {
     <script src="/iber-architecture-map.js?v=${version}" defer></script>
     <script src="/iber-scenarios.js?v=${version}" defer></script>
     <script src="/iber-criteria.js?v=${version}" defer></script>
+<<<<<<< HEAD
     <script src="/iber-story-grid.js?v=${version}" defer></script>
+=======
+>>>>>>> 76e37727f83e7c9026517148c31c9bcbaf3f2f8f
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">
