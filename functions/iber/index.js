@@ -2,6 +2,8 @@ import { hasSession, privateResponse } from '../../server/iber-auth.js';
 import { iberSections, renderSectionNavigation } from '../../server/iber-sections.js';
 
 export async function onRequest({ request, env }) {
+  // Each deploy gets a new version, so browsers never reuse old CSS or JS from their cache.
+  const version = encodeURIComponent((env.CF_PAGES_COMMIT_SHA || 'local').slice(0, 12));
   // Also check here so the page is protected independently of middleware routing.
   if (!await hasSession(request, env)) {
     return privateResponse(null, { status: 302, headers: { Location: '/iber/login' } });
@@ -13,14 +15,14 @@ export async function onRequest({ request, env }) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/typography.css" />
-    <link rel="stylesheet" href="/iber.css" />
-    <link rel="stylesheet" href="/page-theme.css" />
-    <script src="/iber-dashboard.js" defer></script>
-    <script src="/iber-processes.js" defer></script>
-    <script src="/iber-architecture-map.js" defer></script>
-    <script src="/iber-scenarios.js" defer></script>
-    <script src="/iber-criteria.js" defer></script>
+    <link rel="stylesheet" href="/typography.css?v=${version}" />
+    <link rel="stylesheet" href="/iber.css?v=${version}" />
+    <link rel="stylesheet" href="/page-theme.css?v=${version}" />
+    <script src="/iber-dashboard.js?v=${version}" defer></script>
+    <script src="/iber-processes.js?v=${version}" defer></script>
+    <script src="/iber-architecture-map.js?v=${version}" defer></script>
+    <script src="/iber-scenarios.js?v=${version}" defer></script>
+    <script src="/iber-criteria.js?v=${version}" defer></script>
     <title>IBER | NextStep</title>
   </head>
   <body class="styled-page">

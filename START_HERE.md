@@ -42,7 +42,7 @@ Official palette:
 | `brand-rose` | `#C2847A` | Accent, buttons, highlights |
 | `brand-accent` | `#E16036` | Burnt-orange heading highlights and homepage gradients |
 
-The source logo is `public/logo_next_step.svg`. Preserve the logo and palette unless explicitly asked to change them. Ensure sufficient contrast when using the logo against dark or light backgrounds.
+The source logo is `public/logo_next_step.svg` (a large PNG wrapped in SVG; do not use it on pages). Lightweight versions live in `public/brand/`: `nextstep-logo.webp` (light backgrounds), `nextstep-logo-oscuro.webp` and `nextstep-isotipo-oscuro.webp` (dark backgrounds, cream and rose). Preserve the logo and palette unless explicitly asked to change them. Ensure sufficient contrast when using the logo against dark or light backgrounds.
 
 Tailwind v4 design tokens are defined in `src/styles/global.css` using `@theme`, making classes such as `bg-brand-primary` and `text-brand-rose` available.
 
@@ -80,9 +80,9 @@ The actual repository is the source of truth. Do not assume a file exists solely
 
 ### Homepage sections
 
-1. **Navigation** — `Navbar.astro`: sticky burgundy header, desktop links, mobile dropdown, and IBER access.
-2. **Hero** — `Hero.astro`: “Adelantarse al futuro.”, supporting copy, and a rounded CTA with a background-color fade.
-3. **Nosotros** — `About.astro`: centered heading and three values. The former introductory paragraphs and photo panel have been removed.
+1. **Navigation** — `Navbar.astro`: sticky burgundy header with the NextStep isotype and name on the left (links to Inicio), desktop links, mobile dropdown, and IBER access.
+2. **Hero** — `Hero.astro`: NextStep logo for dark backgrounds above “Adelantarse al futuro.”, supporting copy, and a rounded CTA with a background-color fade.
+3. **Nosotros** — `About.astro`: centered heading, the "Quiénes somos" team block (`Team.astro`, data in `src/data/team.ts`; photos go in `public/equipo/`, see `LEEME.txt`; without a photo the circle shows initials) and three values. The former introductory paragraphs and photo panel have been removed.
 4. **Servicios** — `Services.astro`: three rounded, borderless cards with hover/tap details. Their controls remain available to screen readers without visible footer labels.
 5. **Contacto** — closing invitation linking to the contact form at `/contacto`.
 6. **Footer** — NextStep and copyright.

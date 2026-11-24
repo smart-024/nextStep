@@ -23,13 +23,15 @@ function renderHotspot(hotspot, index, id, image) {
     </button>`;
 }
 
-export function renderArchitectureImage({ id, title, description, caption, image, hotspots, navigation = '', afterDiagram = '' }) {
+// legend and note are trusted HTML written in each view; they replace the title, legend and footer cropped out of the image.
+export function renderArchitectureImage({ id, title, description, caption, image, hotspots, legend = '', note = '', navigation = '', afterDiagram = '' }) {
   return `
     <section id="${id}" class="dashboard-section architecture" aria-labelledby="${id}-titulo">
       <h2 id="${id}-titulo" tabindex="-1">${escapeHtml(title)}</h2>
       <p class="section-description">${(Array.isArray(description) ? description : [description]).map(escapeHtml).join('<br />')}</p>
       <figure class="architecture-image" aria-labelledby="${id}-caption">
         <figcaption id="${id}-caption">${escapeHtml(caption)}</figcaption>
+        ${legend}
         <p class="architecture-image-hint">Pasá el cursor o tocá un recuadro para ver qué representa.</p>
         <div class="architecture-map-frame" data-architecture-map>
           <div class="architecture-map-scroll">
@@ -40,6 +42,7 @@ export function renderArchitectureImage({ id, title, description, caption, image
           </div>
           <div class="architecture-map-tip" aria-hidden="true" hidden><strong></strong><p></p></div>
         </div>
+        ${note ? `<p class="architecture-image-note">${escapeHtml(note)}</p>` : ''}
       </figure>
       ${afterDiagram}
       ${navigation}
