@@ -191,6 +191,7 @@ All private IBER views share a compact spacing rhythm defined on `.dashboard-con
 | `--iber-inline-padding` | `1.5rem` (`1rem` on mobile) | Shared horizontal padding inside both containers |
 
 - Use `.business-block` for major subsections. It prevents child margins from collapsing outside the block; avoid adding extra top or bottom margins that duplicate its section gap.
+- The first subsection directly after a page introduction uses the smaller `--iber-content-gap` (`1.25rem`), rather than the full `2rem` section gap. Subsequent major subsections keep the full section gap.
 - Keep heading-to-text spacing consistent across Caso de Negocio, Arquitectura Actual, Arquitectura destino, and Escenarios de Solución. Use the same rhythm for story groups, diagram legends, diagnosis findings, and comparison charts.
 - Keep text widths and line spacing separate from vertical gaps: prose uses `min(75%, 80ch)` on desktop, full width below 64rem, and a line height of `1.75`.
 - Bottom Atrás/Siguiente navigation spans its section, capped at `80rem`, with a `2rem` gap above it and `1rem` between its separator and buttons. Keep this width cap on large monitors.
@@ -198,6 +199,8 @@ All private IBER views share a compact spacing rhythm defined on `.dashboard-con
 - Preserve comfortable control padding, keyboard focus indicators, and mobile readability. Compact spacing should remove redundant gaps rather than compress every element indiscriminately.
 
 ### Implementation notes
+
+- Arquitectura Actual presents diagnosis findings in a full-width 2-by-2 grid of borderless cards, with titles above their descriptions and one column on mobile. Their rounded solid cream surfaces echo Servicios, with only a subtle hover shadow and no hidden text or sliding panels. Reduced motion disables the transition; Oportunidad de transformación remains the closing highlight.
 
 - `server/render-iber-market.js` renders the market/scope view, with the consulting scope and an Incluye / No incluye comparison. It uses the shared spacing and reading-width rules, stacks its columns on mobile, and is registered after solution scenarios with automatic bottom navigation.
 
