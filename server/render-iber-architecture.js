@@ -1,36 +1,5 @@
-import { renderArchitectureDiagram } from './render-architecture-diagram.js';
-import { currentProcessGroups } from './iber-current-processes.js';
-import { currentApplicationGroups } from './iber-current-applications.js';
-
-// Server-only transcription of the integrative diagram in the supplied architecture document.
-const layers = [
-  {
-    title: 'Procesos',
-    groups: currentProcessGroups,
-  },
-  {
-    title: 'Aplicaciones',
-    groups: currentApplicationGroups,
-  },
-  {
-    title: 'Datos',
-    groups: [
-      { title: 'Base del ERP · PostgreSQL', items: ['Ventas', 'Stock', 'Gastos por sucursal', 'Fletes'] },
-      { title: 'Planillas Excel', outside: true, items: ['Resultados', 'Presupuesto y meta', 'Importaciones'] },
-      { title: 'Sin registro', outside: true, items: ['Estados de envío', 'Coordinación de importaciones'] },
-    ],
-  },
-  {
-    title: 'Tecnología',
-    groups: [
-      { title: 'Data center', items: ['Montevideo COMM'] },
-      { title: 'Red de tiendas', items: ['OpenTech', 'ANTEL', 'MikroTik'] },
-      { title: 'Nube', items: ['Microsoft 365'] },
-      { title: 'Equipos', items: ['PC de caja', 'Notebooks', 'Celulares'] },
-      { title: 'Soporte', outside: true, items: ['Tercerizado, sin acuerdo'] },
-    ],
-  },
-];
+import { renderArchitectureImage } from './render-architecture-image.js';
+import { currentArchitectureImage, currentArchitectureHotspots } from './iber-current-architecture-map.js';
 
 const notes = [
   { title: 'El ERP como núcleo', text: 'Odoo 18 Community concentra las ventas en tiendas y en la web, las compras, el stock y la contabilidad. Su base PostgreSQL está alojada en el data center de Montevideo COMM.' },
@@ -75,7 +44,7 @@ const diagnosis = `
   </section>`;
 
 export function renderCurrentArchitecture(navigation = '') {
-  return renderArchitectureDiagram({
+  return renderArchitectureImage({
     id: 'arquitectura-actual',
     title: 'Arquitectura Actual',
     description: [
@@ -83,7 +52,8 @@ export function renderCurrentArchitecture(navigation = '') {
       'El relevamiento permite identificar los sistemas que dan soporte a la operación, los intercambios de información y aquellos procesos que todavía dependen de herramientas externas o de registros manuales.',
     ],
     caption: 'Diagrama integrador de la arquitectura empresarial actual',
-    layers,
+    image: currentArchitectureImage,
+    hotspots: currentArchitectureHotspots,
     navigation,
     afterDiagram: diagnosis,
   });
