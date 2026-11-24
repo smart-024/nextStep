@@ -43,8 +43,10 @@ const diagnosis = `
   <section class="business-block architecture-diagnosis" aria-labelledby="diagnostico-actual-titulo">
     <h3 id="diagnostico-actual-titulo">Diagnóstico de situación actual</h3>
     <div class="organization-copy">
-      <p>El relevamiento permitió identificar una brecha entre la complejidad operativa de IBER y las herramientas disponibles para gestionar y controlar sus actividades.</p>
+      <p>El relevamiento permitió identificar una <strong>brecha entre la complejidad operativa de IBER y las herramientas disponibles para gestionar y controlar sus actividades.</strong></p>
       <p>Si bien gran parte de la información comercial y operativa se encuentra registrada en el ERP Odoo, su aprovechamiento para la toma de decisiones depende todavía de procesos manuales, planillas externas y datos dispersos entre distintas áreas.</p>
+      <p><strong>Algunos de los puntos débiles identificados son:</strong></p>
+
     </div>
     <dl class="diagnosis-findings iber-copy">
       <div>
@@ -67,7 +69,7 @@ const diagnosis = `
     <section class="diagnosis-opportunity" aria-labelledby="oportunidad-transformacion-titulo">
       <h4 id="oportunidad-transformacion-titulo">Oportunidad de transformación</h4>
       <div class="organization-copy">
-        <p>La principal oportunidad consiste en fortalecer la gestión de IBER mediante una mayor integración y aprovechamiento de la información disponible.</p>
+        <p>La principal oportunidad consiste en <strong>fortalecer la gestión de IBER mediante una mayor integración y aprovechamiento de la información disponible.</strong></p>
         <p>Esto permitiría mejorar la visibilidad de los resultados por sucursal, optimizar el abastecimiento y la distribución, controlar los costos logísticos y facilitar la toma de decisiones basadas en información confiable.</p>
         <p>La tecnología se plantea como un habilitador para mejorar los procesos y acompañar los objetivos estratégicos de la organización.</p>
       </div>
