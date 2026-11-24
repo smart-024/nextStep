@@ -68,7 +68,6 @@ export function renderDestinationArchitecture(navigation = '') {
           <li><span class="legend-enabler" aria-hidden="true"></span>Habilitador</li>
           <li><span class="legend-removed" aria-hidden="true"></span>Se elimina</li>
         </ul>`,
-    note: 'IBER · propuesta en tres etapas, de 2026 a 2028. NextStep · Equipo 3.',
     image: destinationArchitectureImage,
     hotspots: destinationArchitectureHotspots,
     navigation,

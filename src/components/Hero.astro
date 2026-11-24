@@ -14,14 +14,16 @@ const { id = 'inicio' } = Astro.props;
   <div
     class="hero-content relative mx-auto flex w-full max-w-7xl flex-col justify-center px-6 py-24 lg:px-10"
   >
-    <img
-      src="/brand/nextstep-logo-oscuro.webp"
-      width="520"
-      height="447"
-      alt="NextStep, consultoría en tecnología"
-      class="hero-reveal mb-10 h-24 w-auto self-start md:h-32"
-      decoding="async"
-    />
+    <div class="hero-reveal mb-10 self-start rounded-2xl bg-brand-cream px-5 py-4">
+      <img
+        src="/brand/nextstep-logo.webp"
+        width="520"
+        height="447"
+        alt="NextStep, consultoría en tecnología"
+        class="h-20 w-auto md:h-28"
+        decoding="async"
+      />
+    </div>
     <h1
       class="max-w-6xl text-[clamp(2.5rem,8.5vw,8rem)] leading-[1.02]"
     >

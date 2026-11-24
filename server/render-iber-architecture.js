@@ -57,7 +57,6 @@ export function renderCurrentArchitecture(navigation = '') {
     legend: `<ul class="architecture-state-legend" aria-label="Referencias del diagrama">
           <li><span class="legend-enabler" aria-hidden="true"></span>Fuera del ERP o sin registro</li>
         </ul>`,
-    note: 'Fuente: relevamiento de la arquitectura actual con IBER, septiembre y octubre de 2026. NextStep · Equipo 3.',
     image: currentArchitectureImage,
     hotspots: currentArchitectureHotspots,
     navigation,

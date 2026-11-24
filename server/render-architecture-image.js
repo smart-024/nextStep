@@ -4,7 +4,7 @@ const escapeHtml = (value) => String(value).replace(/[&<>"']/g, (character) => (
 
 const percent = (value) => `${Number(value.toFixed(3))}%`;
 
-// Each zone stores its position and the background crop that shows the same box enlarged on hover.
+// Each zone stores its position over the image, in percentages so it scales with it.
 function renderHotspot(hotspot, index, id, image) {
   const [left, top, right, bottom] = hotspot.box;
   const x = (left / image.width) * 100;
@@ -13,8 +13,6 @@ function renderHotspot(hotspot, index, id, image) {
   const h = ((bottom - top) / image.height) * 100;
   const style = [
     `--x:${percent(x)}`, `--y:${percent(y)}`, `--w:${percent(w)}`, `--h:${percent(h)}`,
-    `--crop-size:${percent(10000 / w)} ${percent(10000 / h)}`,
-    `--crop-position:${percent((x / (100 - w)) * 100)} ${percent((y / (100 - h)) * 100)}`,
   ].join(';');
   const descriptionId = `${id}-zona-${index + 1}`;
   return `<button class="architecture-hotspot${hotspot.shape ? ` architecture-hotspot-${hotspot.shape}` : ''}" type="button" style="${style}" aria-describedby="${descriptionId}">
@@ -35,7 +33,7 @@ export function renderArchitectureImage({ id, title, description, caption, image
         <p class="architecture-image-hint">Pasá el cursor o tocá un recuadro para ver qué representa.</p>
         <div class="architecture-map-frame" data-architecture-map>
           <div class="architecture-map-scroll">
-            <div class="architecture-map" style="--map-image:url('${image.src}')">
+            <div class="architecture-map">
               <img src="${image.src}" width="${image.width}" height="${image.height}" alt="${escapeHtml(image.alt)}" decoding="async" />
               ${hotspots.map((hotspot, index) => renderHotspot(hotspot, index, id, image)).join('')}
             </div>
