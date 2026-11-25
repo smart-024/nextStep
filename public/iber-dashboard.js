@@ -9,6 +9,31 @@
   const links = [...menu.querySelectorAll('[data-section]')];
   const sections = [...dashboard.querySelectorAll('.dashboard-section')];
   if (!sections.length) return;
+  // Lift the floating download above the footer as it enters the viewport.
+  // Moving a fixed control adds no document height or extra scrolling space.
+  let downloadFrame = 0;
+  const positionDownload = () => {
+    if (downloadFrame) return;
+    downloadFrame = requestAnimationFrame(() => {
+      downloadFrame = 0;
+      const section = sections.find((item) => !item.hidden);
+      const button = section?.querySelector('.section-download');
+      const navigation = section?.querySelector('.section-navigation');
+      if (!button || !navigation) return;
+      const previousLift = parseFloat(button.style.getPropertyValue('--download-lift')) || 0;
+      const baseBottom = parseFloat(getComputedStyle(button).bottom) - previousLift;
+      const rect = navigation.getBoundingClientRect();
+      const lift = rect.bottom > 0
+        ? Math.max(0, window.innerHeight - baseBottom - rect.top + 16)
+        : 0;
+      button.style.setProperty('--download-lift', `${lift}px`);
+    });
+  };
+  window.addEventListener('scroll', positionDownload, { passive: true });
+  window.addEventListener('resize', positionDownload);
+  window.visualViewport?.addEventListener('resize', positionDownload);
+  const downloadObserver = new ResizeObserver(positionDownload);
+  sections.forEach((section) => downloadObserver.observe(section));
   const setMenu = (open) => {
     dashboard.dataset.menuOpen = String(open);
     toggle.setAttribute('aria-expanded', String(open));
@@ -28,6 +53,7 @@
       document.getElementById(id)?.querySelector('h2')?.focus({ preventScroll: true });
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     }
+    positionDownload();
   };
 
   toggle.disabled = false;

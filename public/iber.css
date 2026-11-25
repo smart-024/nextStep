@@ -30,12 +30,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid currentColor; outline
 .iber-dashboard {
   --menu-width: min(18rem, 80vw);
   display: grid;
-  grid-template-columns: var(--menu-width) minmax(0, 1fr);
+  grid-template-columns: 0 minmax(0, 1fr);
   padding: 0;
   overflow: clip;
   transition: grid-template-columns 350ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.iber-dashboard[data-menu-open='false'] { grid-template-columns: 0 minmax(0, 1fr); }
+.iber-dashboard[data-menu-open='true'] { grid-template-columns: var(--menu-width) minmax(0, 1fr); }
 .dashboard-menu {
   min-width: 0;
   overflow: hidden;
@@ -43,7 +43,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid currentColor; outline
   color: var(--cream);
   transition: visibility 350ms;
 }
-[data-menu-open='false'] .dashboard-menu { visibility: hidden; }
+.iber-dashboard:not([data-menu-open='true']) .dashboard-menu { visibility: hidden; }
 .dashboard-menu-inner { width: var(--menu-width); padding: 2.5rem 1.5rem; }
 .menu-intro { font-family: var(--font-heading); font-size: 1.75rem; line-height: 1.2; }
 .dashboard-menu nav { display: grid; min-height: 0; margin: 2rem 0 3rem; padding: 0; gap: 0.5rem; }
@@ -61,13 +61,21 @@ a:focus-visible, button:focus-visible { outline: 3px solid currentColor; outline
   width: 100%;
   max-width: var(--iber-container-width);
   margin-inline: auto;
-  padding: var(--iber-gutter) var(--iber-inline-padding);
+  padding: var(--iber-gutter) var(--iber-inline-padding) 1.5rem;
 }
 .dashboard-heading { max-width: 60rem; margin-bottom: 3rem; }
 .dashboard-heading h1 { font-size: clamp(2.75rem, 5vw, 4.5rem); line-height: 1.05; }
 .demo-notice { font-size: 0.8125rem; opacity: 0.8; margin-top: 1.5rem; }
 .dashboard-section { width: 100%; max-width: 80rem; margin: 0 0 var(--iber-section-gap); }
 .dashboard-section[hidden] { display: none; }
+.iber-dashboard[data-menu-open] .dashboard-section { margin-bottom: 0; }
+.section-download { position: relative; display: inline-flex; width: 3.5rem; height: 3.5rem; margin-top: 1rem; align-items: center; justify-content: center; border-radius: 50%; background: var(--primary); color: var(--cream); text-decoration: none; box-shadow: 0 6px 22px color-mix(in srgb, var(--primary) 25%, transparent); transition: transform 200ms ease, box-shadow 200ms ease; }
+.iber-dashboard[data-menu-open] .section-download { position: fixed; z-index: 5; right: max(1.25rem, env(safe-area-inset-right)); bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px) + var(--download-lift, 0px)); margin: 0; }
+.section-download:hover { transform: translateY(-3px); box-shadow: 0 10px 28px color-mix(in srgb, var(--primary) 30%, transparent); }
+.download-label { position: absolute; right: calc(100% + 0.75rem); padding: 0.5rem 0.75rem; border-radius: 0.75rem; background: var(--primary); color: var(--cream); font: 0.8125rem var(--font-interface); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 200ms ease; }
+.section-download:is(:hover, :focus-visible) .download-label { opacity: 1; }
+[data-menu-open='true'] .section-download { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .section-download, .download-label { transition: none; } .section-download:hover { transform: none; } }
 .dashboard-section > h2 { font-size: clamp(2rem, 4vw, 2.75rem); margin: 0; }
 .dashboard-section > h2:focus { outline: none; }
 .section-navigation { display: flex; min-height: 0; max-width: none; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin: var(--iber-section-gap) 0 0; padding: 1rem 0 0; border-top: 1px solid color-mix(in srgb, var(--primary) 18%, transparent); }
@@ -254,7 +262,7 @@ progress::-moz-progress-bar { background: var(--primary); }
 .gap-included { --gap-color: var(--primary); --criterion-color: var(--gap-color); }
 .gap-improve { --gap-color: var(--page-rose, #C2847A); --criterion-color: var(--gap-color); }
 .gap-remove { --gap-color: var(--taupe); --criterion-color: var(--gap-color); }
-.gap-pie text { fill: var(--primary); font: 400 17px var(--font-interface); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.gap-pie text { fill: var(--primary); font: 700 17px var(--font-interface); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .gap-pie .gap-included text { fill: var(--cream); }
 .dashboard-content .gap-chart-title { margin: 0 0 1.25rem; font-family: var(--font-section); font-size: 1.375rem; line-height: 1.3; }
 .gap-legend { display: grid; gap: 1rem; padding: 0; margin: 0; list-style: none; }
@@ -370,7 +378,7 @@ progress::-moz-progress-bar { background: var(--primary); }
 [data-criteria-ready] .criteria-slice[aria-pressed='false'] { opacity: 0.65; }
 [data-criteria-ready] .criteria-slice:is(:hover, :focus-visible) { opacity: 1; }
 .criteria-slice:focus-visible { stroke: var(--primary); stroke-width: 2; }
-.criteria-pie text { fill: var(--primary); font: 400 17px var(--font-interface); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.criteria-pie text { fill: var(--primary); font: 700 17px var(--font-interface); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .criteria-pie .criterion-funcional text { fill: var(--cream); }
 .dashboard-content .criteria-chart-label { margin: 0 0 var(--iber-heading-gap); font: 400 0.8125rem/1.5 var(--font-interface); }
 .criteria-legend { display: grid; gap: 0.5rem; }
@@ -462,7 +470,7 @@ progress::-moz-progress-bar { background: var(--primary); }
   .dashboard-brand { gap: 1rem; }
   header > nav > form { margin-left: auto; }
   .brand-divider { display: none; }
-  .dashboard-content { width: 100vw; padding: 2rem var(--iber-inline-padding); }
+  .dashboard-content { width: 100vw; padding: 2rem var(--iber-inline-padding) 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .diagnosis-findings > div { transition: none; }
@@ -504,6 +512,13 @@ progress::-moz-progress-bar { background: var(--primary); }
 }
 /* Process arrows: the zone follows the arrow shape, so only the arrow is tinted. */
 .styled-page .architecture-map .architecture-hotspot-chevron { border-radius: 0; clip-path: polygon(0 0, 92.7% 0, 100% 50%, 92.7% 100%, 0 100%, 7.3% 50%); }
+.styled-page .architecture-map .architecture-hotspot.architecture-hotspot-badged { background: transparent; }
+.hotspot-highlight { display: block; width: 100%; height: 100%; fill: transparent; transition: fill 150ms ease; pointer-events: none; }
+.architecture-hotspot-badged:is(:focus-visible, .is-active) .hotspot-highlight { fill: color-mix(in srgb, var(--color-brand-gray, #848586) 24%, transparent); }
+@media (hover: hover) {
+  .architecture-hotspot-badged:hover .hotspot-highlight { fill: color-mix(in srgb, var(--color-brand-gray, #848586) 24%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .hotspot-highlight { transition: none; } }
 
 /* Destination stages below the destination diagram (server/render-iber-destination.js). */
 .destination-stages { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; list-style: none; padding: 0; margin: var(--iber-content-gap) 0 0; }

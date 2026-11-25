@@ -6,7 +6,11 @@ const percent = (value) => `${Number(value.toFixed(3))}%`;
 
 // Each zone stores its position over the image, in percentages so it scales with it.
 function renderHotspot(hotspot, index, id, image) {
-  const [left, top, right, bottom] = hotspot.box;
+  const [bodyLeft, bodyTop, bodyRight, bodyBottom] = hotspot.box;
+  const [left, top, right, bottom] = hotspot.badgeBox ? [
+    Math.min(bodyLeft, hotspot.badgeBox[0]), Math.min(bodyTop, hotspot.badgeBox[1]),
+    Math.max(bodyRight, hotspot.badgeBox[2]), Math.max(bodyBottom, hotspot.badgeBox[3]),
+  ] : hotspot.box;
   const x = (left / image.width) * 100;
   const y = (top / image.height) * 100;
   const w = ((right - left) / image.width) * 100;
@@ -15,7 +19,26 @@ function renderHotspot(hotspot, index, id, image) {
     `--x:${percent(x)}`, `--y:${percent(y)}`, `--w:${percent(w)}`, `--h:${percent(h)}`,
   ].join(';');
   const descriptionId = `${id}-zona-${index + 1}`;
-  return `<button class="architecture-hotspot${hotspot.shape ? ` architecture-hotspot-${hotspot.shape}` : ''}" type="button" style="${style}" aria-describedby="${descriptionId}">
+  let highlight = '';
+  if (hotspot.badgeBox) {
+    const width = right - left;
+    const height = bottom - top;
+    const x = bodyLeft - left;
+    const y = bodyTop - top;
+    const w = bodyRight - bodyLeft;
+    const h = bodyBottom - bodyTop;
+    const [badgeLeft, badgeTop, badgeRight, badgeBottom] = hotspot.badgeBox;
+    const body = hotspot.shape === 'chevron'
+      ? `<polygon points="${x},${y} ${x + w * 0.927},${y} ${x + w},${y + h / 2} ${x + w * 0.927},${y + h} ${x},${y + h} ${x + w * 0.073},${y + h / 2}"/>`
+      : `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6"/>`;
+    // A single clipped surface covers the union, avoiding darker overlaps at the badge.
+    highlight = `<svg class="hotspot-highlight" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs><clipPath id="${descriptionId}-contorno">${body}<rect x="${badgeLeft - left}" y="${badgeTop - top}" width="${badgeRight - badgeLeft}" height="${badgeBottom - badgeTop}" rx="${(badgeBottom - badgeTop) / 2}"/></clipPath></defs>
+      <rect width="${width}" height="${height}" clip-path="url(#${descriptionId}-contorno)"/>
+    </svg>`;
+  }
+  return `<button class="architecture-hotspot${hotspot.badgeBox ? ' architecture-hotspot-badged' : hotspot.shape ? ` architecture-hotspot-${hotspot.shape}` : ''}" type="button" style="${style}" aria-describedby="${descriptionId}">
+      ${highlight}
       <span class="visually-hidden" data-hotspot-title>${escapeHtml(hotspot.title)}</span>
       <span class="visually-hidden" id="${descriptionId}" data-hotspot-text>${escapeHtml(hotspot.text)}</span>
     </button>`;

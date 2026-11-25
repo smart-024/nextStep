@@ -3,6 +3,9 @@ import { renderCurrentArchitecture } from './render-iber-architecture.js';
 import { renderDestinationArchitecture } from './render-iber-destination.js';
 import { renderSolutionScenarios } from './render-iber-solutions.js';
 import { renderMarketScope } from './render-iber-market.js';
+import { renderRfpMatrix } from './render-iber-rfp.js';
+import { renderSupplierEvaluation } from './render-iber-suppliers.js';
+import { renderAiInnovation } from './render-iber-ai.js';
 
 // The sidebar and bottom navigation share this order.
 export const iberSections = [
@@ -11,6 +14,9 @@ export const iberSections = [
   { id: 'arquitectura-destino', title: 'Arquitectura destino', render: renderDestinationArchitecture },
   { id: 'escenarios-de-solucion', title: 'Escenarios de Solución', render: renderSolutionScenarios },
   { id: 'alcance-mercado-soluciones', title: 'Alcance y análisis del mercado de soluciones', render: renderMarketScope },
+  { id: 'matriz-rfp', title: 'Matriz RFP', render: renderRfpMatrix },
+  { id: 'evaluacion-proveedores', title: 'Evaluación de proveedores', render: renderSupplierEvaluation },
+  { id: 'innovacion-ia', title: 'Oportunidad de innovación con IA', render: renderAiInnovation },
 ];
 
 export function renderSectionNavigation(index) {

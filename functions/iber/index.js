@@ -1,5 +1,6 @@
 import { hasSession, privateResponse } from '../../server/iber-auth.js';
 import { iberSections, renderSectionNavigation } from '../../server/iber-sections.js';
+import { renderSectionDownload } from '../../server/iber-documents.js';
 
 export async function onRequest({ request, env }) {
   // Each deploy gets a new version, so browsers never reuse old CSS or JS from their cache.
@@ -21,6 +22,10 @@ export async function onRequest({ request, env }) {
     <link rel="stylesheet" href="/typography.css?v=${version}" />
     <link rel="stylesheet" href="/iber.css?v=${version}" />
     <link rel="stylesheet" href="/page-theme.css?v=${version}" />
+    <noscript><style>
+      #dashboard { grid-template-columns: var(--menu-width) minmax(0, 1fr); }
+      #dashboard .dashboard-menu { visibility: visible; }
+    </style></noscript>
     <script src="/iber-dashboard.js?v=${version}" defer></script>
     <script src="/iber-processes.js?v=${version}" defer></script>
     <script src="/iber-architecture-map.js?v=${version}" defer></script>
@@ -32,7 +37,7 @@ export async function onRequest({ request, env }) {
   <body class="styled-page">
     <header><nav aria-label="Navegación de IBER">
       <div class="dashboard-brand">
-        <button id="menu-toggle" type="button" aria-controls="dashboard-menu" aria-expanded="true" disabled><span class="menu-icon" aria-hidden="true"></span><span id="menu-label">Menú</span></button>
+        <button id="menu-toggle" type="button" aria-controls="dashboard-menu" aria-expanded="false" disabled><span class="menu-icon" aria-hidden="true"></span><span id="menu-label">Menú</span></button>
         <a href="/">NextStep <span class="brand-divider">/ IBER</span></a>
       </div>
       <form method="POST" action="/iber/logout"><button type="submit">Cerrar sesión</button></form>
@@ -48,7 +53,7 @@ export async function onRequest({ request, env }) {
         </div>
       </aside>
       <div class="dashboard-content">
-        ${iberSections.map((section, index) => section.render(renderSectionNavigation(index))).join('')}
+        ${iberSections.map((section, index) => section.render(renderSectionNavigation(index) + renderSectionDownload(section.id))).join('')}
       </div>
     </main>
   </body>

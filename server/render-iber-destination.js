@@ -30,8 +30,8 @@ const roadmap = `
   <section class="business-block architecture-diagnosis" aria-labelledby="camino-destino-titulo">
     <h3 id="camino-destino-titulo">Cómo se llega al destino</h3>
     <div class="organization-copy">
-      <p>La transformación no reemplaza el ERP: le suma una capa de análisis y ordena el registro de la información que hoy falta.</p>
-      <p>Se avanza en tres etapas sucesivas. Cada una entrega valor por sí misma y genera los datos que aprovecha la siguiente.</p>
+      <p>La transformación no reemplaza el ERP: le suma una capa de análisis y ordena el registro de la información que hoy falta. 
+      Se avanza en tres etapas sucesivas. Cada una entrega valor por sí misma y genera los datos que aprovecha la siguiente.</p>
     </div>
     <ol class="destination-stages">
       ${stages.map((stage, index) => `
