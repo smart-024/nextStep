@@ -1,10 +1,18 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { access, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { documentTypes, iberDocumentList } from '../server/iber-document-manifest.js';
 
 // Bundle private documents into the Function, never into the public build output.
+// A registered document whose file is not in private-documents/ yet is skipped with a warning,
+// so the site still deploys; its download appears once the file is added.
 const files = {};
 for (const document of iberDocumentList) {
   const source = new URL(`../private-documents/${document.filename}`, import.meta.url);
+  try {
+    await access(source);
+  } catch {
+    console.warn(`[iber-documents] Missing ${document.filename}: its download is hidden until the file is added.`);
+    continue;
+  }
   const bytes = await readFile(source);
   const { label, signature } = documentTypes[document.type];
   if (bytes.subarray(0, signature.length).toString() !== signature) throw new Error(`${document.filename} must be a ${label} file.`);

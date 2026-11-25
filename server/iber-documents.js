@@ -2,8 +2,11 @@ import files from '../.astro/iber-documents.js';
 import { documentTypes, iberDocumentList, iberDocuments } from './iber-document-manifest.js';
 export { documentTypes, iberDocumentList, iberDocuments };
 
+// Only documents whose file was bundled at build time are offered or served.
+const isAvailable = (document) => Boolean(files[document.name]);
+
 export function findDocument(name) {
-  return iberDocumentList.find((document) => document.name === name) ?? null;
+  return iberDocumentList.find((document) => document.name === name && isAvailable(document)) ?? null;
 }
 
 export function getDocument(name) {
@@ -14,8 +17,8 @@ export function getDocument(name) {
 const downloadIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/></svg>';
 
 export function renderSectionDownload(sectionId) {
-  const documents = iberDocuments[sectionId];
-  if (!documents?.length) return '';
+  const documents = (iberDocuments[sectionId] ?? []).filter(isAvailable);
+  if (!documents.length) return '';
   if (documents.length === 1) {
     const [document] = documents;
     const type = documentTypes[document.type].label;
