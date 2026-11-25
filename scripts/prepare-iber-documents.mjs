@@ -1,13 +1,14 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { iberDocuments } from '../server/iber-document-manifest.js';
+import { documentTypes, iberDocumentList } from '../server/iber-document-manifest.js';
 
 // Bundle private documents into the Function, never into the public build output.
 const files = {};
-for (const document of Object.values(iberDocuments)) {
+for (const document of iberDocumentList) {
   const source = new URL(`../private-documents/${document.filename}`, import.meta.url);
-  const pdf = await readFile(source);
-  if (pdf.subarray(0, 5).toString() !== '%PDF-') throw new Error(`${document.filename} must be a PDF.`);
-  files[document.name] = pdf.toString('base64');
+  const bytes = await readFile(source);
+  const { label, signature } = documentTypes[document.type];
+  if (bytes.subarray(0, signature.length).toString() !== signature) throw new Error(`${document.filename} must be a ${label} file.`);
+  files[document.name] = bytes.toString('base64');
 }
 await mkdir(new URL('../.astro/', import.meta.url), { recursive: true });
 await writeFile(new URL('../.astro/iber-documents.js', import.meta.url),

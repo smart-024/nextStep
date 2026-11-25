@@ -1,5 +1,5 @@
 import { hasSession, privateResponse } from '../../../server/iber-auth.js';
-import { getDocument, iberDocuments } from '../../../server/iber-documents.js';
+import { documentTypes, findDocument, getDocument } from '../../../server/iber-documents.js';
 
 export async function onRequest({ request, env, params }) {
   if (!await hasSession(request, env)) return privateResponse(null, { status: 401 });
@@ -8,11 +8,11 @@ export async function onRequest({ request, env, params }) {
   }
   const data = getDocument(params.name);
   if (!data) return privateResponse(null, { status: 404 });
-  const document = Object.values(iberDocuments).find((item) => item.name === params.name);
+  const document = findDocument(params.name);
   const asciiFilename = document.filename.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const bytes = Uint8Array.from(atob(data), (character) => character.charCodeAt(0));
   return privateResponse(request.method === 'HEAD' ? null : bytes, { headers: {
-    'Content-Type': 'application/pdf',
+    'Content-Type': documentTypes[document.type].contentType,
     'Content-Disposition': `attachment; filename="${asciiFilename}"; filename*=UTF-8''${encodeURIComponent(document.filename)}`,
     'Content-Length': String(bytes.byteLength),
   } });

@@ -6,6 +6,7 @@ import { renderMarketScope } from './render-iber-market.js';
 import { renderRfpMatrix } from './render-iber-rfp.js';
 import { renderSupplierEvaluation } from './render-iber-suppliers.js';
 import { renderAiInnovation } from './render-iber-ai.js';
+import { renderConclusions } from './render-iber-conclusions.js';
 
 // The sidebar and bottom navigation share this order.
 export const iberSections = [
@@ -17,6 +18,7 @@ export const iberSections = [
   { id: 'matriz-rfp', title: 'Matriz RFP', render: renderRfpMatrix },
   { id: 'evaluacion-proveedores', title: 'Evaluación de proveedores', render: renderSupplierEvaluation },
   { id: 'innovacion-ia', title: 'Oportunidad de innovación con IA', render: renderAiInnovation },
+  { id: 'conclusiones', title: 'Conclusiones y próximos pasos', render: renderConclusions },
 ];
 
 export function renderSectionNavigation(index) {
