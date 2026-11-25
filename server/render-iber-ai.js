@@ -1,6 +1,7 @@
 // Generative AI opportunity (templates 09 and 10), focused on the value for IBER.
 // Content stays in authenticated IBER HTML. Example figures are the prototype's fictitious data.
-const prototypeUrl = 'https://claude.ai/artifact/HWo9WnJc6zifTip95XRdFe';
+// Public prototype artifact. The link in template 10 (HWo9WnJc6zifTip95XRdFe) no longer opens.
+const prototypeUrl = 'https://claude.ai/artifact/Lxvpik6KLCdaqjbs3hvysK';
 
 const today = [
   ['El resultado se arma a mano', 'Administración mantiene una planilla con el resultado de cada sucursal, sin una frecuencia fija.'],
