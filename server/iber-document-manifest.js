@@ -13,14 +13,14 @@ export const iberDocuments = {
   'alcance-mercado-soluciones': [{ name: 'alcance-mercado-soluciones.pdf', filename: '05 - Alcance y Análisis del Mercado de Soluciones.pdf', label: 'Alcance y análisis del mercado de soluciones', type: 'pdf' }],
   'matriz-rfp': [{ name: 'matriz-rfp.xlsx', filename: '06 - Matriz RFP.xlsx', label: 'Matriz RFP', type: 'xlsx' }],
   'evaluacion-proveedores': [
-    { name: 'comparacion-cumplimiento.pdf', filename: '07 - Comparación de Cumplimiento y Evaluación Económica.pdf', label: '07 · Comparación de cumplimiento y evaluación económica', type: 'pdf' },
-    { name: 'propuesta-comercial-conclusiones.pdf', filename: '08 - Análisis de la Propuesta Comercial y Conclusiones de la Selección.pdf', label: '08 · Propuesta comercial y conclusiones de la selección', type: 'pdf' },
+    { name: 'comparacion-cumplimiento.pdf', filename: '07 - Comparación de Cumplimiento y Evaluación Económica - Next Step (BI).pdf', label: '07 · Comparación de cumplimiento y evaluación económica', type: 'pdf' },
+    { name: 'propuesta-comercial-conclusiones.pdf', filename: '08 - Análisis de la Propuesta Comercial y Conclusiones de la Selección - Next Step (BI).pdf', label: '08 · Propuesta comercial y conclusiones de la selección', type: 'pdf' },
   ],
   'innovacion-ia': [
-    { name: 'oportunidad-ia.pdf', filename: '09 - Oportunidad de innovación con IA Generativa.pdf', label: '09 · Oportunidad de innovación con IA generativa', type: 'pdf' },
-    { name: 'diseno-validacion-ia.pdf', filename: '10 - Diseño y validación de la solución de IA Generativa.pdf', label: '10 · Diseño y validación de la solución de IA', type: 'pdf' },
+    { name: 'oportunidad-ia.pdf', filename: '09 - Oportunidad de innovación con IA Generativa - Next Step (BI).pdf', label: '09 · Oportunidad de innovación con IA generativa', type: 'pdf' },
+    { name: 'diseno-validacion-ia.pdf', filename: '10 - Diseño y validación de la solución de IA Generativa - Next Step (BI).pdf', label: '10 · Diseño y validación de la solución de IA', type: 'pdf' },
   ],
-  'conclusiones': [{ name: 'resumen-ejecutivo.pdf', filename: '11 - Resumen Ejecutivo.pdf', label: 'Resumen Ejecutivo', type: 'pdf' }],
+  'conclusiones': [{ name: 'resumen-ejecutivo.pdf', filename: '11 - Resumen Ejecutivo - Next Step (BI).pdf', label: 'Resumen Ejecutivo', type: 'pdf' }],
 };
 
 export const iberDocumentList = Object.values(iberDocuments).flat();
