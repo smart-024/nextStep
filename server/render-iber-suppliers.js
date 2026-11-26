@@ -1,83 +1,88 @@
-// Supplier evaluation (templates 07 and 08). Content stays in authenticated IBER HTML.
+// Supplier evaluation (final templates 06 v7, 07 v2 and 08 v2). Content stays in authenticated IBER HTML.
 import { rfpAspects } from './render-iber-rfp.js';
 
-// Scores out of 100, calculated from the compliance columns of the RFP matrix (template 06).
-// Montevideo COMM only quoted licenses: it stays "Sin evaluar", so no total is shown for it.
-const aspectScores = {
-  funcional: { kpi: 69.6, mvd: 2, why: 'Cubre los seis tableros de la primera etapa, pero como desarrollo a medida sobre Community y no de forma nativa. Es fuerte en exploración: filtros, navegación al detalle y comparación entre períodos son nativos de Odoo. Lo bajan los indicadores propios, que dependen de las hojas de cálculo de Enterprise, no cotizadas, y el filtrado del tablero, que es un filtro global. Transportistas e importaciones quedan para una etapa siguiente.' },
-  tecnico: { kpi: 85.5, mvd: 5, why: 'Cumple los tres requisitos excluyentes: funciona dentro del ERP, carga las planillas por importación o formularios y deja los datos en Uruguay. Seguridad y permisos por sucursal son su punto más fuerte. Lo bajan el impacto sobre el ERP (la copia de solo lectura no está cotizada), la alternativa en la nube sin alcance ni costo y el ciclo de vida: Community no tiene soporte del fabricante.' },
-  proveedor: { kpi: 74.5, mvd: 7.5, why: 'Metodología, capacitación y documentación obtienen el máximo: conciliación de cada indicador con la planilla de Administración, diagnóstico de datos antes de construir y un mes de acompañamiento por etapa. Tiene presencia en Uruguay y es partner Silver de Odoo. Lo baja el soporte: no hay acuerdo de servicio con tiempos comprometidos ni responsabilidades definidas con Montevideo COMM, que administra el ERP.' },
-  economico: { kpi: 100, mvd: null, provisional: true, why: 'USD 42.400 a tres años, sin licencias en Community. El puntaje es provisional: es la única cotización completa y la escala compara contra la menor oferta, así que obtiene el máximo por construcción.' },
-};
-const categoryScores = {
-  '1.1': [65, 0], '1.2': [100, 0], '1.3': [71.2, 20], '1.4': [75, 0], '1.5': [50, 0],
-  '2.1': [82.5, 0], '2.2': [66.3, 20], '2.3': [96.3, 0], '2.4': [77.5, 0], '2.5': [75, 0], '2.6': [100, 0], '2.7': [87.5, 30],
-  '3.1': [70, 0], '3.2': [47.5, 0], '3.3': [100, 0], '3.4': [100, 0], '3.5': [92.5, 50],
-  '4.1': [100, null], '4.2': [100, null], '4.3': [100, null], '4.4': [100, null],
-};
-const kpiTotal = rfpAspects.reduce((sum, aspect) => sum + aspect.weight * aspectScores[aspect.id].kpi, 0);
-
-const proposals = [
-  {
-    id: 'kpi', company: 'KPI+', solution: 'Tableros de Odoo', status: 'Habilitada', note: 'Partner Silver de Odoo con sociedad en Uruguay. Propone construir los tableros dentro del ERP actual, sobre Odoo 18 Community.',
-    facts: [['Implementación', 'USD 12.000, en cuatro pagos contra entregables'], ['Soporte', 'USD 950 por mes desde el mes 5'], ['Licencias', 'Sin costo en Community'], ['Cotizado a tres años', 'USD 42.400'], ['Puntaje en la matriz', `${formatNumber(kpiTotal, 1)} sobre 100`]],
-  },
-  {
-    id: 'mvd', company: 'Montevideo COMM', solution: 'Power BI', status: 'Sin evaluar', note: 'Proveedor actual del ERP. Cotizó licencias de Power BI Pro y aclaró que no implementa tableros.',
-    facts: [['Implementación', 'No incluida'], ['Soporte', 'Solo el portal de licencias'], ['Licencias', 'USD 168 por usuario al año'], ['Cotizado a tres años', 'USD 13.608, solo licencias'], ['Puntaje en la matriz', 'Sin evaluar']],
-  },
+// Three enabled alternatives, in ranking order. Scores out of 100 come from the RFP matrix v7.
+const alternatives = [
+  { id: 'odoo-kpi', name: 'Odoo · KPI+', short: 'Odoo · KPI+' },
+  { id: 'powerbi-kpi', name: 'Power BI · KPI+', short: 'Power BI · KPI+' },
+  { id: 'odoo-opentech', name: 'Odoo · OpenTech', short: 'Odoo · OpenTech' },
 ];
 
-const comparableNow = [
-  ['Dónde quedan los datos', 'KPI+ los deja en el data center de Montevideo y cumple la Ley 18.331 con el máximo puntaje. Para Power BI como servicio, la ubicación y las garantías de transferencia internacional no están informadas.'],
-  ['Integración', 'KPI+ no necesita conectores porque trabaja dentro del ERP. Power BI necesita una puerta de enlace en el data center, que no está cotizada.'],
-  ['Licencias', 'En Community, KPI+ no tiene costo por usuario. Power BI Pro cuesta USD 4.536 por año para 27 usuarios. Si el alcance de KPI+ termina requiriendo Enterprise, la ventaja se invierte.'],
-  ['Lo que Power BI podría cubrir mejor', 'Indicadores propios sin programar, filtrado desde los gráficos y edición de tableros son nativos en Power BI. Se confirmará con una propuesta completa.'],
+const aspectScores = {
+  funcional: { scores: [69.6, 78.5, 57.1], why: 'Las tres construyen los tableros de IBER a medida. Power BI suma lo que en esa herramienta es nativo: tableros que se filtran desde los gráficos, semáforos e indicadores propios sin programar. OpenTech no cubre segmentos de cliente, rangos de precio, transportistas ni importaciones.' },
+  tecnico: { scores: [85.5, 86.8, 64.3], why: 'Las tres cumplen los requisitos excluyentes. Odoo · KPI+ funciona dentro del ERP, con los datos en Uruguay. Power BI necesita una puerta de enlace y guarda los datos fuera del país, con garantías contractuales de Microsoft. OpenTech trabaja sobre una copia sincronizada, pero al principio sin permisos por sucursal.' },
+  proveedor: { scores: [74.5, 69.3, 45.8], why: 'KPI+ obtiene el máximo en metodología, capacitación y documentación, con la conciliación de cada indicador contra la planilla de Administración. En Power BI baja porque no es partner de Microsoft. OpenTech no informa soporte, seguimiento ni acompañamiento. Ninguna tiene acuerdo de servicio con tiempos comprometidos.' },
+  economico: { scores: [80.8, 43.3, 83], why: 'OpenTech tiene el menor costo estimado y Odoo · KPI+ el segundo. Power BI · KPI+ es la más cara por las licencias por usuario: queda más de un 40% por encima de la menor.' },
+};
+const categoryScores = {
+  '1.1': [65, 65, 50], '1.2': [100, 100, 100], '1.3': [71.3, 100, 58.8], '1.4': [75, 78.8, 37.5], '1.5': [50, 87.5, 50],
+  '2.1': [82.5, 87.5, 78.8], '2.2': [66.3, 43.8, 80], '2.3': [96.3, 88.8, 48.8], '2.4': [77.5, 77.5, 55], '2.5': [75, 100, 75], '2.6': [100, 100, 58.8], '2.7': [87.5, 100, 50],
+  '3.1': [70, 70, 60], '3.2': [47.5, 47.5, 25], '3.3': [100, 100, 67.5], '3.4': [100, 100, 25], '3.5': [92.5, 57.5, 60],
+  '4.1': [60, 60, 100], '4.2': [85, 35, 80], '4.3': [100, 0, 100], '4.4': [100, 100, 0],
+};
+const totals = alternatives.map((_, index) => rfpAspects.reduce((sum, aspect) => sum + aspect.weight * aspectScores[aspect.id].scores[index], 0));
+
+const proposals = [
+  { note: 'Partner Silver de Odoo con sociedad en Uruguay. Construye los tableros dentro del ERP actual, sobre Odoo 18 Community.', facts: [['Implementación', 'USD 12.000, en cuatro pagos contra entregables'], ['Soporte', 'USD 950 por mes desde el mes 5'], ['Licencias', 'Sin costo en Community'], ['Costo a tres años', 'USD 42.400']] },
+  { note: 'KPI+ confirmó que hace el mismo alcance en Power BI, al mismo precio de implementación, sumando las licencias por usuario.', facts: [['Implementación', 'USD 12.000, el mismo precio que en Odoo'], ['Soporte', 'USD 950 por mes desde el mes 5'], ['Licencias', 'Power BI Pro, USD 168 por usuario al año'], ['Costo a tres años', 'USD 56.008']] },
+  { note: 'Partner de Odoo en Montevideo y proveedor actual de redes de IBER. Envió una propuesta de referencia sobre Odoo 18 Community.', facts: [['Implementación', 'USD 6.000 a 9.000, como referencia'], ['Soporte', 'Por horas, a USD 80, más alojamiento'], ['Licencias', 'Sin costo en Community'], ['Costo a tres años', 'USD 39.580, estimación']] },
+];
+
+const differences = [
+  ['Dónde quedan los datos', 'Las dos alternativas en Odoo los dejan en Uruguay. Power BI como servicio los guarda fuera del país, con garantías contractuales de Microsoft.'],
+  ['Integración', 'Odoo · KPI+ no necesita conectores. Power BI necesita una puerta de enlace en el data center. OpenTech trabaja sobre una copia sincronizada en su propio alojamiento.'],
+  ['Autonomía de IBER', 'Power BI permite crear indicadores propios, filtrar desde los gráficos y recibir alertas sin desarrollo. En Odoo esas funciones dependen del implementador.'],
+  ['Soporte', 'Ninguna tiene acuerdo de servicio con tiempos comprometidos. KPI+ describe su soporte en detalle; OpenTech no lo informa.'],
 ];
 
 // Cumulative cost in USD, constant values, without taxes.
 const costSeries = [
-  { id: 'kpi', label: 'KPI+ cotizado', values: [19600, 31000, 42400] },
-  { id: 'enterprise', label: 'KPI+ con Enterprise (estimación)', values: [24914, 42923, 60933] },
-  { id: 'powerbi', label: 'Power BI, solo licencias', values: [4536, 9072, 13608], partial: true },
+  { id: 'kpi', label: 'Odoo · KPI+', values: [19600, 31000, 42400] },
+  { id: 'powerbi', label: 'Power BI · KPI+', values: [24136, 40072, 56008] },
+  { id: 'opentech', label: 'Odoo · OpenTech (estimación)', values: [16060, 27820, 39580] },
+  { id: 'enterprise', label: 'Odoo · KPI+ con Enterprise (estimación)', values: [24914, 42923, 60933], dashed: true },
 ];
 const costRows = [
   { group: 'Costo inicial (puesta en marcha)' },
-  { label: 'Equipo de trabajo y consultoría', values: ['Incluida', 'Incluida', 'A la espera'] },
-  { label: 'Implementación', values: [12000, 12000, 'A la espera'] },
-  { label: 'Hardware y servicios de terceros', values: ['No cotizado', 'No cotizado', 'No cotizado'] },
-  { label: 'Seguridad', values: ['Incluida', 'Incluida', 'A la espera'] },
-  { label: 'Subtotal inicial', values: [12000, 12000, 'A la espera'], subtotal: true },
+  { label: 'Equipo de trabajo y consultoría', values: ['Incluida', 'Incluida', 'Incluida'] },
+  { label: 'Implementación', values: [12000, 12000, 7500] },
+  { label: 'Hardware y servicios de terceros', values: ['No cotizado', 'No cotizado', '—'] },
   { group: 'Costo recurrente (primer año)' },
-  { label: 'Licencias', values: [0, 5314, 4536] },
-  { label: 'Mantenimiento y soporte', values: [7600, 7600, 'A la espera'] },
-  { label: 'Capacitación', values: ['Incluida', 'Incluida', 'A la espera'] },
-  { label: 'Subtotal recurrente año 1', values: [7600, 12914, 4536], subtotal: true },
+  { label: 'Licencias', values: [0, 4536, 0] },
+  { label: 'Mantenimiento y soporte', values: [7600, 7600, 6400] },
+  { label: 'Alojamiento', values: ['—', '—', 2160] },
+  { label: 'Subtotal recurrente año 1', values: [7600, 12136, 8560], subtotal: true },
   { group: 'Costo total por año' },
-  { label: 'Año 1', values: [19600, 24914, 4536] },
-  { label: 'Año 2', values: [11400, 18010, 4536] },
-  { label: 'Año 3', values: [11400, 18010, 4536] },
-  { label: 'Costo total a tres años', values: [42400, 60933, 13608], total: true },
+  { label: 'Año 1', values: [19600, 24136, 16060] },
+  { label: 'Año 2', values: [11400, 15936, 11760] },
+  { label: 'Año 3', values: [11400, 15936, 11760] },
+  { label: 'Costo total a tres años', values: [42400, 56008, 39580], total: true },
 ];
 
-const strengths = [
-  'Sin plataforma nueva: los usuarios siguen en Odoo y los datos no salen del data center ni del país.',
-  'Cumple los tres requisitos excluyentes y los permisos por sucursal sin edición paga.',
-  'Metodología completa: diagnóstico de datos, conciliación con la planilla, documentación de propiedad de IBER y un mes de acompañamiento por etapa.',
-  'Implementación en cuatro meses, pagada contra entregables aprobados, con factura local.',
-  'Sin costo por usuario en Community: sumar usuarios no encarece la solución.',
+const reasons = [
+  'Obtiene el mayor puntaje, con un costo unos USD 13.600 menor que Power BI a tres años.',
+  'No suma una plataforma ni licencias por usuario, y los datos no salen del país.',
+  'Presenta la metodología más completa, con la conciliación de cada indicador contra la planilla de Administración.',
 ];
-const weaknesses = [
-  'En Community los tableros son desarrollo a medida: más dependencia del implementador para cambiarlos.',
-  'Recomienda Enterprise sin cotizarlo: si hace falta, suma unos USD 18.500 a tres años para 27 usuarios como mínimo.',
-  'Sin acuerdo de servicio con tiempos ni penalidades; atención de 7 a 19 h.',
-  'Empresa joven, constituida en 2024, con dos años de experiencia en análisis de datos.',
-  'Consulta la base que usa la operación: la copia de solo lectura no está cotizada y hay que coordinarla con Montevideo COMM.',
+
+const balance = [
+  {
+    strengths: ['Sin plataforma nueva: los usuarios siguen en Odoo y los datos no salen del data center ni del país.', 'Sin costo por usuario: crecer no encarece.', 'Metodología completa y un mes de acompañamiento por etapa.', 'Pago contra entregables aprobados, con factura local.'],
+    weaknesses: ['Tableros a medida en Community: más dependencia del implementador para cambiarlos.', 'Recomienda Enterprise sin cotizarlo: puede llevar el costo a unos USD 60.900.', 'Sin acuerdo de servicio con tiempos ni penalidades.', 'La copia de solo lectura no está cotizada.'],
+  },
+  {
+    strengths: ['Mejor cumplimiento técnico-funcional: tableros interactivos, indicadores propios sin programar, alertas y suscripciones.', 'Lee las planillas de OneDrive e ingresa con las cuentas de Microsoft 365 de IBER.', 'El mismo implementador y la misma metodología que en Odoo.'],
+    weaknesses: ['Unos USD 13.600 más que Odoo · KPI+ a tres años por las licencias.', 'Datos fuera de Uruguay, con garantías contractuales de Microsoft.', 'Necesita una puerta de enlace cuyo equipo no está cotizado.', 'KPI+ no es partner de Microsoft ni informa personas certificadas en Power BI.'],
+  },
+  {
+    strengths: ['Menor inversión inicial y menor costo total estimado.', 'Calcula los reportes sobre una copia sincronizada, sin cargar la operación, con los datos en Uruguay.', 'Es proveedor actual de IBER.'],
+    weaknesses: ['Propuesta de referencia: no informa acuerdo de servicio, horario ni canales de soporte, ni forma de pago.', 'Al principio, una vista única de IBER, sin permisos por sucursal.', 'Alojamiento y soporte estimados; la hora adicional es la más cara (USD 80).'],
+  },
 ];
 
 const gaps = [
   { item: '3.2.4', title: 'Acuerdo de servicio sin compromisos', effect: 'Una falla antes del cierre mensual no tiene tiempo de respuesta garantizado.', action: 'Negociar', treatment: 'Tiempos por severidad, disponibilidad, informe mensual y penalidades dentro del abono.' },
-  { item: '1.4.1 · 1.5.1 · 2.5.1', title: 'Enterprise recomendado y no cotizado', effect: 'El costo total puede pasar de USD 42.400 a unos USD 60.900; cada 10 usuarios más del ERP suman unos USD 2.450 por año.', action: 'Negociar', treatment: 'Que KPI+ detalle qué se resuelve en Community y cotice Enterprise como opción.' },
+  { item: '1.4.1 · 1.5.1 · 2.5.1', title: 'Enterprise recomendado y no cotizado', effect: 'El costo total puede pasar de USD 42.400 a unos USD 60.900.', action: 'Negociar', treatment: 'Que KPI+ detalle qué se resuelve en Community y cotice Enterprise como opción.' },
   { item: '1.5.1', title: 'Indicadores propios sin programar', effect: 'Cada indicador nuevo requiere horas del implementador, a USD 35 la hora.', action: 'Aceptar', treatment: 'Prever una bolsa de horas anual o un desarrollo adicional en Community.' },
   { item: '2.1.4 · 2.2.4', title: 'Copia de solo lectura y capacidad del servidor', effect: 'Riesgo de lentitud en tiendas y e-commerce durante las consultas pesadas.', action: 'Negociar', treatment: 'Acordar con Montevideo COMM la copia o la ampliación del servidor y su costo.' },
   { item: '3.2.6', title: 'Responsabilidades con el proveedor del ERP', effect: 'Ante una falla, nadie es claramente responsable.', action: 'Cambio de proceso', treatment: 'Acuerdo escrito entre IBER, KPI+ y Montevideo COMM, con ambiente de prueba y responsables.' },
@@ -87,50 +92,45 @@ const gaps = [
 ];
 
 const returnIndicators = [
-  ['Tiempo de Administración', 'Horas por mes dedicadas a armar la planilla de gestión.', 'Los tableros reemplazan el armado manual.'],
-  ['Rentabilidad de las sucursales', 'Resultado neto por sucursal y sucursales con margen menor al 8%.', 'Diagnóstico mensual de las sucursales en rojo.'],
-  ['Stock inmovilizado', 'Valor del stock sin ventas en más de 90 días, con una meta de hasta 5% por sucursal.', 'Redistribución y ajuste del surtido.'],
-  ['Facturación', 'Variación interanual contra la meta de +10% en 2027.', 'Seguimiento por sucursal y canal.'],
-  ['Calidad de los datos', 'Registros con errores detectados por los controles antes del cierre.', 'Gobierno de datos e indicadores.'],
-  ['Adopción', 'Usuarios activos por mes sobre los 27 previstos.', 'Capacitación y acompañamiento.'],
+  ['Tiempo de Administración', 'Horas por mes dedicadas a armar la planilla de gestión.'],
+  ['Rentabilidad de las sucursales', 'Resultado neto por sucursal y sucursales con margen menor al 8%.'],
+  ['Stock inmovilizado', 'Valor del stock sin ventas en más de 90 días, con una meta de hasta 5% por sucursal.'],
+  ['Facturación', 'Variación interanual contra la meta de +10% en 2027.'],
+  ['Calidad de los datos', 'Registros con errores detectados por los controles antes del cierre.'],
+  ['Adopción', 'Usuarios activos por mes sobre los 27 previstos.'],
 ];
 
-const conditions = [
-  'Definir si el alcance requiere Odoo Enterprise, porque puede sumar un 44% o más al costo.',
+const beforeHiring = [
+  'Confirmar si el alcance requiere Odoo Enterprise y su costo.',
   'Un acuerdo de servicio con tiempos comprometidos dentro del abono.',
-  'Al menos una segunda propuesta completa, de un implementador de Power BI o de otro partner de Odoo, para comparar precio y alcance.',
-];
-const nextSteps = [
-  'Designar al responsable de datos e indicadores.',
-  'Aprobar el diccionario de indicadores.',
-  'Pedir a Montevideo COMM el costo de una copia de solo lectura de la base.',
+  'La demostración con los tableros de IBER.',
 ];
 
 function formatNumber(value, digits = 0) {
   return value.toLocaleString('es-AR', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 }
 const usd = (value) => (typeof value === 'number' ? `USD ${formatNumber(value)}` : value);
-const scoreLabel = (value) => (value === null ? 'Sin información' : formatNumber(value, Number.isInteger(value) ? 0 : 1));
+const scoreLabel = (value) => formatNumber(value, Number.isInteger(value) ? 0 : 1);
 
-function renderScoreBars(kpi, mvd, label) {
-  return `<div class="supplier-bars" role="img" aria-label="${label}: KPI+ ${scoreLabel(kpi)}; Montevideo COMM ${scoreLabel(mvd)}">
-    <div class="supplier-bar supplier-bar-kpi"><span class="supplier-bar-track"><span style="width: ${kpi}%"></span></span><span class="supplier-bar-value">${scoreLabel(kpi)}</span></div>
-    <div class="supplier-bar supplier-bar-mvd"><span class="supplier-bar-track"><span style="width: ${mvd ?? 0}%"></span></span><span class="supplier-bar-value">${scoreLabel(mvd)}</span></div>
+function renderScoreBars(scores, label) {
+  return `<div class="supplier-bars" role="img" aria-label="${label}: ${alternatives.map((alternative, index) => `${alternative.name} ${scoreLabel(scores[index])}`).join('; ')}">
+    ${scores.map((score, index) => `<div class="supplier-bar supplier-bar-${index + 1}"><span class="supplier-bar-track"><span style="width: ${score}%"></span></span><span class="supplier-bar-value">${scoreLabel(score)}</span></div>`).join('')}
   </div>`;
 }
 
 function renderAspectPanel(aspect) {
-  const score = aspectScores[aspect.id];
+  const { why } = aspectScores[aspect.id];
   return `<div id="supplier-panel-${aspect.id}" class="scenario-panel supplier-aspect-panel" aria-labelledby="supplier-tab-${aspect.id}">
     <h4>${aspect.title} · ${Math.round(aspect.weight * 100)}% del total</h4>
-    <p>${score.why}</p>
+    <p>${why}</p>
     <ol class="supplier-category-list" aria-label="Puntaje por categoría del aspecto ${aspect.title}">
-      ${aspect.categories.map((category) => {
-        const [kpi, mvd] = categoryScores[category.code];
-        return `<li><span class="supplier-category-name"><span class="rfp-code">${category.code}</span> ${category.title}</span>${renderScoreBars(kpi, mvd, category.title)}</li>`;
-      }).join('')}
+      ${aspect.categories.map((category) => `<li><span class="supplier-category-name"><span class="rfp-code">${category.code}</span> ${category.title}</span>${renderScoreBars(categoryScores[category.code], category.title)}</li>`).join('')}
     </ol>
   </div>`;
+}
+
+function renderLegend() {
+  return `<div class="supplier-legend" aria-hidden="true">${alternatives.map((alternative, index) => `<span class="supplier-key-${index + 1}">${alternative.name}</span>`).join('')}</div>`;
 }
 
 function renderCostChart() {
@@ -145,13 +145,15 @@ function renderCostChart() {
   const y = (value) => top + (1 - value / max) * (height - top - bottom);
   const grid = [0, 20000, 40000, 60000].map((value) => `<g class="cost-grid"><line x1="${left}" x2="${width - right + 12}" y1="${y(value)}" y2="${y(value)}" /><text x="${left - 10}" y="${y(value) + 4}">${formatNumber(value / 1000)} mil</text></g>`).join('');
   const years = [0, 1, 2].map((index) => `<text class="cost-year" x="${x(index)}" y="${height - 16}">Año ${index + 1}</text>`).join('');
+  // End labels are nudged apart so the two Odoo lines, which end close together, stay readable.
+  const labelOffsets = { kpi: -4, opentech: 12, powerbi: 4, enterprise: 4 };
   const lines = costSeries.map((series) => {
     const points = series.values.map((value, index) => `${x(index).toFixed(1)},${y(value).toFixed(1)}`).join(' ');
     const last = series.values.at(-1);
     return `<g class="cost-series cost-series-${series.id}" data-series="${series.id}">
-      <polyline points="${points}"${series.partial ? ' stroke-dasharray="6 6"' : ''} />
+      <polyline points="${points}"${series.dashed ? ' stroke-dasharray="6 6"' : ''} />
       ${series.values.map((value, index) => `<circle cx="${x(index).toFixed(1)}" cy="${y(value).toFixed(1)}" r="4.5"><title>${series.label}, año ${index + 1}: ${usd(value)} acumulado</title></circle>`).join('')}
-      <text class="cost-end-label" x="${x(2) + 14}" y="${y(last) + 4}">${usd(last)}</text>
+      <text class="cost-end-label" x="${x(2) + 14}" y="${(y(last) + labelOffsets[series.id]).toFixed(1)}">${usd(last)}</text>
     </g>`;
   }).join('');
   return `<figure class="cost-chart" data-cost-chart aria-labelledby="cost-chart-caption">
@@ -159,7 +161,7 @@ function renderCostChart() {
     <div class="cost-legend" role="group" aria-label="Resaltar una alternativa">
       ${costSeries.map((series) => `<button class="cost-choice cost-choice-${series.id}" type="button" data-series="${series.id}" aria-pressed="false" disabled><span class="cost-swatch" aria-hidden="true"></span>${series.label}</button>`).join('')}
     </div>
-    <svg class="cost-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Costo acumulado: KPI+ cotizado USD 42.400; KPI+ con Enterprise USD 60.933; Power BI solo licencias USD 13.608">
+    <svg class="cost-svg" viewBox="0 0 ${width} ${height}" role="img" aria-label="Costo acumulado a tres años: ${costSeries.map((series) => `${series.label} ${usd(series.values.at(-1))}`).join('; ')}">
       ${grid}${years}${lines}
     </svg>
   </figure>`;
@@ -168,90 +170,93 @@ function renderCostChart() {
 export function renderSupplierEvaluation(navigation = '') {
   return `<section id="evaluacion-proveedores" class="dashboard-section supplier-evaluation" aria-labelledby="evaluacion-proveedores-titulo">
     <h2 id="evaluacion-proveedores-titulo" tabindex="-1">Evaluación de proveedores</h2>
-    <p class="section-description">Dos respuestas, una sola propuesta completa.<br />Calificamos cada respuesta con la matriz RFP, sobre lo cotizado, y comparamos su costo a tres años para entender qué ofrece cada alternativa y qué falta para decidir.</p>
+    <p class="section-description">Tres alternativas, una recomendación.<br />Calificamos cada propuesta con la matriz RFP, sobre lo cotizado, y comparamos su costo a tres años. Las tres cumplen los requisitos excluyentes.</p>
 
-    <section class="business-block" aria-labelledby="propuestas-recibidas-titulo">
-      <h3 id="propuestas-recibidas-titulo">Propuestas recibidas</h3>
-      <div class="organization-copy"><p>De las cuatro empresas invitadas respondieron dos, con alcances distintos. Arkano (Power BI) y OpenTech (Odoo) no respondieron. La calificación se hizo sin la demostración con los tableros de IBER, que queda pendiente.</p></div>
+    <section class="business-block" aria-labelledby="propuestas-evaluadas-titulo">
+      <h3 id="propuestas-evaluadas-titulo">Propuestas evaluadas</h3>
+      <div class="organization-copy"><p>KPI+ respondió con dos alternativas, en Odoo y en Power BI, y OpenTech envió una propuesta de referencia en Odoo. Montevideo COMM cotizó solo las licencias de Power BI y Arkano no respondió. La demostración con los tableros de IBER queda pendiente.</p></div>
       <div class="supplier-proposals">
-        ${proposals.map((proposal) => `<article class="supplier-proposal supplier-proposal-${proposal.id}" aria-labelledby="propuesta-${proposal.id}-titulo">
+        ${alternatives.map((alternative, index) => `<article class="supplier-proposal supplier-proposal-${index + 1}" aria-labelledby="propuesta-${alternative.id}-titulo">
           <div class="supplier-proposal-head">
-            <div><h4 id="propuesta-${proposal.id}-titulo">${proposal.company}</h4><p class="supplier-solution">${proposal.solution}</p></div>
-            <span class="status-tag">${proposal.status}</span>
+            <h4 id="propuesta-${alternative.id}-titulo">${alternative.name}</h4>
+            <span class="status-tag">${index + 1}.º</span>
           </div>
-          <p class="supplier-note">${proposal.note}</p>
-          <dl>${proposal.facts.map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('')}</dl>
+          <p class="supplier-score"><span>${formatNumber(totals[index])}</span> sobre 100</p>
+          <p class="supplier-note">${proposals[index].note}</p>
+          <dl>${proposals[index].facts.map(([term, value]) => `<div><dt>${term}</dt><dd>${value}</dd></div>`).join('')}</dl>
         </article>`).join('')}
       </div>
     </section>
 
     <section class="business-block" aria-labelledby="cumplimiento-titulo">
       <h3 id="cumplimiento-titulo">Cumplimiento por aspecto</h3>
-      <div class="organization-copy"><p>KPI+ alcanza ${formatNumber(kpiTotal, 1)} puntos sobre 100 y está habilitada, porque cumple los tres requisitos excluyentes. Sin el aspecto económico, que es provisional, su cumplimiento técnico y funcional es del 76%. Seleccioná un aspecto para ver el detalle por categoría.</p></div>
-      <div class="supplier-legend" aria-hidden="true"><span class="supplier-key-kpi">Odoo · KPI+</span><span class="supplier-key-mvd">Power BI · Montevideo COMM</span></div>
+      <div class="organization-copy"><p>Power BI tiene el mejor cumplimiento técnico y funcional; Odoo · KPI+ gana por el equilibrio entre cumplimiento y costo. Seleccioná un aspecto para ver el detalle por categoría.</p></div>
+      ${renderLegend()}
       <ol class="supplier-aspect-overview" aria-label="Puntaje por aspecto">
-        ${rfpAspects.map((aspect) => {
-          const score = aspectScores[aspect.id];
-          return `<li><span class="supplier-category-name">${aspect.title} <span class="rfp-value-note">· ${Math.round(aspect.weight * 100)}%${score.provisional ? ' · provisional' : ''}</span></span>${renderScoreBars(score.kpi, score.mvd, aspect.title)}</li>`;
-        }).join('')}
+        ${rfpAspects.map((aspect) => `<li><span class="supplier-category-name">${aspect.title} <span class="rfp-value-note">· ${Math.round(aspect.weight * 100)}%</span></span>${renderScoreBars(aspectScores[aspect.id].scores, aspect.title)}</li>`).join('')}
       </ol>
       <div class="scenario-tabs supplier-aspect-tabs" data-scenario-tabs>
         <div class="scenario-tab-list" aria-label="Detalle por aspecto">
           ${rfpAspects.map((aspect) => `<button id="supplier-tab-${aspect.id}" class="scenario-tab" type="button" aria-controls="supplier-panel-${aspect.id}" disabled>
-            <span class="rfp-tab-weight">${Math.round(aspectScores[aspect.id].kpi)}</span>
+            <span class="rfp-tab-weight">${Math.round(aspect.weight * 100)}%</span>
             <span>${aspect.title}</span>
-            <span class="scenario-code">Puntaje de KPI+</span>
           </button>`).join('')}
         </div>
         <div class="scenario-panel-shell">${rfpAspects.map(renderAspectPanel).join('')}</div>
       </div>
-      <div class="diagnosis-opportunity supplier-unrated">
-        <h4>Por qué Power BI queda sin evaluar</h4>
-        <div class="organization-copy"><p>La respuesta de Montevideo COMM solo permite calificar el acceso web y móvil, los tableros interactivos, su presencia en Uruguay y su condición de partner de Microsoft. El resto de los ítems, que equivalen al 91% del peso de la matriz, figura como «Sin información» y vale 0. Tampoco informa los tres requisitos excluyentes. Su puntaje no mide el producto sino lo que falta cotizar: Power BI no queda descartado, sino a la espera de un implementador que complete la propuesta.</p></div>
-      </div>
     </section>
 
-    <section class="business-block" aria-labelledby="comparable-titulo">
-      <h3 id="comparable-titulo">Lo que ya se puede comparar</h3>
-      <div class="organization-copy"><p>La comparación no está en igualdad de condiciones: KPI+ respondió la matriz punto por punto y Montevideo COMM cotizó un componente. Aun así, hay diferencias claras entre las dos soluciones.</p></div>
-      <dl class="supplier-comparable">${comparableNow.map(([term, text]) => `<div><dt>${term}</dt><dd>${text}</dd></div>`).join('')}</dl>
+    <section class="business-block" aria-labelledby="diferencias-titulo">
+      <h3 id="diferencias-titulo">Qué las diferencia</h3>
+      <dl class="supplier-comparable">${differences.map(([term, text]) => `<div><dt>${term}</dt><dd>${text}</dd></div>`).join('')}</dl>
     </section>
 
     <section class="business-block" aria-labelledby="costo-titulo">
       <h3 id="costo-titulo">Costo a tres años</h3>
-      <div class="organization-copy"><p>KPI+ concentra el 28% del costo en la implementación y el resto es abono mensual. Como recomienda Odoo Enterprise sin cotizarlo, se suma una estimación de la consultora con el precio publicado por Odoo para 27 usuarios, que es el mínimo. Power BI solo tiene cotizadas las licencias, así que su línea no es un costo total.</p></div>
+      <div class="organization-copy"><p>Las dos alternativas en Odoo quedan cerca: OpenTech, unos USD 2.800 por debajo de KPI+, según las horas de soporte que use IBER. Power BI cuesta unos USD 13.600 más que Odoo · KPI+, el precio de las funciones de autoservicio. Si Odoo · KPI+ requiere Enterprise, sube a unos USD 60.900.</p></div>
       ${renderCostChart()}
-      <div class="supplier-breakeven">
-        <div><span class="supplier-breakeven-value">USD 28.792</span><p>Lo que una propuesta de Power BI podría sumar en implementación, soporte y puerta de enlace para costar lo mismo que KPI+ en Community.</p></div>
-        <div><span class="supplier-breakeven-value">USD 47.325</span><p>El mismo margen si KPI+ termina requiriendo Enterprise para 27 usuarios.</p></div>
-      </div>
       <details class="business-details supplier-cost-details">
         <summary>Ver el detalle por concepto</summary>
         <div class="scenario-score-table-region" role="region" aria-label="Costo total de propiedad por concepto" tabindex="0">
           <table class="scenario-score-table supplier-cost-table">
             <caption>Costo total de propiedad · dólares sin impuestos</caption>
-            <thead><tr><th scope="col">Concepto</th><th scope="col">KPI+ cotizado</th><th scope="col">KPI+ con Enterprise</th><th scope="col">Power BI</th></tr></thead>
+            <thead><tr><th scope="col">Concepto</th>${alternatives.map((alternative) => `<th scope="col">${alternative.short}</th>`).join('')}</tr></thead>
             <tbody>${costRows.map((row) => (row.group
               ? `<tr class="supplier-cost-group"><th scope="rowgroup" colspan="4">${row.group}</th></tr>`
               : `<tr class="${row.total ? 'supplier-cost-total' : row.subtotal ? 'supplier-cost-subtotal' : ''}"><th scope="row">${row.label}</th>${row.values.map((value) => `<td>${typeof value === 'number' ? formatNumber(value) : value}</td>`).join('')}</tr>`)).join('')}</tbody>
           </table>
         </div>
-        <p class="supplier-table-note">En KPI+ el soporte del primer año son ocho meses (meses 5 a 12). Las tres alternativas excluyen la copia de solo lectura o la ampliación del servidor y la puerta de enlace, que dependen de Montevideo COMM. La estimación de Enterprise usa USD 16,40 por usuario por mes el primer año y USD 20,40 después. Power BI incluye solo licencias.</p>
+        <p class="supplier-table-note">El soporte del primer año son ocho meses (meses 5 a 12). OpenTech es una estimación de la consultora: implementación en el punto medio de su rango, 10 horas de soporte por mes y USD 180 por mes de alojamiento. Las alternativas de KPI+ excluyen la copia de solo lectura y la puerta de enlace, que dependen de Montevideo COMM.</p>
       </details>
     </section>
 
-    <section class="business-block" aria-labelledby="kpi-balance-titulo">
-      <h3 id="kpi-balance-titulo">Ventajas y desventajas de KPI+</h3>
-      <div class="organization-copy"><p>Frente a lo pedido, KPI+ cubre bien lo que más pesa para IBER: trabaja con los datos donde ya están, los deja en Uruguay, concilia cada indicador con la planilla de Administración y acompaña la adopción. Queda por debajo en soporte y en la autonomía de IBER para crear indicadores.</p></div>
-      <div class="scenario-comparison supplier-balance">
-        <section class="scenario-comparison-column" aria-labelledby="kpi-ventajas-titulo"><h4 id="kpi-ventajas-titulo">Ventajas</h4><ul>${strengths.map((item) => `<li>${item}</li>`).join('')}</ul></section>
-        <section class="scenario-comparison-column scenario-weaknesses" aria-labelledby="kpi-desventajas-titulo"><h4 id="kpi-desventajas-titulo">Desventajas</h4><ul>${weaknesses.map((item) => `<li>${item}</li>`).join('')}</ul></section>
+    <section class="business-block" aria-labelledby="recomendacion-proveedor-titulo">
+      <div class="diagnosis-opportunity supplier-conclusion">
+        <h3 id="recomendacion-proveedor-titulo">Recomendamos Odoo con KPI+</h3>
+        <ol class="supplier-conditions">${reasons.map((item) => `<li>${item}</li>`).join('')}</ol>
+        <div class="organization-copy"><p>Power BI con KPI+ es una alternativa válida si IBER valora más la autonomía para crear sus propios indicadores que el costo y la ubicación de los datos. OpenTech no se recomienda con la información actual: si completa su propuesta, puede volver a calificarse con la misma matriz. La decisión final es de IBER.</p></div>
+      </div>
+      <div class="scenario-tabs supplier-balance-tabs" data-scenario-tabs>
+        <div class="scenario-tab-list supplier-balance-list" aria-label="Ventajas y desventajas por alternativa">
+          ${alternatives.map((alternative, index) => `<button id="balance-tab-${alternative.id}" class="scenario-tab" type="button" aria-controls="balance-panel-${alternative.id}" disabled>
+            <span class="scenario-code">${index + 1}.º · ${formatNumber(totals[index])} sobre 100</span>
+            <span>${alternative.name}</span>
+          </button>`).join('')}
+        </div>
+        <div class="scenario-panel-shell">
+          ${alternatives.map((alternative, index) => `<div id="balance-panel-${alternative.id}" class="scenario-panel" aria-labelledby="balance-tab-${alternative.id}">
+            <div class="scenario-comparison supplier-balance">
+              <section class="scenario-comparison-column"><h4>Ventajas</h4><ul>${balance[index].strengths.map((item) => `<li>${item}</li>`).join('')}</ul></section>
+              <section class="scenario-comparison-column scenario-weaknesses"><h4>Desventajas</h4><ul>${balance[index].weaknesses.map((item) => `<li>${item}</li>`).join('')}</ul></section>
+            </div>
+          </div>`).join('')}
+        </div>
       </div>
     </section>
 
     <section class="business-block" aria-labelledby="brechas-titulo">
-      <h3 id="brechas-titulo">Brechas y cómo tratarlas</h3>
-      <div class="organization-copy"><p>Cada punto débil de la propuesta tiene un tratamiento posible antes de contratar: negociarlo con el proveedor, aceptarlo o resolverlo con un cambio de proceso.</p></div>
+      <h3 id="brechas-titulo">Brechas de la alternativa recomendada</h3>
+      <div class="organization-copy"><p>Cada punto débil de Odoo · KPI+ tiene un tratamiento posible antes de contratar. Si IBER elige Power BI, los indicadores propios y el filtrado desde los gráficos se resuelven de forma nativa, y se suman la puerta de enlace y la revisión de la transferencia internacional de datos.</p></div>
       <ul class="supplier-gaps">
         ${gaps.map((gap) => `<li class="supplier-gap-${gap.action === 'Aceptar' ? 'accept' : gap.action === 'Negociar' ? 'negotiate' : 'process'}">
           <div class="supplier-gap-head"><span class="rfp-code">${gap.item}</span><span class="status-tag">${gap.action}</span></div>
@@ -262,23 +267,18 @@ export function renderSupplierEvaluation(navigation = '') {
       </ul>
     </section>
 
-    <section class="business-block" aria-labelledby="retorno-titulo">
-      <h3 id="retorno-titulo">Cómo medir el retorno</h3>
-      <div class="organization-copy"><p>El retorno de la inversión no se puede calcular todavía: requiere medir con IBER la situación inicial de cada indicador. Proponemos seguir estos indicadores, que ya están en el caso de negocio, y calcular el retorno al año de uso como el beneficio menos la inversión, sobre la inversión.</p></div>
-      <ul class="supplier-return">
-        ${returnIndicators.map(([title, indicator, origin]) => `<li><h4>${title}</h4><p>${indicator}</p><p class="supplier-return-origin">${origin}</p></li>`).join('')}
-      </ul>
+    <section class="business-block" aria-labelledby="antes-contratar-titulo">
+      <h3 id="antes-contratar-titulo">Antes de contratar</h3>
+      <div class="organization-copy"><p>Con el proveedor elegido, IBER debería resolver estos tres puntos. Si quiere contrastar el precio de una implementación de Power BI con un partner de Microsoft, Arkano (Montevideo) es una referencia.</p></div>
+      <ol class="supplier-conditions supplier-before">${beforeHiring.map((item) => `<li>${item}</li>`).join('')}</ol>
     </section>
 
-    <section class="business-block" aria-labelledby="conclusion-seleccion-titulo">
-      <div class="diagnosis-opportunity supplier-conclusion">
-        <h3 id="conclusion-seleccion-titulo">Todavía no hay información para una recomendación certera</h3>
-        <div class="organization-copy"><p>Esperábamos comparar al menos dos soluciones completas, pero de cuatro empresas contactadas solo una presentó una propuesta completa. El puntaje de KPI+ describe cuánto cubre su propuesta, no que sea la mejor opción disponible. La evaluación sí deja un marco listo: la matriz, las escalas y el cálculo del costo a tres años permiten calificar cualquier propuesta nueva en igualdad de condiciones.</p></div>
-        <h4>Para decidir hace falta</h4>
-        <ol class="supplier-conditions">${conditions.map((item) => `<li>${item}</li>`).join('')}</ol>
-        <h4>Mientras tanto, IBER puede adelantar</h4>
-        <ul class="supplier-next-steps">${nextSteps.map((item) => `<li>${item}</li>`).join('')}</ul>
-      </div>
+    <section class="business-block" aria-labelledby="retorno-titulo">
+      <h3 id="retorno-titulo">Cómo medir el retorno</h3>
+      <div class="organization-copy"><p>El retorno se calcula al año de uso, cuando se mida con IBER la situación inicial de cada indicador: beneficio menos inversión, sobre la inversión.</p></div>
+      <ul class="supplier-return">
+        ${returnIndicators.map(([title, indicator]) => `<li><h4>${title}</h4><p>${indicator}</p></li>`).join('')}
+      </ul>
     </section>
     ${navigation}
   </section>`;

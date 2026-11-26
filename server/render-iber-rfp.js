@@ -68,11 +68,12 @@ const itemAnatomy = [
   { title: 'Criterio de evaluación', text: 'Con qué escala se califica la respuesta del proveedor.' },
 ];
 
+// Final status of the request for proposals (templates 07 and 08, 26/11/2026).
 const requests = [
-  { company: 'KPI+', solution: 'Tableros de Odoo', status: 'Propuesta completa', state: 'complete' },
+  { company: 'KPI+', solution: 'Tableros de Odoo y Power BI', status: 'Propuesta completa', state: 'complete' },
+  { company: 'OpenTech', solution: 'Tableros de Odoo', status: 'Propuesta de referencia', state: 'partial' },
   { company: 'Montevideo COMM', solution: 'Power BI', status: 'Solo cotización de licencias', state: 'partial' },
   { company: 'Arkano', solution: 'Power BI', status: 'Sin respuesta', state: 'none' },
-  { company: 'OpenTech', solution: 'Tableros de Odoo', status: 'Sin respuesta', state: 'none' },
 ];
 
 // Spanish decimal comma, without trailing zeros (3,5% rather than 3,50%).

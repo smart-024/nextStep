@@ -6,7 +6,7 @@ const solutions = [
   },
   {
     id: 'odoo', title: 'Análisis en Odoo', logo: 'odoo.svg', shortlisted: true, result: 'Preseleccionada',
-    summary: 'Tableros construidos dentro del ERP que IBER ya usa. Trabajan con los datos de Odoo en tiempo real, sin conectores ni copias, y la información no sale del data center de Montevideo, en Uruguay. Los permisos por sucursal se resuelven con las reglas de acceso del propio ERP. En la edición Community no hay costo de licencias y los tableros los desarrolla a medida el implementador; la edición Enterprise suma tableros y hojas de cálculo listos para usar, pero obliga a licenciar a todos los usuarios del ERP. Las planillas de superficie, horas y metas se cargan en Odoo. Hay partners de Odoo en Uruguay.',
+    summary: 'Tableros dentro del ERP que IBER ya usa, sin sumar un servidor ni una plataforma. Trabajan con los datos de Odoo en tiempo real, sin conectores ni copias, y la información no sale del data center de Montevideo. Los permisos por sucursal se resuelven con las reglas de acceso del propio ERP. La edición Community trae tableros estándar de solo lectura: editarlos requiere módulos de la comunidad, sin licencia, o desarrollo del implementador. La edición Enterprise los edita de forma nativa, pero obliga a licenciar a todos los usuarios del ERP. Hay implementadores en Uruguay, dos de los cuales ya trabajan con IBER, y los usuarios ya conocen la herramienta.',
   },
   {
     id: 'metabase', title: 'Metabase', logo: 'metabase.svg', shortlisted: false, result: 'Evaluada; de reserva',

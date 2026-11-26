@@ -66,11 +66,17 @@ const safeguards = [
   ['No decide sobre personas', 'Los pedidos sobre personas o sobre el cierre de una sucursal se derivan a la dirección.'],
 ];
 
+// Requests from the validation with IBER's director (template 10 v4, 24/11/2026).
+const directorRequests = [
+  ['Aviso por correo', 'Que el responsable de cada acción reciba un aviso cuando se aprueba el diagnóstico: con tantas tiendas, el gerente no puede hacerlo a mano.'],
+  ['Alerta a mitad de mes', 'Avisar cuando una sucursal está muy lejos de su meta, para actuar antes del cierre. La calcula el sistema, no la IA.'],
+  ['Datos desde Odoo', 'Leer los datos directamente del ERP. Se resuelve con la copia de solo lectura que prevé el BI, para no cargar el sistema que usa la operación.'],
+];
+
 const nextSteps = [
-  'Validar el prototipo en una sesión de unos 20 minutos con el sponsor.',
   'Implementar la plataforma de BI con el gobierno de datos y asignar el costo logístico a cada sucursal.',
   'Instituir la revisión mensual por sucursal, aunque al principio sea sin asistente.',
-  'Con indicadores confiables, hacer un piloto de tres meses en las sucursales en rojo.',
+  'Con indicadores confiables, hacer un piloto de tres meses en las sucursales en rojo, con los avisos por correo y la alerta de mitad de mes.',
 ];
 
 export function renderAiInnovation(navigation = '') {
@@ -128,10 +134,16 @@ export function renderAiInnovation(navigation = '') {
     <section class="business-block" aria-labelledby="ia-prototipo-titulo">
       <div class="diagnosis-opportunity ai-prototype">
         <h3 id="ia-prototipo-titulo">Probalo en el prototipo</h3>
-        <div class="organization-copy"><p>Construimos una versión navegable de la revisión mensual con cuatro sucursales reales de IBER (Montevideo, Paysandú, Salto y Punta Carretas Shopping) y cifras ficticias de septiembre y octubre de 2026. Aprobó los 11 casos de prueba que definimos, uno de ellos con observaciones, desde una sucursal con datos completos hasta pedidos fuera de alcance. Falta validarlo con un usuario de IBER.</p></div>
+        <div class="organization-copy"><p>Construimos una versión navegable de la revisión mensual con cuatro sucursales reales de IBER (Montevideo, Paysandú, Salto y Punta Carretas Shopping) y cifras ficticias de septiembre y octubre de 2026. Aprobó los 11 casos de prueba que definimos, desde una sucursal con datos completos hasta pedidos fuera de alcance.</p></div>
         <a class="ai-prototype-link" href="${prototypeUrl}" target="_blank" rel="noopener noreferrer">Abrir el prototipo<span class="visually-hidden"> (se abre en una pestaña nueva)</span></a>
         <p class="ai-prototype-note">Con una cuenta de claude.ai, el asistente redacta con IA. Sin cuenta, funciona con reglas fijas.</p>
       </div>
+    </section>
+
+    <section class="business-block" aria-labelledby="ia-validacion-titulo">
+      <h3 id="ia-validacion-titulo">Lo validamos con IBER</h3>
+      <div class="organization-copy"><p>El 24/11 mostramos el prototipo al director de IBER, Alejandro Dominguez. Le interesó usarlo en la empresa y propuso cómo ampliarlo: sus tres pedidos se suman a la hoja de ruta del asistente.</p></div>
+      <dl class="ai-safeguards ai-requests">${directorRequests.map(([term, text]) => `<div><dt>${term}</dt><dd>${text}</dd></div>`).join('')}</dl>
     </section>
 
     <section class="business-block" aria-labelledby="ia-oportunidades-titulo">
@@ -149,7 +161,7 @@ export function renderAiInnovation(navigation = '') {
 
     <section class="business-block" aria-labelledby="ia-recomendacion-titulo">
       <h3 id="ia-recomendacion-titulo">Nuestra recomendación</h3>
-      <div class="organization-copy"><p><strong>Resolver primero las condiciones previas.</strong> El prototipo muestra que la idea funciona, pero su valor depende de dos cosas que hoy no existen: indicadores por sucursal validados en la plataforma de BI y una revisión mensual adoptada por IBER. Por eso proponemos retomarlo cuando la primera etapa del BI esté en marcha.</p></div>
+      <div class="organization-copy"><p><strong>Resolver primero las condiciones previas.</strong> El prototipo funciona y la validación con el director confirmó el interés, pero su valor depende de dos cosas que hoy no existen: indicadores por sucursal validados en la plataforma de BI y una revisión mensual adoptada por IBER. Por eso proponemos retomarlo cuando la primera etapa del BI esté en marcha.</p></div>
       <ol class="ai-next-steps">${nextSteps.map((item) => `<li>${item}</li>`).join('')}</ol>
     </section>
     ${navigation}
