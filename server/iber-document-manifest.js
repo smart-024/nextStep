@@ -15,6 +15,8 @@ export const iberDocuments = {
   'evaluacion-proveedores': [
     { name: 'comparacion-cumplimiento.pdf', filename: '07 - Comparación de Cumplimiento y Evaluación Económica.pdf', label: '07 · Comparación de cumplimiento y evaluación económica', type: 'pdf' },
     { name: 'propuesta-comercial-conclusiones.pdf', filename: '08 - Análisis de la Propuesta Comercial y Conclusiones de la Selección.pdf', label: '08 · Propuesta comercial y conclusiones de la selección', type: 'pdf' },
+    { name: 'propuesta-comercial-kpi.pdf', filename: 'Propuesta comercial - KPI+.pdf', label: 'Propuesta comercial · KPI+', type: 'pdf' },
+    { name: 'propuesta-comercial-opentech.pdf', filename: 'Propuesta comercial - OpenTech.pdf', label: 'Propuesta comercial · OpenTech', type: 'pdf' },
   ],
   'innovacion-ia': [
     { name: 'oportunidad-ia.pdf', filename: '09 - Oportunidad de innovación con IA Generativa.pdf', label: '09 · Oportunidad de innovación con IA generativa', type: 'pdf' },
